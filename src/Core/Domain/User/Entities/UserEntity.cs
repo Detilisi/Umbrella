@@ -19,6 +19,8 @@ public class UserEntity : Entity
         string username
     ) : base(id)
     {
+        if (emailAddress is null || password is null || username is null) throw new ArgumentNullException();
+
         UserName = username;
         EmailPassword = password;
         EmailAddress = emailAddress;
