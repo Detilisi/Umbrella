@@ -30,7 +30,7 @@ public class EmailPasswordTests
     {
         var password = "ThisIsAValidPassword123";
         var emailPassword = EmailPassword.Create(password);
-        Assert.That(emailPassword.Password, Is.EqualTo(password));
+        Assert.That(emailPassword.Key, Is.EqualTo(password));
     }
 
     [Test]

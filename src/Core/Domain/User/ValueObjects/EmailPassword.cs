@@ -8,12 +8,12 @@ public class EmailPassword : ValueObject
     public const int MINIMUMPASSWORDLENGTH = 8; // 8 ALPHA-NUMERIC CHARACTERS
 
     //Properties
-    public string Password { get; private set; }
+    public string Key { get; private set; }
 
     //Contructions
     private EmailPassword(string value):base()
     {
-        Password = value;
+        Key = value;
     }
 
     public static EmailPassword Create(string password)
@@ -32,6 +32,6 @@ public class EmailPassword : ValueObject
     }
 
     //Override methods
-    public override string ToString() => Password;
-    protected override IEnumerable<object> GetEqualityComponents(){ yield return Password; }
+    public override string ToString() => Key;
+    protected override IEnumerable<object> GetEqualityComponents(){ yield return Key; }
 }
