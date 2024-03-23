@@ -4,6 +4,7 @@ namespace Persistence.User.EntityConfigs;
 
 public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
 {
+    //Config method
     public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
         builder.ToTable(nameof(UserEntity));
@@ -15,7 +16,7 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
     }
 
     //Helper methods
-    private void ConfigureValueObjects(EntityTypeBuilder<UserEntity> builder)
+    private static void ConfigureValueObjects(EntityTypeBuilder<UserEntity> builder)
     {
         builder
             .OwnsOne(e => e.EmailAddress, emailBuilder =>{ emailBuilder.Property(email => email.Address).HasColumnName(nameof(EmailAddress));})
