@@ -1,12 +1,16 @@
-﻿namespace Domain.Common.ValueObjects;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Common.ValueObjects;
 
 public class EmailAddress : ValueObject
 {
     //Properties
+    [Key]
     public string Address { get; private set; }
     public string Domain { get; private set; }
 
     //Contructions
+    private EmailAddress(){ }
     private EmailAddress(string value) : base()
     {
         Address = value;
