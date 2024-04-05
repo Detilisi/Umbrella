@@ -9,7 +9,6 @@ public class EmailPassword : ValueObject
     public const int MINIMUMPASSWORDLENGTH = 8; // 8 ALPHA-NUMERIC CHARACTERS
 
     //Properties
-    [Key]
     public string Key { get; private set; }
 
     //Contructions
