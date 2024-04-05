@@ -1,10 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using MauiPersistance.Services;
+using MauiPersistance.Common.DataContexts;;
 
 Console.WriteLine("Migrator running..");
 
-using (var blogContext = new LocalDatabase())
+using (var blogContext = new ApplicationDbContext())
 {
-    var all = blogContext.Authors.ToList();
+    var all = blogContext.Users.ToList();
 }
