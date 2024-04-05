@@ -9,19 +9,21 @@ namespace MauiPersistance.Services
 
 		public DbSet<Author> Authors { get; set; }
 		public DbSet<Book> Books { get; set; }
+        public DbSet<UserEntity> Users => Set<UserEntity>();
+        public DbSet<EmailEntity> Emails => Set<EmailEntity>();
 
 
-		#endregion
+        #endregion
 
-		#region CONSTRUCTOR
+        #region CONSTRUCTOR
 
-		//parameterless constructor must be above the others,
-		//as it seems that EF Tools migrator just takes the .First() of them
+        //parameterless constructor must be above the others,
+        //as it seems that EF Tools migrator just takes the .First() of them
 
-		/// <summary>
-		/// Constructor for creating migrations
-		/// </summary>
-		public LocalDatabase()
+        /// <summary>
+        /// Constructor for creating migrations
+        /// </summary>
+        public LocalDatabase()
 		{
 			File = Path.Combine("../", "UsedByMigratorOnly1.db3");
 			Initialize();
