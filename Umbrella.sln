@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{AF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\External\Persistence\Persistence.csproj", "{3E07AF13-B7D4-44B4-8FF2-DF27B708925C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiPersistance", "src\External\MauiPersistance\MauiPersistance.csproj", "{92371E05-5B57-4EBA-9FC7-F9DED2E17E89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiPersistence", "src\External\MauiPersistance\MauiPersistence.csproj", "{92371E05-5B57-4EBA-9FC7-F9DED2E17E89}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFMigrator", "src\External\EfMigrator\EFMigrator.csproj", "{58A7849B-ADD5-4BE4-BD06-222352C1DB57}"
 EndProject

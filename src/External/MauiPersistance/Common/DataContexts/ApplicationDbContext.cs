@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace MauiPersistance.Common.DataContexts;
+namespace MauiPersistence.Common.DataContexts;
 
 public class ApplicationDbContext : DbContext
 {
@@ -9,7 +9,7 @@ public class ApplicationDbContext : DbContext
     public static bool Initialized { get; protected set; }
 
     //Construction
-    public ApplicationDbContext() 
+    public ApplicationDbContext()
     {
         File = Path.Combine("../", "UsedByMigratorOnly1.db3");
         Initialize();
@@ -25,9 +25,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<EmailEntity> Emails => Set<EmailEntity>();
 
     //Configurations
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlite($"Filename={File}");
-    
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
