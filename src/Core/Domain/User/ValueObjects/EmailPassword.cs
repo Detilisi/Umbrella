@@ -1,4 +1,5 @@
 ﻿using Domain.User.Exceptions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.User.ValueObjects;
 
@@ -11,6 +12,7 @@ public class EmailPassword : ValueObject
     public string Key { get; private set; }
 
     //Contructions
+    private EmailPassword() { }
     private EmailPassword(string value):base()
     {
         Key = value;

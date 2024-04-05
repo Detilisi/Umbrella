@@ -1,4 +1,5 @@
 ﻿using Domain.Email.Exceptions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Email.ValueObjects;
 
@@ -10,6 +11,7 @@ public class EmailSubjectLine : ValueObject
     public string Text { get; private set; }
 
     //Contructions
+    private EmailSubjectLine() { }
     private EmailSubjectLine(string value) : base()
     {
         Text = value;

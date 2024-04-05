@@ -14,6 +14,7 @@ public class EmailEntity : Entity
     public List<EmailAddress> Recipients { get; }
 
     //Construction
+    private EmailEntity() { }
     private EmailEntity
     (
         int id, 

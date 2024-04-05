@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ApplicationId>com.companyname.mauief.migrator</ApplicationId>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--Local database-->
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.3" />
+    <!--To be able to create migrations-->
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MauiPersistance\MauiPersistence.csproj" />
+  </ItemGroup>
+</Project>

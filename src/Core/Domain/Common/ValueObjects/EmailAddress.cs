@@ -1,4 +1,6 @@
-﻿namespace Domain.Common.ValueObjects;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Common.ValueObjects;
 
 public class EmailAddress : ValueObject
 {
@@ -7,6 +9,7 @@ public class EmailAddress : ValueObject
     public string Domain { get; private set; }
 
     //Contructions
+    private EmailAddress(){ }
     private EmailAddress(string value) : base()
     {
         Address = value;
