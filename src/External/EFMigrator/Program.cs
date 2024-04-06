@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using MauiPersistance.Common.DataContexts;;
+using MauiPersistence.Common.DataContexts;;
 
 Console.WriteLine("Migrator running..");
 
