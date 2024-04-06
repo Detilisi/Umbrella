@@ -1,6 +1,6 @@
 ﻿using MauiPersistence.Common.DataContexts;
 
-namespace MauiPersistence.Extensions;
+namespace MauiPersistence;
 
 public static class DependencyInjection
 {
