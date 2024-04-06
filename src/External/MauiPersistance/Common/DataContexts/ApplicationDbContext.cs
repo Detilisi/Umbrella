@@ -15,7 +15,7 @@ public class ApplicationDbContext : DbContext
     //Construction
     public ApplicationDbContext()
     {
-        _connectionString = Path.Combine("../", "UsedByMigratorOnly1.db3");
+        _connectionString = Path.Combine("../", "MigratorExclusive.db3");
         InitializeDataBase();
     }
     public ApplicationDbContext(string dbPath)
