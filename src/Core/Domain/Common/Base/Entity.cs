@@ -22,6 +22,7 @@ public abstract class Entity
     {
         Id = id;
         CreatedAt = DateTime.UtcNow;
+        ModifiedAt = DateTime.UtcNow;
     }
 
     //Event methods
