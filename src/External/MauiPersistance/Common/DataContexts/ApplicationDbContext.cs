@@ -41,6 +41,7 @@ public class ApplicationDbContext : DbContext
         if (!_initialized) return;
 
         SQLitePCL.Batteries_V2.Init();
+        Database.Migrate();
         _initialized = true;
     }
 }
