@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
+using Application.Common.Abstractions.DataContexts;
 
 namespace MauiPersistence.Common.DataContexts;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     //Fields
     private bool _initialized;
