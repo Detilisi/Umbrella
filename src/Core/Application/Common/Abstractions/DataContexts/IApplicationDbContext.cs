@@ -10,4 +10,7 @@ public interface IApplicationDbContext
     DbSet<UserEntity> Users { get; }
     DbSet<EmailEntity> Emails { get; }
 
+    //Methods
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+
 }
