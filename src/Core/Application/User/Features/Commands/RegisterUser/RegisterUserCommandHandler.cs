@@ -11,16 +11,16 @@ public class RegisterUserCommandHandler(IApplicationDbContext dbContext) : IRequ
     //Handle method
     public async Task<Result<int>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var user = UserEntity.Create
+        var userEntity = UserEntity.Create
         (
             EmailAddress.Create(request.User.EmailAddress), 
             EmailPassword.Create(request.User.EmailPassword), 
             request.User.UserName
         );
 
-        _dbContext.Users.Add(user);
+        _dbContext.Users.Add(userEntity);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return (Result<int>)await Task.FromResult(Result.OK<int>(user.Id));
+        return (Result<int>)await Task.FromResult(Result.OK<int>(userEntity.Id));
     }
 }
