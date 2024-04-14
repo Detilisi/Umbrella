@@ -2,7 +2,7 @@
 
 namespace Application.User.Features.Commands.RegisterUser;
 
-public class RegisterUserCommand(UserModel user) : IRequest<int>
+public class RegisterUserCommand(UserModel user) : IRequest<Result<int>>
 {
     public UserModel User { get; set; } = user;
 }
