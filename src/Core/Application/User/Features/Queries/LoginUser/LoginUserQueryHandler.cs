@@ -16,7 +16,9 @@ public class LoginUserQueryHandler(IApplicationDbContext dbContext) : IRequestHa
 
         if (userEntity == null)
         {
-            return (Result<UserModel>)await Task.FromResult(Result.Fail<UserModel>(new UserModel(), new Error("EntityNotFound", "User Entity not found")));
+            return (Result<UserModel>)await Task.FromResult(Result.Fail<UserModel>(
+                new UserModel(), new Error("EntityNotFound", "User Entity not found"))
+            );
         }
 
         var userModel = new UserModel()
