@@ -21,6 +21,6 @@ public class RegisterUserCommandHandler(IApplicationDbContext dbContext) : IRequ
         _dbContext.Users.Add(userEntity);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return await Task.FromResult(Result.Success<int>(userEntity.Id));
+        return Result.Success(userEntity.Id);
     }
 }
