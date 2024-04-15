@@ -3,8 +3,11 @@
 public class Error(string value, string description)
 {
     //Properties
-    public string Value { get; } = value;
+    public string Code { get; } = value;
     public string Description { get; } = description;
+
+    //Operators
+    public static implicit operator string(Error error) => error?.Code ?? string.Empty;
 
     //Common Errors
     public static readonly Error Crash = new(nameof(Crash), "Application crashed!");
