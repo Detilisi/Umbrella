@@ -11,8 +11,10 @@ public class LoginUserQueryHandler(IApplicationDbContext dbContext) : IRequestHa
     public async Task<Result<UserModel>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
     {
         var userEntity = await _dbContext.Users.Where(
-            x=>x.EmailAddress.Address == request.EmailAddress && x.EmailPassword.Key == request.EmailPassword)
-            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            x => 
+                x.EmailAddress.Address == request.EmailAddress && 
+                x.EmailPassword.Key == request.EmailPassword
+        ).FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         if (userEntity == null)
         {
