@@ -18,7 +18,7 @@ public class LoginUserQueryHandler(IApplicationDbContext dbContext) : IRequestHa
 
         if (userEntity == null)
         {
-            //return (Result<UserModel>)Result.Fail<UserModel>(new UserModel(), new Error("EntityNotFound", "User Entity not found"));
+            return Result.Failure<UserModel>(new Error("EntityNotFound", "User Entity not found"));
         }
 
         var userModel = new UserModel()
@@ -31,6 +31,6 @@ public class LoginUserQueryHandler(IApplicationDbContext dbContext) : IRequestHa
             UserName = userEntity.UserName,
         };
 
-        return (Result<UserModel>)Result.Success<UserModel>(userModel);
+        return Result.Success(userModel);
     }
 }
