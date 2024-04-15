@@ -1,36 +1,57 @@
 ﻿namespace Shared.Common.Results;
 
-public class Result(bool success, Error error)
+public class Result
 {
     //Properties
-    public Error? Error { get; set; } = error;
-    public bool Successs { get; } = success;
-    public bool Failure { get => Successs; }
+    public Error? Error { get; }
+    public bool IsSuccess { get; }
+    public bool IsFailure => !IsSuccess;
+
+    //Construction
+    protected Result(bool isSuccess, Error error)
+    {
+        if (isSuccess && error != Error.None)
+        {
+            throw new InvalidOperationException();
+        }
+
+        if (!isSuccess && error == Error.None)
+        {
+            throw new InvalidOperationException();
+        }
+
+        IsSuccess = isSuccess;
+        Error = error;
+    }
+    public static Result<TValue> Create<TValue>(TValue value, Error error)where TValue : class
+    {
+        return value is null ? Failure<TValue>(error) : Success(value);
+    }
 
     //Success methods
-    public static Result OK()
-    {
-        return new Result(true, Error.NoError);
-    }
-    public static Result OK<T>(T value)
-    {
-        return new Result<T>(value, true, Error.NoError);
-    }
+    public static Result Success() => new(true, Error.None);
+    public static Result<TValue> Success<TValue>(TValue value) => new(value, true, Error.None);
 
     //Failure methods
-    public static Result Fail(Error error)
-    {
-        return new Result(false, error);
-    }
-
-    public static Result Fail<T>(T value, Error error)
-    {
-        return new Result<T>(value, false, error);
-    }
+    public static Result Failure(Error error) => new(false, error);
+    public static Result<TValue> Failure<TValue>(Error error) => new(default!, false, error);
 }
 
 //Type specific Result
-public class Result<T>(T value, bool success, Error error) : Result(success, error)
+public class Result<TValue> : Result
 {
-    public T Value { get; } = value;
+    //Properties
+    private readonly TValue _value;
+    public TValue Value => IsSuccess ? 
+        _value : throw new InvalidOperationException("The value of a failure result can not be accessed.");
+
+    //Construction
+    protected internal Result(TValue value, bool isSuccess, Error error) : base(isSuccess, error)
+    {
+        _value = value;
+    }
+
+    //Operators
+    public static implicit operator Result<TValue>(TValue value) => Success(value);
+    
 }
