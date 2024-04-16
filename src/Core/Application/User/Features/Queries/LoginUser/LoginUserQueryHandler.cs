@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.User.Errors;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.User.Features.Queries.LoginUser;
 
@@ -10,22 +11,23 @@ public class LoginUserQueryHandler(IApplicationDbContext dbContext) : IRequestHa
     //Handle method
     public async Task<Result<UserModel>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
     {
-        var userEntity = await _dbContext.Users.Where(
-            x => 
-                x.EmailAddress.Address == request.EmailAddress && 
-                x.EmailPassword.Key == request.EmailPassword
-        ).FirstOrDefaultAsync(cancellationToken: cancellationToken);
+        //Validate user
+        var userEntity = await _dbContext.Users.Where(x => x.EmailAddress.Address == request.EmailAddress)
+            .FirstOrDefaultAsync(cancellationToken);
 
-        if (userEntity == null)
-        {
-            return Result.Failure<UserModel>(new Error("EntityNotFound", "User Entity not found"));
-        }
+        if (userEntity == null) return Result.Failure<UserModel>(AuthenticationErrors.InvalidEmailOrPassword);
+        
+        //Validate password
+        var passwordValid = userEntity.EmailPassword.Key.Equals(request.EmailPassword);
+        if (!passwordValid) return Result.Failure<UserModel>(AuthenticationErrors.InvalidEmailOrPassword);
+        
 
         var userModel = new UserModel()
         {
             EntityId = userEntity.Id,
             EmailAddress = userEntity.EmailAddress.Address,
             EmailPassword = userEntity.EmailPassword.Key,
+            EmailDomain = userEntity.EmailAddress.Domain,
             CreatedAt = userEntity.CreatedAt,
             ModifiedAt = userEntity.ModifiedAt,
             UserName = userEntity.UserName,
