@@ -22,17 +22,7 @@ public class LoginUserQueryHandler(IApplicationDbContext dbContext) : IRequestHa
         if (!passwordValid) return Result.Failure<UserModel>(AuthenticationErrors.InvalidEmailOrPassword);
         
 
-        var userModel = new UserModel()
-        {
-            EntityId = userEntity.Id,
-            EmailAddress = userEntity.EmailAddress.Address,
-            EmailPassword = userEntity.EmailPassword.Key,
-            EmailDomain = userEntity.EmailAddress.Domain,
-            CreatedAt = userEntity.CreatedAt,
-            ModifiedAt = userEntity.ModifiedAt,
-            UserName = userEntity.UserName,
-        };
-
+        var userModel = UserModel.CreateFromUserEntity(userEntity);
         return Result.Success(userModel);
     }
 }
