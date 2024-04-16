@@ -1,10 +1,10 @@
 ﻿namespace Shared.Common.Results;
 
-public class Error(string value, string description)
+public class Error(string code, string message)
 {
     //Properties
-    public string Code { get; } = value;
-    public string Description { get; } = description;
+    public string Code { get; } = code;
+    public string Message { get; } = message;
 
     //Operators
     public static implicit operator string(Error error) => error?.Code ?? string.Empty;
