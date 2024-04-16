@@ -5,4 +5,5 @@ public class UserModel : Model
     public string UserName { get; set; } = string.Empty;
     public string EmailAddress { get; set; } = string.Empty;
     public string EmailPassword { get; set; } = string.Empty;
+    public string EmailDomain { get; set; } = string.Empty;
 }
