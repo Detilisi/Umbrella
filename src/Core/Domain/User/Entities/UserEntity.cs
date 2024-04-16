@@ -11,7 +11,10 @@ public class UserEntity : Entity
     public string UserName { get; private set; } = string.Empty;
 
     //Construction
-    private UserEntity() { }
+    private UserEntity() 
+    {
+        //Required for Entity framework
+    }
     private UserEntity
     (
         int id, 
