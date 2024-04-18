@@ -39,11 +39,12 @@ public class EmailEntity : Entity
 
     public static EmailEntity Create
     (
+        EmailAddress sender,
         List<EmailAddress> recipients, 
         EmailSubjectLine subject, 
         EmailBodyText body
     )
     {
-        return new EmailEntity(0, recipients, subject, body); ;
+        return new EmailEntity(0, sender, recipients, subject, body); ;
     }
 }
