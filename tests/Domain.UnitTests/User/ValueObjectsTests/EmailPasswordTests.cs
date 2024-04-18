@@ -26,7 +26,7 @@ public class EmailPasswordTests
     }
 
     [Test]
-    public void Create_SetsPassword_ForValidPassword()
+    public void Create_SetsValue_ForValidPassword()
     {
         var password = "ThisIsAValidPassword123";
         var emailPassword = EmailPassword.Create(password);
@@ -34,7 +34,7 @@ public class EmailPasswordTests
     }
 
     [Test]
-    public void ToString_ReturnsPassword()
+    public void ToString_ReturnsValue()
     {
         var password = "ThisIsAValidPassword123";
         var emailPassword = EmailPassword.Create(password);

@@ -23,7 +23,7 @@ public class EmailBodyTextTests
     }
 
     [Test]
-    public void Create_SetsText_ForValidBody()
+    public void Create_SetsValue_ForValidBody()
     {
         var bodyText = "This is the email body content.";
         var emailBody = EmailBodyText.Create(bodyText);
@@ -31,7 +31,7 @@ public class EmailBodyTextTests
     }
 
     [Test]
-    public void ToString_ReturnsText()
+    public void ToString_ReturnsValue()
     {
         var bodyText = "This is the email body content.";
         var emailBody = EmailBodyText.Create(bodyText);

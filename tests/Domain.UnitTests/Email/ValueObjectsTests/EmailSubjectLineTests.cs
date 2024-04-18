@@ -33,7 +33,7 @@ public class EmailSubjectLineTests
     }
 
     [Test]
-    public void Create_SetsText_ForValidSubject()
+    public void Create_SetsValue_ForValidSubject()
     {
         var subjectText = "This is a valid subject line.";
         var subjectLine = EmailSubjectLine.Create(subjectText);
@@ -41,7 +41,7 @@ public class EmailSubjectLineTests
     }
 
     [Test]
-    public void ToString_ReturnsText()
+    public void ToString_ReturnsValue()
     {
         var subjectText = "This is a valid subject line.";
         var subjectLine = EmailSubjectLine.Create(subjectText);
