@@ -5,6 +5,7 @@ public class CreateEmailCommandHandler(IApplicationDbContext dbContext) : IReque
     //Fields
     private readonly IApplicationDbContext _dbContext = dbContext;
 
+    //Handle methods
     public async Task<Result<int>> Handle(CreateEmailCommand request, CancellationToken cancellationToken)
     {
         var emailEntity = EmailEntity.Create
