@@ -1,0 +1,23 @@
+﻿namespace Application.Email.Features.Commands.CreateEmail;
+
+public class CreateEmailCommandHandler(IApplicationDbContext dbContext) : IRequestHandler<CreateEmailCommand, Result<int>>
+{
+    //Fields
+    private readonly IApplicationDbContext _dbContext = dbContext;
+
+    public async Task<Result<int>> Handle(CreateEmailCommand request, CancellationToken cancellationToken)
+    {
+        var emailEntity = EmailEntity.Create
+        (
+           EmailAddress.Create(request.Sender),
+           request.Recipients,
+           EmailSubjectLine.Create(request.Subject),
+           EmailBodyText.Create(request.Body)
+        );
+
+        _dbContext.Emails.Add(emailEntity);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return Result.Success(emailEntity.Id);
+    }
+}
