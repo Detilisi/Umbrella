@@ -1,4 +1,5 @@
-﻿using Application.User.Errors;
+﻿using Application.Email.Errorsl;
+using Application.User.Errors;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Email.Features.Queries.GetEmailById;
@@ -12,7 +13,7 @@ public class GetEmailByIdQueryHandler(IApplicationDbContext dbContext) : IReques
     public async Task<Result<EmailModel>> Handle(GetEmailByIdQuery request, CancellationToken cancellationToken)
     {
         var emailEntity = await _dbContext.Emails.Where(x => x.Id == request.EmailId).FirstOrDefaultAsync(cancellationToken);
-        if (emailEntity == null) return Result.Failure<EmailModel>(AuthenticationErrors.EmailInvalid);
+        if (emailEntity == null) return Result.Failure<EmailModel>(EmailErrors.EmailNotFound);
 
         var emailModel = EmailModel.CreateFromEntity(emailEntity);
         return Result.Success(emailModel);
