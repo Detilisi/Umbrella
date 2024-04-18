@@ -22,7 +22,7 @@ public class LoginUserQueryHandler(IApplicationDbContext dbContext) : IRequestHa
         if (!passwordValid) return Result.Failure<UserModel>(AuthenticationErrors.PasswordInvalid);
         
 
-        var userModel = UserModel.CreateFromUserEntity(userEntity);
+        var userModel = UserModel.CreateFromEntity(userEntity);
         return Result.Success(userModel);
     }
 }
