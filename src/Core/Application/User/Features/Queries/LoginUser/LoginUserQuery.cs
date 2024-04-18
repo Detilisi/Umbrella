@@ -2,6 +2,6 @@
 
 public class LoginUserQuery(string emailAddress, string emailPassword) : IRequest<Result<UserModel>>
 {
-    public string EmailAddress { get; set; } = emailAddress;
-    public string EmailPassword { get; set; } = emailPassword;
+    public string EmailAddress { get; } = emailAddress;
+    public string EmailPassword { get; } = emailPassword;
 }

@@ -13,9 +13,9 @@ public class RegisterUserCommandHandler(IApplicationDbContext dbContext) : IRequ
     {
         var userEntity = UserEntity.Create
         (
-            EmailAddress.Create(request.User.EmailAddress), 
-            EmailPassword.Create(request.User.EmailPassword), 
-            request.User.UserName
+            EmailAddress.Create(request.EmailAddress), 
+            EmailPassword.Create(request.EmailPassword), 
+            request.UserName
         );
 
         _dbContext.Users.Add(userEntity);

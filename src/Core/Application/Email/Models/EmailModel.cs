@@ -1,6 +1,4 @@
-﻿using Domain.Email.Entities;
-
-namespace Application.Email.Models;
+﻿namespace Application.Email.Models;
 
 public class EmailModel : Model
 {
