@@ -11,22 +11,25 @@ public class EmailEntity : Entity
     public EmailStatus EmailStatus { get;}
     public EmailBodyText Body { get; }
     public EmailSubjectLine Subject { get; }
+    public EmailAddress Sender { get; }
     public List<EmailAddress> Recipients { get; }
 
     //Construction
     private EmailEntity() { }
     private EmailEntity
     (
-        int id, 
+        int id,
+        EmailAddress sender,
         List<EmailAddress> recipients, 
         EmailSubjectLine subject, 
         EmailBodyText body
     ) : base(id)
     {
-        if (recipients is null || subject is null || body is null) throw new ArgumentNullException();
+        if (sender is null || recipients is null || subject is null || body is null) throw new ArgumentNullException();
 
         Body = body;
         Subject = subject;
+        Sender = sender;
         Recipients = recipients;
         Type = EmailType.Email;
         EmailStatus = EmailStatus.UnRead;
