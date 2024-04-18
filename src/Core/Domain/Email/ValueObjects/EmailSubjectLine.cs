@@ -1,20 +1,20 @@
 ﻿using Domain.Email.Exceptions;
-using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Email.ValueObjects;
 
-public class EmailSubjectLine : ValueObject
+public class EmailSubjectLine : ValueObject<string>
 {
+    //Fields
     public const int MAXSUBJECTLINELENGTH = 200;
 
-    //Properties
-    public string Text { get; private set; }
-
     //Contructions
-    private EmailSubjectLine() { }
-    private EmailSubjectLine(string value) : base()
+    private EmailSubjectLine() : base(default)
     {
-        Text = value;
+        //Required EF
+    }
+    private EmailSubjectLine(string value) : base(value)
+    {
+        Value = value;
     }
 
     public static EmailSubjectLine Create(string subject)
@@ -38,6 +38,6 @@ public class EmailSubjectLine : ValueObject
     }
 
     //Override methods
-    public override string ToString() => Text;
-    protected override IEnumerable<object> GetEqualityComponents() { yield return Text; }
+    public override string ToString() => Value;
+    protected override IEnumerable<object> GetEqualityComponents() { yield return Value; }
 }

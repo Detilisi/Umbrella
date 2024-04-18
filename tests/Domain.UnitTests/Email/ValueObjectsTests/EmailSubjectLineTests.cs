@@ -37,7 +37,7 @@ public class EmailSubjectLineTests
     {
         var subjectText = "This is a valid subject line.";
         var subjectLine = EmailSubjectLine.Create(subjectText);
-        Assert.That(subjectLine.Text, Is.EqualTo(subjectText));
+        Assert.That(subjectLine.Value, Is.EqualTo(subjectText));
     }
 
     [Test]

@@ -1,21 +1,20 @@
 ﻿using Domain.User.Exceptions;
-using System.ComponentModel.DataAnnotations;
 
 namespace Domain.User.ValueObjects;
 
-public class EmailPassword : ValueObject
+public class EmailPassword : ValueObject<string>
 {
     //Fields
     public const int MINIMUMPASSWORDLENGTH = 8; // 8 ALPHA-NUMERIC CHARACTERS
 
-    //Properties
-    public string Key { get; private set; }
-
     //Contructions
-    private EmailPassword() { }
-    private EmailPassword(string value):base()
+    private EmailPassword() : base(default)
     {
-        Key = value;
+        //Required EF
+    }
+    private EmailPassword(string value): base(value)
+    {
+        Value = value;
     }
 
     public static EmailPassword Create(string password)
@@ -34,6 +33,6 @@ public class EmailPassword : ValueObject
     }
 
     //Override methods
-    public override string ToString() => Key;
-    protected override IEnumerable<object> GetEqualityComponents(){ yield return Key; }
+    public override string ToString() => Value;
+    protected override IEnumerable<object> GetEqualityComponents(){ yield return Value; }
 }

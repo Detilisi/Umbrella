@@ -19,7 +19,7 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
     private static void ConfigureValueObjects(EntityTypeBuilder<UserEntity> builder)
     {
         builder
-            .OwnsOne(e => e.EmailAddress, emailBuilder => { emailBuilder.Property(email => email.Address).HasColumnName(nameof(EmailAddress)); })
-            .OwnsOne(e => e.EmailPassword, passwordBuilder => { passwordBuilder.Property(password => password.Key).HasColumnName(nameof(EmailPassword)); });
+            .OwnsOne(e => e.EmailAddress, emailBuilder => { emailBuilder.Property(email => email.Value).HasColumnName(nameof(EmailAddress)); })
+            .OwnsOne(e => e.EmailPassword, passwordBuilder => { passwordBuilder.Property(password => password.Value).HasColumnName(nameof(EmailPassword)); });
     }
 }

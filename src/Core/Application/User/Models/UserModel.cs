@@ -14,8 +14,8 @@ public class UserModel : Model
         return new UserModel()
         {
             EntityId = userEntity.Id,
-            EmailAddress = userEntity.EmailAddress.Address,
-            EmailPassword = userEntity.EmailPassword.Key,
+            EmailAddress = userEntity.EmailAddress.Value,
+            EmailPassword = userEntity.EmailPassword.Value,
             EmailDomain = userEntity.EmailAddress.Domain,
             CreatedAt = userEntity.CreatedAt,
             ModifiedAt = userEntity.ModifiedAt,

@@ -26,7 +26,7 @@ public class EmailAddressTests
     public void Create_SetsAddress_ForValidEmail()
     {
         var email = EmailAddress.Create("test@example.com");
-        Assert.That(email.Address, Is.EqualTo("test@example.com"));
+        Assert.That(email.Value, Is.EqualTo("test@example.com"));
     }
 
     [Test]

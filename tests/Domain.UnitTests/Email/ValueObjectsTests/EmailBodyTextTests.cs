@@ -27,7 +27,7 @@ public class EmailBodyTextTests
     {
         var bodyText = "This is the email body content.";
         var emailBody = EmailBodyText.Create(bodyText);
-        Assert.That(emailBody.Text, Is.EqualTo(bodyText));
+        Assert.That(emailBody.Value, Is.EqualTo(bodyText));
     }
 
     [Test]

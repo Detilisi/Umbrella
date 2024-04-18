@@ -1,19 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace Domain.Common.ValueObjects;
 
-namespace Domain.Common.ValueObjects;
-
-public class EmailAddress : ValueObject
+public class EmailAddress : ValueObject<string>
 {
     //Properties
-    public string Address { get; private set; }
     public string Domain { get; private set; }
 
     //Contructions
-    private EmailAddress(){ }
-    private EmailAddress(string value) : base()
+    private EmailAddress() : base(default)
     {
-        Address = value;
-        Domain = Address[(Address.LastIndexOf('@') + 1)..];
+        //Required for EF
+    }
+    private EmailAddress(string value) : base(value)
+    {
+        Domain = value[(value.LastIndexOf('@') + 1)..];
     }
 
     public static EmailAddress Create(string emailAddress)
@@ -39,6 +38,6 @@ public class EmailAddress : ValueObject
     }
 
     //Override methods
-    public override string ToString()=> Address;
-    protected override IEnumerable<object> GetEqualityComponents(){ yield return Address;}
+    public override string ToString()=> Value;
+    protected override IEnumerable<object> GetEqualityComponents(){ yield return Value;}
 }

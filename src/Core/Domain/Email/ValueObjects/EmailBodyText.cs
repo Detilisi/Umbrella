@@ -1,21 +1,20 @@
 ﻿using Domain.Email.Exceptions;
-using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Email.ValueObjects;
 
-public class EmailBodyText : ValueObject
+public class EmailBodyText : ValueObject<string>
 {
     //Fields
     public const int MAXBODYLENGTH = 10000;
 
-    //Properties
-    public string Text { get; private set; }
-
     //Contructions
-    private EmailBodyText() { }
-    private EmailBodyText(string value): base()
+    private EmailBodyText() : base(default) 
     {
-        Text = value;
+        //Required EF
+    }
+    private EmailBodyText(string value): base(value)
+    {
+        Value = value;
     }
 
     public static EmailBodyText Create(string body)
@@ -34,6 +33,6 @@ public class EmailBodyText : ValueObject
     }
 
     //Override methods
-    public override string ToString() => Text;
-    protected override IEnumerable<object> GetEqualityComponents(){ yield return Text; }
+    public override string ToString() => Value;
+    protected override IEnumerable<object> GetEqualityComponents(){ yield return Value; }
 }

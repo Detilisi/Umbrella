@@ -22,10 +22,10 @@ public class EmailEntityConfiguration : IEntityTypeConfiguration<EmailEntity>
     private static void ConfigureValueObjects(EntityTypeBuilder<EmailEntity> builder)
     {
         builder
-            .OwnsOne(e => e.Body, bodyBuilder => { bodyBuilder.Property(body => body.Text).HasColumnName("Body").HasMaxLength(EmailBodyText.MAXBODYLENGTH); })
+            .OwnsOne(e => e.Body, bodyBuilder => { bodyBuilder.Property(body => body.Value).HasColumnName("Body").HasMaxLength(EmailBodyText.MAXBODYLENGTH); })
             .OwnsOne(e => e.Subject, subjectBuilder =>
             {
-                subjectBuilder.Property(subject => subject.Text).HasColumnName("Subject").HasMaxLength(
+                subjectBuilder.Property(subject => subject.Value).HasColumnName("Subject").HasMaxLength(
                 EmailSubjectLine.MAXSUBJECTLINELENGTH);
             }
         );

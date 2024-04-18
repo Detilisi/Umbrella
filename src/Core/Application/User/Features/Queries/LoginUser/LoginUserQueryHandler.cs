@@ -12,13 +12,13 @@ public class LoginUserQueryHandler(IApplicationDbContext dbContext) : IRequestHa
     public async Task<Result<UserModel>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
     {
         //Validate user
-        var userEntity = await _dbContext.Users.Where(x => x.EmailAddress.Address == request.EmailAddress)
+        var userEntity = await _dbContext.Users.Where(x => x.EmailAddress.Value == request.EmailAddress)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (userEntity == null) return Result.Failure<UserModel>(AuthenticationErrors.EmailInvalid);
         
         //Validate password
-        var passwordValid = userEntity.EmailPassword.Key.Equals(request.EmailPassword);
+        var passwordValid = userEntity.EmailPassword.Value.Equals(request.EmailPassword);
         if (!passwordValid) return Result.Failure<UserModel>(AuthenticationErrors.PasswordInvalid);
         
 
