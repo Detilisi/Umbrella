@@ -1,5 +1,4 @@
 ﻿using Application.Email.Errorsl;
-using Application.Email.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Email.Features.Queries.GetEmailList;
