@@ -1,4 +1,5 @@
-﻿using MauiPersistence.Common.DataContexts;
+﻿using Application.Common.Abstractions.DataContexts;
+using MauiPersistence.Common.DataContexts;
 
 namespace MauiPersistence;
 
@@ -10,5 +11,7 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options =>
            options.UseSqlite(connectionString,
                builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
     }
 }
