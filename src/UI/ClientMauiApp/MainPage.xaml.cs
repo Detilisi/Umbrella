@@ -1,20 +1,33 @@
-﻿using Application.Common.Abstractions.DataContexts;
+﻿using Application.User.Features.Commands.RegisterUser;
+using MediatR;
 
 namespace ClientMauiApp
 {
     public partial class MainPage : ContentPage
     {
         int count = 0;
-        IApplicationDbContext _dbContext;
-        public MainPage(IApplicationDbContext dbContext)
+        IMediator _mediator;
+
+        public MainPage(IMediator mediator)
         {
-            _dbContext = dbContext;
+            _mediator = mediator;
             InitializeComponent();
         }
 
         private void OnCounterClicked(object sender, EventArgs e)
         {
             count++;
+
+            var registerUser = new RegisterUserCommand()
+            {
+                CreatedAt = DateTime.Now,
+                ModifiedAt = DateTime.Now,
+                EmailAddress = "test@test.com",
+                EmailPassword = "password",
+                UserName = "username",
+            };
+
+            _mediator.Send(registerUser);   
 
             if (count == 1)
                 CounterBtn.Text = $"Clicked {count} time";
