@@ -5,13 +5,20 @@ namespace MauiPersistence;
 
 public static class DependencyInjection
 {
-    public static void AddPersistenceLayer(this IServiceCollection services, string connectionString)
+    public static IServiceCollection AddPersistenceLayer(this IServiceCollection services, string connectionString)
     {
         //AddDbContext
-        services.AddDbContext<ApplicationDbContext>(options =>
+        /*services.AddDbContext<ApplicationDbContext>(options =>
            options.UseSqlite(connectionString,
-               builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+               builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));*/
 
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<IApplicationDbContext>((provider) =>
+        {
+            return new ApplicationDbContext(connectionString);
+        });
+
+        //services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        
+        return services;
     }
 }
