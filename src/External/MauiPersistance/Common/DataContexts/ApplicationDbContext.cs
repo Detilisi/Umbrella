@@ -6,7 +6,7 @@ namespace MauiPersistence.Common.DataContexts;
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     //Fields
-    private bool _initialized;
+    private bool _initialized = false;
     private readonly string _connectionString;
 
     //Data sets
@@ -27,7 +27,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     //Configurations
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlite($"Filename={_connectionString}");
+        => optionsBuilder.UseSqlite($"Filename={_connectionString}", builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -39,7 +39,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     //Helper method
     private void InitializeDataBase()
     {
-        if (!_initialized) return;
+        if (_initialized) return;
 
         SQLitePCL.Batteries_V2.Init();
         Database.Migrate();
