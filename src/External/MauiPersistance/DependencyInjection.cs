@@ -8,16 +8,10 @@ public static class DependencyInjection
     public static IServiceCollection AddPersistenceLayer(this IServiceCollection services, string connectionString)
     {
         //AddDbContext
-        /*services.AddDbContext<ApplicationDbContext>(options =>
-           options.UseSqlite(connectionString,
-               builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));*/
-
-        services.AddScoped<IApplicationDbContext>((provider) =>
+        services.AddSingleton<IApplicationDbContext>((provider) =>
         {
             return new ApplicationDbContext(connectionString);
         });
-
-        //services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         
         return services;
     }
