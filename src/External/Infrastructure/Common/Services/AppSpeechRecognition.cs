@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui.Media;
-using Shared.Common.Results;
 using System.Globalization;
 
 namespace Infrastructure.Common.Services;
