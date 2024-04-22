@@ -6,6 +6,6 @@ public interface IEmailFetcher : IDisposable
     bool IsConnected { get; }
     
     //Methods
-    //Task<List<EmailModel>> LoadEmailsAsync(CancellationToken token = default);
-    //Task ConnectAsync(UserModel userModel, CancellationToken token = default);
+    Task<Result<List<EmailModel>>> LoadEmailsAsync(CancellationToken token = default);
+    Task<Result> ConnectAsync(UserModel userModel, CancellationToken token = default);
 }
