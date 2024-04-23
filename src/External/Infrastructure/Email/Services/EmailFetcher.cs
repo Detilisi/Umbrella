@@ -1,13 +1,10 @@
-﻿using Application.Email.Abstractions.Services;
-using Application.Email.Models;
-using Application.User.Models;
-using Domain.Common.ValueObjects;
-using Domain.Email.Entities.Enums;
-
-using MailKit;
+﻿using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MimeKit;
+
+using Domain.Common.ValueObjects;
+using Domain.Email.Entities.Enums;
 
 namespace Infrastructure.Email.Services;
 
