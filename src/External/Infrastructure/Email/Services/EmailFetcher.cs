@@ -71,7 +71,7 @@ public class EmailFetcher : IEmailFetcher, IDisposable
         var senderName = mimeMessage.From.Mailboxes.Select(x => x.Name).FirstOrDefault();
         var senderAddress = mimeMessage.From.Mailboxes.Select(x => x.Address).FirstOrDefault();
 
-        var messageModel = new EmailModel()
+        return new EmailModel
         {
             Type = EmailType.Email,
             EmailStatus = EmailStatus.UnRead,
@@ -81,8 +81,6 @@ public class EmailFetcher : IEmailFetcher, IDisposable
             Subject = mimeMessage.Subject.ShortText() ?? "No subject",
             Body = mimeMessage.TextBody.ShortText() ?? "No message text.",
         };
-
-        return messageModel;
     }
 
     //Disposal
