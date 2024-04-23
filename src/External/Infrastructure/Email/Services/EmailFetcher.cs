@@ -1,10 +1,8 @@
-﻿using MailKit;
+﻿using Domain.Email.Entities.Enums;
+using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MimeKit;
-
-using Domain.Common.ValueObjects;
-using Domain.Email.Entities.Enums;
 
 namespace Infrastructure.Email.Services;
 
