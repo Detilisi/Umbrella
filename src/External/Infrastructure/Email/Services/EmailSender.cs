@@ -23,7 +23,7 @@ public class EmailSender : IEmailSender, IDisposable
     {
         if (IsConnected) Result.Success();
 
-        var settings = ImapSettings.FindServerSettings(userModel.EmailDomain);
+        var settings = SmtpSettings.FindServerSettings(userModel.EmailDomain);
         if (settings.IsFailure) return Result.Failure(Error.Cancelled);
 
         //Connect to server
