@@ -1,5 +1,4 @@
-﻿
-namespace Application.Email.Features.Commands.UpdateEmail;
+﻿namespace Application.Email.Features.Commands.UpdateEmail;
 
 public class UpdateEmailCommandHandler(IApplicationDbContext dbContext) : IRequestHandler<UpdateEmailCommand, Result<int>>
 {
@@ -11,10 +10,10 @@ public class UpdateEmailCommandHandler(IApplicationDbContext dbContext) : IReque
     {
         var emailEntity = EmailEntity.Create
         (
-           EmailAddress.Create(request.Sender),
-           request.Recipients,
-           EmailSubjectLine.Create(request.Subject),
-           EmailBodyText.Create(request.Body)
+            EmailAddress.Create(request.Sender),
+            request.Recipients.Select(EmailAddress.Create).ToList(),
+            EmailSubjectLine.Create(request.Subject),
+            EmailBodyText.Create(request.Body)
         );
 
         _dbContext.Emails.Update(emailEntity);

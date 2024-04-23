@@ -10,12 +10,12 @@ public class EmailModel : Model
     public required string Subject { get; set; }
 
     public required string Sender { get; set; }
-    public required List<EmailAddress> Recipients { get; set; }//To do: Convert to string list
+    public List<string> Recipients { get; set; } = [];
 
     //Methods
     public static EmailModel CreateFromEntity(EmailEntity emailEntity)
     {
-        return new EmailModel()
+        return new EmailModel
         {
             EntityId = emailEntity.Id,
             CreatedAt = emailEntity.CreatedAt,
@@ -25,7 +25,8 @@ public class EmailModel : Model
             Body = emailEntity.Body.Value,
             Subject = emailEntity.Subject.Value,
             Sender = emailEntity.Sender.Value,
-            Recipients = emailEntity.Recipients 
+            Recipients = emailEntity.Recipients.Select(r => r.Value).ToList(),
         };
     }
+
 }
