@@ -77,7 +77,7 @@ public class EmailFetcher : IEmailFetcher, IDisposable
         {
             Type = EmailType.Email,
             EmailStatus = EmailStatus.UnRead,
-            Recipients = [EmailAddress.Create(_currentUser.EmailAddress)],
+            Recipients = [_currentUser.EmailAddress],
             CreatedAt = mimeMessage.Date.DateTime,
             Sender = senderAddress ?? "no-reply@email.com",
             Subject = mimeMessage.Subject.ShortText() ?? "No subject",
