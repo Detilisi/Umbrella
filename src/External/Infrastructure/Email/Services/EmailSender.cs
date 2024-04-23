@@ -33,9 +33,9 @@ public class EmailSender : IEmailSender, IDisposable
         await _smtpClient.AuthenticateAsync(userModel.EmailAddress, userModel.EmailPassword, token);
         return Result.Success();
     }
-    public async Task<Result> SendEmailAsync(EmailModel message)
+    public async Task<Result> SendEmailAsync(EmailModel message, CancellationToken token = default)
     {
-        await _smtpClient.SendAsync(ConvertToMime(message));
+        await _smtpClient.SendAsync(ConvertToMime(message), token);
         
         return Result.Success();
     }
