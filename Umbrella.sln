@@ -29,7 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{7609EFA1-8CD6-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientMauiApp", "src\UI\ClientMauiApp\ClientMauiApp.csproj", "{80DF23CB-1B4B-458B-BE76-A0D0B7C1FA5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\External\Infrastructure\Infrastructure.csproj", "{962FEB23-5755-4D5E-ABBB-EF74CC66CF91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\External\Infrastructure\Infrastructure.csproj", "{962FEB23-5755-4D5E-ABBB-EF74CC66CF91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "tests\Application.UnitTests\Application.UnitTests.csproj", "{C4628AF0-DDBB-498B-AD3C-19C09A807B76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{962FEB23-5755-4D5E-ABBB-EF74CC66CF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{962FEB23-5755-4D5E-ABBB-EF74CC66CF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{962FEB23-5755-4D5E-ABBB-EF74CC66CF91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4628AF0-DDBB-498B-AD3C-19C09A807B76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4628AF0-DDBB-498B-AD3C-19C09A807B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4628AF0-DDBB-498B-AD3C-19C09A807B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4628AF0-DDBB-498B-AD3C-19C09A807B76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{7609EFA1-8CD6-4819-B392-667F643206E3} = {C96E1D1B-18EA-49F9-BE3D-EF49ED924F59}
 		{80DF23CB-1B4B-458B-BE76-A0D0B7C1FA5E} = {7609EFA1-8CD6-4819-B392-667F643206E3}
 		{962FEB23-5755-4D5E-ABBB-EF74CC66CF91} = {AFAFDED7-76D9-4A79-AFCC-376EEAC81172}
+		{C4628AF0-DDBB-498B-AD3C-19C09A807B76} = {3A4F3654-F4DC-4864-9E48-AD137A2166E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C904C2E2-A105-48EE-AE19-6B06027D545B}
