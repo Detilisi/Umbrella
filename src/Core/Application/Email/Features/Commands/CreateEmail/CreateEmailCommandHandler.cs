@@ -1,4 +1,6 @@
-﻿namespace Application.Email.Features.Commands.CreateEmail;
+﻿using Domain.Common.Base;
+
+namespace Application.Email.Features.Commands.CreateEmail;
 
 public class CreateEmailCommandHandler(IApplicationDbContext dbContext) : IRequestHandler<CreateEmailCommand, Result<int>>
 {
