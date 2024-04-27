@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Application.Common.Abstractions.DataContexts;
 
-namespace MauiPersistence.Common.DataContexts;
+namespace Persistence.Common.DataContexts;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {

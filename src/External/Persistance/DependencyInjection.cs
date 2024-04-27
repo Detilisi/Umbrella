@@ -1,7 +1,7 @@
 ﻿using Application.Common.Abstractions.DataContexts;
-using MauiPersistence.Common.DataContexts;
+using Persistence.Common.DataContexts;
 
-namespace MauiPersistence;
+namespace Persistence;
 
 public static class DependencyInjection
 {

@@ -1,5 +1,5 @@
 ﻿using Application;
-using MauiPersistence;
+using Persistence;
 using Microsoft.Extensions.Logging;
 
 namespace ClientMauiApp

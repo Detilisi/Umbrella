@@ -2,7 +2,7 @@
 using Domain.Email.ValueObjects;
 using System.Text.Json;
 
-namespace MauiPersistence.Email.EntityConfigs;
+namespace Persistence.Email.EntityConfigs;
 
 public class EmailEntityConfiguration : IEntityTypeConfiguration<EmailEntity>
 {

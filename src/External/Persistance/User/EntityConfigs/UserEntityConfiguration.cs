@@ -1,6 +1,6 @@
 ﻿using Domain.Common.ValueObjects;
 
-namespace MauiPersistence.User.EntityConfigs;
+namespace Persistence.User.EntityConfigs;
 
 public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
 {
