@@ -11,18 +11,26 @@ public class LoginUserQueryHandler(IApplicationDbContext dbContext) : IRequestHa
     //Handle method
     public async Task<Result<UserModel>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
     {
-        //Validate user
-        var userEntity = await _dbContext.Users.Where(x => x.EmailAddress.Value == request.EmailAddress)
-            .FirstOrDefaultAsync(cancellationToken);
+        try
+        {
+            //Validate user
+            var userEntity = await _dbContext.Users.Where(x => x.EmailAddress.Value == request.EmailAddress)
+                .FirstOrDefaultAsync(cancellationToken);
 
-        if (userEntity == null) return Result.Failure<UserModel>(AuthenticationErrors.EmailInvalid);
-        
-        //Validate password
-        var passwordValid = userEntity.EmailPassword.Value.Equals(request.EmailPassword);
-        if (!passwordValid) return Result.Failure<UserModel>(AuthenticationErrors.PasswordInvalid);
-        
+            if (userEntity == null) return Result.Failure<UserModel>(AuthenticationErrors.EmailInvalid);
 
-        var userModel = UserModel.CreateFromEntity(userEntity);
-        return Result.Success(userModel);
+            //Validate password
+            var passwordValid = userEntity.EmailPassword.Value.Equals(request.EmailPassword);
+            if (!passwordValid) return Result.Failure<UserModel>(AuthenticationErrors.PasswordInvalid);
+
+            var userModel = UserModel.CreateFromEntity(userEntity);
+            return Result.Success(userModel);
+        }
+        catch (Exception ex)
+        {
+            var error = new Error($"{this}.Failed", ex.Message);
+            return Result.Failure<UserModel>(error);
+        }
+        
     }
 }

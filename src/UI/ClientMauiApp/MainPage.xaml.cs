@@ -22,7 +22,7 @@ namespace ClientMauiApp
             {
                 CreatedAt = DateTime.Now,
                 ModifiedAt = DateTime.Now,
-                EmailAddress = "test@test.com",
+                EmailAddress = null,
                 EmailPassword = "password",
                 UserName = "username",
             };

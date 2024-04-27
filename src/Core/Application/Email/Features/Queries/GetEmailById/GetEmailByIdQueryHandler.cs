@@ -1,4 +1,4 @@
-﻿using Application.Email.Errorsl;
+﻿using Application.Email.Errors;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Email.Features.Queries.GetEmailById;

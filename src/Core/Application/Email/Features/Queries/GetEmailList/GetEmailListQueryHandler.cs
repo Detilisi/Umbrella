@@ -1,4 +1,4 @@
-﻿using Application.Email.Errorsl;
+﻿using Application.Email.Errors;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Email.Features.Queries.GetEmailList;
@@ -12,12 +12,8 @@ public class GetEmailListQueryHandler(IApplicationDbContext dbContext) : IReques
     public async Task<Result<List<EmailModel>>> Handle(GetEmailListQuery request, CancellationToken cancellationToken)
     {
         var emailEntityList = await _dbContext.Emails.ToListAsync(cancellationToken);
-
-        if (emailEntityList.Count == 0)
-        {
-            return Result.Failure<List<EmailModel>>(EmailErrors.EmailNotFound);
-        }
-
+        if (emailEntityList.Count == 0) return Result.Failure<List<EmailModel>>(EmailErrors.EmailNotFound);
+        
         // Use Select to map entities to models directly
         var emailModelList = emailEntityList.Select(EmailModel.CreateFromEntity).ToList();
 

@@ -8,17 +8,25 @@ public class UpdateEmailCommandHandler(IApplicationDbContext dbContext) : IReque
     //Handle methods
     public async Task<Result<int>> Handle(UpdateEmailCommand request, CancellationToken cancellationToken)
     {
-        var emailEntity = EmailEntity.Create
-        (
-            EmailAddress.Create(request.Sender),
-            request.Recipients.Select(EmailAddress.Create).ToList(),
-            EmailSubjectLine.Create(request.Subject),
-            EmailBodyText.Create(request.Body)
-        );
+        try
+        {
+            var emailEntity = EmailEntity.Create
+            (
+                EmailAddress.Create(request.Sender),
+                request.Recipients.Select(EmailAddress.Create).ToList(),
+                EmailSubjectLine.Create(request.Subject),
+                EmailBodyText.Create(request.Body)
+            );
 
-        _dbContext.Emails.Update(emailEntity);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+            _dbContext.Emails.Update(emailEntity);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return Result.Success(emailEntity.Id);
+            return Result.Success(emailEntity.Id);
+        }
+        catch (Exception ex)
+        {
+            var error = new Error($"{this}.Failed", ex.Message);
+            return Result.Failure<int>(error);
+        }
     }
 }

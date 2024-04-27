@@ -1,4 +1,4 @@
-﻿namespace Application.Email.Errorsl;
+﻿namespace Application.Email.Errors;
 
 public static class EmailErrors
 {
