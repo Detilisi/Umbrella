@@ -1,4 +1,5 @@
 ﻿global using MediatR;
+global using Microsoft.EntityFrameworkCore;
 
 global using Shared.Common.Results;
 

@@ -1,5 +1,4 @@
 ﻿using Application.User.Errors;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.User.Features.Queries.LoginUser;
 
