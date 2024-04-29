@@ -1,6 +1,6 @@
 ﻿namespace MauiClientApp.Email.EmailList.ViewModels;
 
-public class EmailListViewModel(ViewModel chatViewModel, IEmailFetcher emailFetcher) : EmailViewModel(chatViewModel)
+public class EmailListViewModel(IEmailFetcher emailFetcher) : ViewModel
 {
     private readonly IEmailFetcher _emailFetcher = emailFetcher;
 
