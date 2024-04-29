@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Infrastructure;
+using Microsoft.Extensions.Logging;
 
 namespace ClientMauiApp;
 
@@ -26,6 +27,7 @@ public static class MauiProgram
         var connectionString = Path.Combine(FileSystem.AppDataDirectory, "umbrella.db3");
 
         builder.Services.AddPersistenceLayer(connectionString);
+        builder.Services.AddInfrastructureLayer();
         builder.Services.AddApplicationLayer();
 
         builder.Services.AddSingleton<MainPage>();
