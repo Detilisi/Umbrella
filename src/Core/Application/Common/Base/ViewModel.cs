@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace MauiClientApp.Common.Base;
+namespace Application.Common.Base;
 
 public abstract partial class ViewModel : ObservableObject
 {

@@ -4,7 +4,7 @@ public class EmailListViewModel(ViewModel chatViewModel, IEmailFetcher emailFetc
 {
     private readonly IEmailFetcher _emailFetcher = emailFetcher;
 
-    public ObservableCollection<EmailModel> EmailMessageList { get; set; } = new ObservableCollection<EmailModel>();
+    public ObservableCollection<EmailModel> EmailMessageList { get; set; } = [];
 
     public override async void OnViewModelStarting(CancellationToken cancellationToken = default)
     {

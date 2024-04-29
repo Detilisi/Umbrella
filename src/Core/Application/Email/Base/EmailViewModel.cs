@@ -1,4 +1,4 @@
-﻿namespace MauiClientApp.Email.Base;
+﻿namespace Application.Email.Base;
 
 public class EmailViewModel(ViewModel chatViewModel) : ViewModel
 {
