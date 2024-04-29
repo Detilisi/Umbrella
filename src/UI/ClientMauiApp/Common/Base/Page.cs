@@ -6,13 +6,8 @@ namespace MauiClientApp.Common.Base;
 /// BasePage ViewModel-bound Type
 /// </summary>
 /// <typeparam name="TViewModel"></typeparam>
-public abstract class Page<TViewModel> : Page where TViewModel : ViewModel
+public abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel) where TViewModel : ViewModel
 {
-    //Construction
-    protected Page(TViewModel viewModel) : base(viewModel)
-    {
-    }
-
     //Properties
     public new TViewModel BindingContext => (TViewModel)base.BindingContext;
 
