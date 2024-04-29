@@ -1,12 +1,11 @@
-﻿namespace ClientMauiApp
-{
-    public partial class App : Microsoft.Maui.Controls.Application
-    {
-        public App()
-        {
-            InitializeComponent();
+﻿namespace ClientMauiApp;
 
-            MainPage = new AppShell();
-        }
+public partial class App : Microsoft.Maui.Controls.Application
+{
+    public App()
+    {
+        InitializeComponent();
+
+        MainPage = new AppShell();
     }
 }

@@ -2,32 +2,31 @@
 using Persistence;
 using Microsoft.Extensions.Logging;
 
-namespace ClientMauiApp
+namespace ClientMauiApp;
+
+public static class MauiProgram
 {
-    public static class MauiProgram
+    public static MauiApp CreateMauiApp()
     {
-        public static MauiApp CreateMauiApp()
-        {
-            var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+		builder.Logging.AddDebug();
 #endif
-            var connectionString = Path.Combine(FileSystem.AppDataDirectory, "umbrella.db3");
+        var connectionString = Path.Combine(FileSystem.AppDataDirectory, "umbrella.db3");
 
-            builder.Services.AddPersistenceLayer(connectionString);
-            builder.Services.AddApplicationLayer();
+        builder.Services.AddPersistenceLayer(connectionString);
+        builder.Services.AddApplicationLayer();
 
-            builder.Services.AddSingleton<MainPage>();
-            
-            return builder.Build();
-        }
+        builder.Services.AddSingleton<MainPage>();
+        
+        return builder.Build();
     }
 }

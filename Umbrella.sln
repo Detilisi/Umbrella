@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFMigrator", "src\External\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{7609EFA1-8CD6-4819-B392-667F643206E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientMauiApp", "src\UI\ClientMauiApp\ClientMauiApp.csproj", "{80DF23CB-1B4B-458B-BE76-A0D0B7C1FA5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiClientApp", "src\UI\ClientMauiApp\MauiClientApp.csproj", "{80DF23CB-1B4B-458B-BE76-A0D0B7C1FA5E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\External\Infrastructure\Infrastructure.csproj", "{962FEB23-5755-4D5E-ABBB-EF74CC66CF91}"
 EndProject
