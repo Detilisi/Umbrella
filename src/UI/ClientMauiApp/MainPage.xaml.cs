@@ -1,4 +1,5 @@
 ﻿using Application.User.Features.Commands.RegisterUser;
+using MauiClientApp.Email.EmailList.ViewModels;
 using MediatR;
 
 namespace ClientMauiApp;
@@ -7,16 +8,20 @@ public partial class MainPage : ContentPage
 {
     int count = 0;
     IMediator _mediator;
+    EmailListViewModel _emailListViewModel;
 
-    public MainPage(IMediator mediator)
+    public MainPage(IMediator mediator, EmailListViewModel emailListViewModel)
     {
         _mediator = mediator;
+        _emailListViewModel = emailListViewModel;
         InitializeComponent();
     }
 
     private void OnCounterClicked(object sender, EventArgs e)
     {
         count++;
+        
+        _emailListViewModel.OnViewModelStarting();
 
         var registerUser = new RegisterUserCommand()
         {
