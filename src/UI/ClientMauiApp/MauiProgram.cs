@@ -1,8 +1,4 @@
-﻿using Application;
-using Persistence;
-using Microsoft.Extensions.Logging;
-using CommunityToolkit.Maui;
-using CommunityToolkit.Maui.Markup;
+﻿using Microsoft.Extensions.Logging;
 
 namespace ClientMauiApp;
 
