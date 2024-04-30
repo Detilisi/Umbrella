@@ -70,9 +70,7 @@ public class EmailFetcher : IEmailFetcher, IDisposable
     {
         var senderName = mimeMessage.From.Mailboxes.Select(x => x.Name).FirstOrDefault();
         var senderAddress = mimeMessage.From.Mailboxes.Select(x => x.Address).FirstOrDefault();
-        var messageBody = mimeMessage.HtmlBody != null ? mimeMessage.HtmlBody.ShortText()
-            : mimeMessage.TextBody.ShortText();
-
+        
         return new EmailModel
         {
             Type = EmailType.Email,
@@ -81,7 +79,7 @@ public class EmailFetcher : IEmailFetcher, IDisposable
             CreatedAt = mimeMessage.Date.DateTime,
             Sender = senderAddress ?? "no-reply@email.com",
             Subject = mimeMessage.Subject.ShortText() ?? "No subject",
-            Body = messageBody ?? "No message text.",
+            Body = mimeMessage.TextBody.ShortText() ?? "No message text.",
         };
     }
 
