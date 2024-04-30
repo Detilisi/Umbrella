@@ -6,8 +6,8 @@ public class UserModel : Model
 {
     //Properties
     public string UserName { get; set; } = string.Empty;
-    public string EmailAddress { get; set; } = string.Empty;
-    public string EmailPassword { get; set; } = string.Empty;
+    public required string EmailAddress { get; set; } = string.Empty;
+    public required string EmailPassword { get; set; } = string.Empty;
     public string EmailDomain => this.EmailAddress[(this.EmailAddress.LastIndexOf('@') + 1)..] ?? string.Empty;
 
     //Methods
