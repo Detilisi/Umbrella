@@ -8,7 +8,7 @@ public class UserModel : Model
     public string UserName { get; set; } = string.Empty;
     public string EmailAddress { get; set; } = string.Empty;
     public string EmailPassword { get; set; } = string.Empty;
-    public string EmailDomain { get; set; } = string.Empty;
+    public string EmailDomain => this.EmailAddress[(this.EmailAddress.LastIndexOf('@') + 1)..] ?? string.Empty;
 
     //Methods
     public static UserModel CreateFromEntity(UserEntity userEntity)
@@ -20,8 +20,7 @@ public class UserModel : Model
             ModifiedAt = userEntity.ModifiedAt,
             UserName = userEntity.UserName,
             EmailAddress = userEntity.EmailAddress.Value,
-            EmailPassword = userEntity.EmailPassword.Value,
-            EmailDomain = userEntity.EmailAddress.Domain,
+            EmailPassword = userEntity.EmailPassword.Value
         };
     }
 }
