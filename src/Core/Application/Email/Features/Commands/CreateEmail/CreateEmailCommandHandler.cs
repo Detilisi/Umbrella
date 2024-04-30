@@ -11,12 +11,12 @@ public class CreateEmailCommandHandler(IApplicationDbContext dbContext) : IReque
         try
         {
             var emailEntity = EmailEntity.Create
-        (
-            EmailAddress.Create(request.Sender),
-            request.Recipients.Select(EmailAddress.Create).ToList(),
-            EmailSubjectLine.Create(request.Subject),
-            EmailBodyText.Create(request.Body)
-        );
+            (
+                EmailAddress.Create(request.Sender),
+                request.Recipients.Select(EmailAddress.Create).ToList(),
+                EmailSubjectLine.Create(request.Subject),
+                EmailBodyText.Create(request.Body)
+            );
 
             _dbContext.Emails.Add(emailEntity);
             await _dbContext.SaveChangesAsync(cancellationToken);
