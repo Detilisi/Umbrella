@@ -10,10 +10,10 @@ public partial class MainPage : ContentPage
     IMediator _mediator;
     EmailListViewModel _emailListViewModel;
 
-    public MainPage(IMediator mediator, EmailListViewModel emailListViewModel)
+    public MainPage(IMediator mediator)
     {
         _mediator = mediator;
-        _emailListViewModel = emailListViewModel;
+        //_emailListViewModel = emailListViewModel;
         InitializeComponent();
     }
 
@@ -21,7 +21,7 @@ public partial class MainPage : ContentPage
     {
         count++;
         
-        _emailListViewModel.OnViewModelStarting();
+        //_emailListViewModel.OnViewModelStarting();
 
         var registerUser = new RegisterUserCommand()
         {
