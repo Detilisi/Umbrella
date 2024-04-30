@@ -2,18 +2,12 @@
 
 public class EmailAddress : ValueObject<string>
 {
-    //Properties
-    public string Domain { get; private set; }
-
     //Contructions
     private EmailAddress() : base(default)
     {
         //Required for EF
     }
-    private EmailAddress(string value) : base(value)
-    {
-        Domain = value[(value.LastIndexOf('@') + 1)..];
-    }
+    private EmailAddress(string value) : base(value){}
 
     public static EmailAddress Create(string emailAddress)
     {
