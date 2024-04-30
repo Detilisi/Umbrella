@@ -1,5 +1,4 @@
-﻿using Application.Common.Base;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace MauiClientApp.Common.Base;
 

@@ -1,6 +1,6 @@
 ﻿namespace Application.Email.Base;
 
-public class EmailViewModel(ViewModel chatViewModel) : ViewModel
+public partial class EmailViewModel(ViewModel chatViewModel) : ViewModel
 {
     //Fields
     public ViewModel ChildViewModel { get; private set; } = chatViewModel;
