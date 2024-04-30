@@ -9,7 +9,7 @@ namespace Infrastructure.Email.Services;
 public class EmailFetcher : IEmailFetcher, IDisposable
 {
     //Fields
-    private UserModel _currentUser = new();
+    private UserModel _currentUser = null!;
     private readonly ImapClient _imapClient = new();
     
     //Properties
