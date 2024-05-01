@@ -17,7 +17,7 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
-    private void OnCounterClicked(object sender, EventArgs e)
+    private async void OnCounterClicked(object sender, EventArgs e)
     {
         count++;
         
@@ -32,7 +32,7 @@ public partial class MainPage : ContentPage
             UserName = "username",
         };
 
-        _mediator.Send(registerUser);   
+        var result = await _mediator.Send(registerUser);   
 
         if (count == 1)
             CounterBtn.Text = $"Clicked {count} time";

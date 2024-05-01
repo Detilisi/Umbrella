@@ -9,7 +9,7 @@ namespace Infrastructure.Email.Services;
 public class EmailFetcher : IEmailFetcher, IDisposable
 {
     //Fields
-    private UserModel _currentUser = new();
+    private UserModel _currentUser = null!;
     private readonly ImapClient _imapClient = new();
     
     //Properties
@@ -70,7 +70,7 @@ public class EmailFetcher : IEmailFetcher, IDisposable
     {
         var senderName = mimeMessage.From.Mailboxes.Select(x => x.Name).FirstOrDefault();
         var senderAddress = mimeMessage.From.Mailboxes.Select(x => x.Address).FirstOrDefault();
-
+        
         return new EmailModel
         {
             Type = EmailType.Email,

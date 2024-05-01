@@ -1,4 +1,5 @@
-﻿global using CommunityToolkit.Maui;
+﻿global using MediatR;
+global using CommunityToolkit.Maui;
 global using CommunityToolkit.Maui.Markup;
 global using System.Collections.ObjectModel;
 global using CommunityToolkit.Mvvm.ComponentModel;
