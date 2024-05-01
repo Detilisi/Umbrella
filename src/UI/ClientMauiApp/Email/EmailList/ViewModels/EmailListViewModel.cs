@@ -22,7 +22,10 @@ public class EmailListViewModel(ViewModel childViewModel, IMediator mediator) : 
         var emailList = await _mediator.Send(loadEmailQuery);
         if (emailList.IsFailure) return;
 
-        //EmailMessageList = emailList.;
+        foreach (var emailModel in emailList.Value)
+        {
+            EmailMessageList.Add(emailModel);
+        }
     }
 }
 
