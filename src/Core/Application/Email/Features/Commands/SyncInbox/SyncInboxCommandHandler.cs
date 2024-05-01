@@ -39,8 +39,5 @@ internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IEmailFe
             var error = new Error($"{this}.Failed", ex.Message);
             return Result.Failure<int>(error);
         }
-
-
-        throw new NotImplementedException();
     }
 }
