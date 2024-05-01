@@ -3,9 +3,10 @@ using Domain.User.ValueObjects;
 
 namespace Application.User.Features.Commands.RegisterUser;
 
-public class RegisterUserCommandHandler(IApplicationDbContext dbContext) : IRequestHandler<RegisterUserCommand, Result<int>>
+public class RegisterUserCommandHandler(IApplicationDbContext dbContext, IEmailFetcher emailFetcher) : IRequestHandler<RegisterUserCommand, Result<int>>
 {
     //Fields
+    private readonly IEmailFetcher _emailFetcher = emailFetcher;
     private readonly IApplicationDbContext _dbContext = dbContext;
 
     //Handle method
@@ -13,12 +14,21 @@ public class RegisterUserCommandHandler(IApplicationDbContext dbContext) : IRequ
     {
         try
         {
+            //Load emails from server
+            var connectResult = await _emailFetcher.ConnectAsync(request, cancellationToken);
+            if (connectResult.IsFailure) return Result.Failure<int>(Error.GenericError);
+
+            var loadEmailsResult = await _emailFetcher.LoadEmailsAsync(cancellationToken);
+            if (loadEmailsResult.IsFailure) return Result.Failure<int>(Error.GenericError);
+
+            //Save loaded emails to database
+
             var userEntity = UserEntity.Create
-        (
-            EmailAddress.Create(request.EmailAddress),
-            EmailPassword.Create(request.EmailPassword),
-            request.UserName
-        );
+            (
+                EmailAddress.Create(request.EmailAddress),
+                EmailPassword.Create(request.EmailPassword),
+                request.UserName
+            );
 
             _dbContext.Users.Add(userEntity);
             await _dbContext.SaveChangesAsync(cancellationToken);
