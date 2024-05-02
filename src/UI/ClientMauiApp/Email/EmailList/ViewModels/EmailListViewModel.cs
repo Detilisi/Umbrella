@@ -16,6 +16,12 @@ public class EmailListViewModel(ViewModel childViewModel, IMediator mediator) : 
         base.OnViewModelStarting(token);
 
         //load emails
+        await LoadEmailsAsync(token);
+    }
+
+    //Load methods
+    private async Task LoadEmailsAsync(CancellationToken token)
+    {
         var userId = 1;
         var loadEmailQuery = new GetEmailListQuery(userId);
 
