@@ -6,9 +6,9 @@ public partial class EmailViewModel(ViewModel chatViewModel) : ViewModel
     public ViewModel ChildViewModel { get; private set; } = chatViewModel;
 
     //ViewModel lifecylce
-    public override void OnViewModelStarting(CancellationToken cancellationToken = default)
+    public override void OnViewModelStarting(CancellationToken token = default)
     {
-        base.OnViewModelStarting(cancellationToken);
+        base.OnViewModelStarting(token);
 
         //await ChildViewModel.AuthorizeMicrophoneUsageAsync(cancellationToken);
     }
