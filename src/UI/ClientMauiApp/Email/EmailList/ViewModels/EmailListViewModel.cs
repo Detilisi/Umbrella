@@ -11,15 +11,15 @@ public class EmailListViewModel(ViewModel childViewModel, IMediator mediator) : 
     public ObservableCollection<EmailModel> EmailMessageList { get; set; } = [];
 
     //Life cycle
-    public override async void OnViewModelStarting(CancellationToken cancellationToken = default)
+    public override async void OnViewModelStarting(CancellationToken token = default)
     {
-        base.OnViewModelStarting(cancellationToken);
+        base.OnViewModelStarting(token);
 
         //load emails
         var userId = 1;
         var loadEmailQuery = new GetEmailListQuery(userId);
 
-        var emailList = await _mediator.Send(loadEmailQuery);
+        var emailList = await _mediator.Send(loadEmailQuery, token);
         if (emailList.IsFailure) return;
 
         foreach (var emailModel in emailList.Value)
