@@ -1,5 +1,6 @@
 ﻿using MauiClientApp.Email.EmailList.ViewModels;
 using Umbrella.Maui.Email.Base.Pages;
+using Umbrella.Maui.Email.EmailListing.Templates;
 
 namespace MauiClientApp.Email.EmailList.Pages;
 
@@ -10,7 +11,7 @@ public class EmailListPage(EmailListViewModel viewModel, View chatHistoryView) :
         Content = new CollectionView
         {
             SelectionMode = SelectionMode.Single,
-            //ItemTemplate = new EmailDataTemplate(),
+            ItemTemplate = new EmailDataTemplate(),
             ItemsSource = BindingContext.EmailMessageList,
 
         }
