@@ -16,3 +16,4 @@ global using Application.Email.Abstractions.Services;
 global using Application.Common.Abstractions.DataContexts;
 
 global using MauiClientApp.Common.Base;
+global using MauiClientApp.Resources.Icons;
