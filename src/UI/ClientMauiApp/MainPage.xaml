@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fontIcons="clr-namespace:MauiClientApp.Resources.Icons"
              x:Class="ClientMauiApp.MainPage">
 
     <ScrollView>
@@ -13,6 +14,13 @@
                 Aspect="AspectFit"
                 SemanticProperties.Description="dot net bot in a race car number eight" />
 
+            <Label
+                TextColor="Yellow"
+                FontFamily="FASolid"
+                Text="{x:Static fontIcons:IconFont.Envelope}"
+                FontSize="72"
+                HorizontalOptions="Center"/> 
+            
             <Label
                 Text="Hello, World!"
                 Style="{StaticResource Headline}"
