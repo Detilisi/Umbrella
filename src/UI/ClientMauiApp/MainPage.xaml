@@ -15,10 +15,8 @@
                 SemanticProperties.Description="dot net bot in a race car number eight" />
 
             <Label
-                TextColor="Yellow"
-                FontFamily="FASolid"
+                Style="{StaticResource FontIconStyle}"
                 Text="{x:Static fontIcons:IconFont.Envelope}"
-                FontSize="72"
                 HorizontalOptions="Center"/> 
             
             <Label

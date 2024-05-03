@@ -9,13 +9,13 @@ public class EmailDataTemplate : DataTemplate
     private enum Column { Left = 0, Center = 1, Right = 2 }
 
     //View components
-    private static Image? ImageIcon;
-    private static Grid? ContentGrid;
-    private static Label? EmailTimeLabel;
-    private static Label? EmailSenderLabel;
-    private static Label? EmailSubjectLabel;
-    private static BoxView? SeparatorBoxView;
-    private static VerticalStackLayout? EmailDetailsLayout;
+    private static Label EmailIcon = null!;
+    private static Grid ContentGrid = null!;
+    private static Label EmailTimeLabel = null!;
+    private static Label EmailSenderLabel = null!;
+    private static Label EmailSubjectLabel = null!;
+    private static BoxView SeparatorBoxView = null!;
+    private static VerticalStackLayout EmailDetailsLayout = null!;
 
     //Construction
     public EmailDataTemplate() : base(CreateTemplate)
@@ -26,7 +26,7 @@ public class EmailDataTemplate : DataTemplate
     //Initialization
     private static DockLayout? CreateTemplate()
     {
-        InitializeImageIcon();
+        InitializeEmailIcon();
         InitializeSeparatorBoxView();
         InitializeEmailLabels();
         InitializeEmailDetailsLayout();
@@ -44,14 +44,15 @@ public class EmailDataTemplate : DataTemplate
     }
 
     //View component Initialization 
-    private static void InitializeImageIcon()
+    private static void InitializeEmailIcon()
     {
-        ImageIcon = new()
+        EmailIcon = new()
         {
-            WidthRequest = 50,
-            HeightRequest = 50,
-            //Source = "envelope_solid.svg"
+            Text = IconFont.Envelope,
+            HorizontalOptions = LayoutOptions.Center
         };
+
+        EmailIcon.DynamicResource(View.StyleProperty, "FontIconStyle");
     }
     private static void InitializeSeparatorBoxView()
     {
@@ -123,7 +124,7 @@ public class EmailDataTemplate : DataTemplate
             ],
             Children =
             {
-                ImageIcon?.Column(Column.Left),
+                EmailIcon?.Column(Column.Left),
                 EmailDetailsLayout?.Column(Column.Center),
                 EmailTimeLabel?.Column(Column.Right),
             }
