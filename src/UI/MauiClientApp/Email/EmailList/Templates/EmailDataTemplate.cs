@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Layouts;
-using MauiClientApp.Resources.Fonts.Icons;
 
 namespace Umbrella.Maui.Email.EmailListing.Templates;
 
