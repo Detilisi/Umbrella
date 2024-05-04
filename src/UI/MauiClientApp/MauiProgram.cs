@@ -27,12 +27,10 @@ namespace MauiClientApp
     		builder.Logging.AddDebug();
 #endif
 
-            var dbName = "umbrella.db3"; //Place in app config file
-
             //Register Layers
             builder.Services.AddApplicationLayer();
             builder.Services.AddInfrastructureLayer();
-            builder.Services.AddPersistenceLayer(dbName);
+            builder.Services.AddPersistenceLayer("umbrella.db3");
 
             //Register Views
             builder.Services.AddTransient<EmailListPage, EmailListViewModel>();
