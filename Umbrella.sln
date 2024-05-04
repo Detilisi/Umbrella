@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Exter
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\External\Persistance\Persistence.csproj", "{B2C68F9B-77E7-4C75-B67B-7F2A87819197}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiClientApp", "src\UI\MauiClientApp\MauiClientApp.csproj", "{AC7DFD9B-4E66-4E01-A546-C78B2416781B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,12 @@ Global
 		{B2C68F9B-77E7-4C75-B67B-7F2A87819197}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2C68F9B-77E7-4C75-B67B-7F2A87819197}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2C68F9B-77E7-4C75-B67B-7F2A87819197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC7DFD9B-4E66-4E01-A546-C78B2416781B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC7DFD9B-4E66-4E01-A546-C78B2416781B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC7DFD9B-4E66-4E01-A546-C78B2416781B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{AC7DFD9B-4E66-4E01-A546-C78B2416781B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC7DFD9B-4E66-4E01-A546-C78B2416781B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC7DFD9B-4E66-4E01-A546-C78B2416781B}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +78,7 @@ Global
 		{7609EFA1-8CD6-4819-B392-667F643206E3} = {C96E1D1B-18EA-49F9-BE3D-EF49ED924F59}
 		{962FEB23-5755-4D5E-ABBB-EF74CC66CF91} = {AFAFDED7-76D9-4A79-AFCC-376EEAC81172}
 		{B2C68F9B-77E7-4C75-B67B-7F2A87819197} = {AFAFDED7-76D9-4A79-AFCC-376EEAC81172}
+		{AC7DFD9B-4E66-4E01-A546-C78B2416781B} = {7609EFA1-8CD6-4819-B392-667F643206E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C904C2E2-A105-48EE-AE19-6B06027D545B}
