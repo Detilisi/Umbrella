@@ -22,26 +22,16 @@ public class EmailEntityConfiguration : IEntityTypeConfiguration<EmailEntity>
     private static void ConfigureValueObjects(EntityTypeBuilder<EmailEntity> builder)
     {
         builder
-            .OwnsOne(e => e.Sender, senderBuilder =>
-            {
-                senderBuilder.Property(email => email.Value).HasColumnName("Email");
-            })
-            .OwnsOne(e => e.Body, bodyBuilder => 
-            { 
-                bodyBuilder.Property(body => body.Value)
-                .HasColumnName("Body").HasMaxLength(EmailBodyText.MAXBODYLENGTH); 
-            })
-            .OwnsOne(e => e.Subject, subjectBuilder =>
-            {
-                subjectBuilder.Property(subject => subject.Value).HasColumnName("Subject")
-                .HasMaxLength(EmailSubjectLine.MAXSUBJECTLINELENGTH);
-            });
+            .OwnsOne(e => e.Sender, emailBuilder => { emailBuilder.Property(email => email.Value).HasColumnName("Sender"); });
+
+        builder.OwnsOne(e => e.Body, bodyBuilder =>{bodyBuilder.Property(body => body.Value).HasColumnName("Body")
+            .HasMaxLength(EmailBodyText.MAXBODYLENGTH);});
+        
+        builder.OwnsOne(e => e.Subject, subjectBuilder =>{subjectBuilder.Property(subject => subject.Value).HasColumnName("Subject")
+            .HasMaxLength(EmailSubjectLine.MAXSUBJECTLINELENGTH);});
 
         var jsonOption = new JsonSerializerOptions();
-        
-        builder.Property(e => e.Recipients).HasColumnName("Recipients").HasConversion(
-            v => JsonSerializer.Serialize(v, jsonOption),
-            v => JsonSerializer.Deserialize<List<EmailAddress>>(v, jsonOption)
-        );
+        builder.Property(e => e.Recipients).HasColumnName("Recipients")
+            .HasConversion(v => JsonSerializer.Serialize(v, jsonOption),v => JsonSerializer.Deserialize<List<EmailAddress>>(v, jsonOption));
     }
 }
