@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.Reflection;
 using Application.Common.Abstractions.DataContexts;
 
 namespace Persistence.Common.DataContexts;
@@ -16,12 +17,17 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     //Construction
     public ApplicationDbContext()
     {
-        _connectionString = Path.Combine("../", "MigratorExclusive.db3");
+        _connectionString = Path.Combine("../", "migrator.db3");
         InitializeDataBase();
     }
-    public ApplicationDbContext(string dbPath)
+    public ApplicationDbContext(string dbName)
     {
-        _connectionString = dbPath;
+        if (!dbName.EndsWith(".db3"))
+        {
+            throw new InvalidEnumArgumentException("database name must end with .db3 extension for sqlie");
+        }
+
+        _connectionString = Path.Combine(FileSystem.AppDataDirectory, dbName);
         InitializeDataBase();
     }
 
