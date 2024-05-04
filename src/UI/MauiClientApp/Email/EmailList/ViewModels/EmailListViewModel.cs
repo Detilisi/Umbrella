@@ -1,6 +1,5 @@
 ﻿using Application.Email.Features.Commands.SyncInbox;
 using Application.Email.Features.Queries.GetEmailList;
-using AVFoundation;
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
 
