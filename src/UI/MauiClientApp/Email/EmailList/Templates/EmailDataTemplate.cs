@@ -53,7 +53,7 @@ public class EmailDataTemplate : DataTemplate
             HorizontalOptions = LayoutOptions.Center
         };
 
-        EmailIcon.DynamicResource(View.StyleProperty, "FontIconStyle");
+        EmailIcon.DynamicResource(View.StyleProperty, "IconLabelStyle");
     }
     private static void InitializeSeparatorBoxView()
     {
