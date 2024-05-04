@@ -1,6 +1,4 @@
-﻿using Domain.Common.ValueObjects;
-
-namespace Persistence.User.EntityConfigs;
+﻿namespace Persistence.User.EntityConfigs;
 
 public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
 {
@@ -19,7 +17,7 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
     private static void ConfigureValueObjects(EntityTypeBuilder<UserEntity> builder)
     {
         builder
-            .OwnsOne(e => e.EmailAddress, emailBuilder => { emailBuilder.Property(email => email.Value).HasColumnName(nameof(EmailAddress)); })
-            .OwnsOne(e => e.EmailPassword, passwordBuilder => { passwordBuilder.Property(password => password.Value).HasColumnName(nameof(EmailPassword)); });
+            .OwnsOne(e => e.EmailAddress, emailBuilder => { emailBuilder.Property(email => email.Value).HasColumnName(nameof(UserEntity.EmailAddress)); })
+            .OwnsOne(e => e.EmailPassword, passwordBuilder => { passwordBuilder.Property(password => password.Value).HasColumnName(nameof(UserEntity.EmailPassword)); });
     }
 }
