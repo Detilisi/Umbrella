@@ -1,4 +1,6 @@
-﻿namespace Domain.Common.ValueObjects;
+﻿using System.Text.Json.Serialization;
+
+namespace Domain.Common.ValueObjects;
 
 public class EmailAddress : ValueObject<string>
 {
@@ -7,6 +9,8 @@ public class EmailAddress : ValueObject<string>
     {
         //Required for EF
     }
+
+    [JsonConstructor]
     private EmailAddress(string value) : base(value){}
 
     public static EmailAddress Create(string emailAddress)
