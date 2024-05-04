@@ -1,4 +1,6 @@
-﻿using Application.Email.Features.Queries.GetEmailList;
+﻿using Application.Email.Features.Commands.SyncInbox;
+using Application.Email.Features.Queries.GetEmailList;
+using AVFoundation;
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
 
@@ -22,9 +24,10 @@ public class EmailListViewModel(IMediator mediator) : EmailViewModel(default)
     //Load methods
     private async Task LoadEmailsAsync(CancellationToken token)
     {
+        await SyncEmailInboxAsync(token);
+
         var userId = 1;
         var loadEmailQuery = new GetEmailListQuery(userId);
-
         var emailList = await _mediator.Send(loadEmailQuery, token);
         if (emailList.IsFailure) return;
 
@@ -32,6 +35,18 @@ public class EmailListViewModel(IMediator mediator) : EmailViewModel(default)
         {
             EmailMessageList.Add(emailModel);
         }
+    }
+
+    private async Task SyncEmailInboxAsync(CancellationToken token)
+    {
+        var syncCommand = new SyncInboxCommand() 
+        {
+            EmailAddress = "",
+            EmailPassword = "",
+        };
+
+        var syncResult = await _mediator.Send(syncCommand, token);
+        if (syncResult.IsFailure) return;
     }
 }
 
