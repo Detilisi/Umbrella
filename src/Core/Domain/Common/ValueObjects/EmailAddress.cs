@@ -3,7 +3,7 @@
 public class EmailAddress : ValueObject<string>
 {
     //Contructions
-    private EmailAddress() : base(default)
+    private EmailAddress() : base(string.Empty)
     {
         //Required for EF
     }

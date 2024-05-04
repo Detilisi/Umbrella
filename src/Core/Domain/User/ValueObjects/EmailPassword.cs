@@ -8,7 +8,7 @@ public class EmailPassword : ValueObject<string>
     public const int MINIMUMPASSWORDLENGTH = 8; // 8 ALPHA-NUMERIC CHARACTERS
 
     //Contructions
-    private EmailPassword() : base(default)
+    private EmailPassword() : base(string.Empty)
     {
         //Required EF
     }

@@ -8,7 +8,7 @@ public class EmailSubjectLine : ValueObject<string>
     public const int MAXSUBJECTLINELENGTH = 200;
 
     //Contructions
-    private EmailSubjectLine() : base(default)
+    private EmailSubjectLine() : base(string.Empty)
     {
         //Required EF
     }

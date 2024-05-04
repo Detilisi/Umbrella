@@ -8,7 +8,7 @@ public class EmailBodyText : ValueObject<string>
     public const int MAXBODYLENGTH = 10000;
 
     //Contructions
-    private EmailBodyText() : base(default) 
+    private EmailBodyText() : base(string.Empty) 
     {
         //Required EF
     }
