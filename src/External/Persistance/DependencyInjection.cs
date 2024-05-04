@@ -5,12 +5,12 @@ namespace Persistence;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPersistenceLayer(this IServiceCollection services, string connectionString)
+    public static IServiceCollection AddPersistenceLayer(this IServiceCollection services, string dbName)
     {
         //AddDbContext
         services.AddSingleton<IApplicationDbContext>((provider) =>
         {
-            return new ApplicationDbContext(connectionString);
+            return new ApplicationDbContext(dbName);
         });
         
         return services;
