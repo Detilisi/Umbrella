@@ -4,6 +4,8 @@ using Persistence;
 using Microsoft.Extensions.Logging;
 using MauiClientApp.Email.EmailList.ViewModels;
 using MauiClientApp.Email.EmailList.Pages;
+using MauiClientApp.Email.EmailSync.Pages;
+using MauiClientApp.Email.EmailSync.ViewModels;
 
 namespace MauiClientApp
 {
@@ -33,6 +35,7 @@ namespace MauiClientApp
             builder.Services.AddInfrastructureLayer();
             
             //Register Views
+            builder.Services.AddTransient<EmailSyncPage, EmailSyncViewModel>();
             builder.Services.AddTransient<EmailListPage, EmailListViewModel>();
 
             return builder.Build();

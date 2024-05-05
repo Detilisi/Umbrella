@@ -10,7 +10,7 @@ public class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator, d
         base.OnViewModelStarting(token);
 
         //Synx emails
-        await SyncEmailInboxAsync(token);
+        //await SyncEmailInboxAsync(token);
     }
 
     //Sync methods
