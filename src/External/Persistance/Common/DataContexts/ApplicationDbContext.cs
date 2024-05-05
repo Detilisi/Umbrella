@@ -20,14 +20,14 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         _connectionString = Path.Combine("../", "migrator.db3");
         InitializeDataBase();
     }
-    public ApplicationDbContext(string dbName)
+    public ApplicationDbContext(string connectionString)
     {
-        if (!dbName.EndsWith(".db3"))
+        if (!connectionString.EndsWith(".db3"))
         {
             throw new InvalidEnumArgumentException("database name must end with .db3 extension for sqlie");
         }
 
-        _connectionString = Path.Combine(FileSystem.AppDataDirectory, dbName);
+        _connectionString = connectionString;
         InitializeDataBase();
     }
 
