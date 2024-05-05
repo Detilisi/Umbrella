@@ -27,7 +27,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     //Configurations
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlite($"Filename={_connectionString}", builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+    {
+        optionsBuilder.UseSqlite($"Filename={_connectionString}",
+            builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
