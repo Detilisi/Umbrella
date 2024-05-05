@@ -29,9 +29,9 @@ namespace MauiClientApp
 
             //Register Layers
             builder.Services.AddApplicationLayer();
+            builder.Services.AddPersistenceLayer();
             builder.Services.AddInfrastructureLayer();
-            builder.Services.AddPersistenceLayer("umbrella.db3");
-
+            
             //Register Views
             builder.Services.AddTransient<EmailListPage, EmailListViewModel>();
 
