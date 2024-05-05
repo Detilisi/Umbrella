@@ -22,11 +22,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     }
     public ApplicationDbContext(string connectionString)
     {
-        if (!connectionString.EndsWith(".db3"))
-        {
-            throw new InvalidEnumArgumentException("database name must end with .db3 extension for sqlie");
-        }
-
         _connectionString = connectionString;
         InitializeDataBase();
     }
