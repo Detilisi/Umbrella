@@ -6,6 +6,7 @@ using MauiClientApp.Email.EmailList.ViewModels;
 using MauiClientApp.Email.EmailList.Pages;
 using MauiClientApp.Email.EmailSync.Pages;
 using MauiClientApp.Email.EmailSync.ViewModels;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace MauiClientApp
 {
@@ -16,6 +17,7 @@ namespace MauiClientApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseSkiaSharp()
                 .UseMauiCommunityToolkit()
                 .UseMauiCommunityToolkitMarkup()
                 .ConfigureFonts(fonts =>

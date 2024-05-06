@@ -58,6 +58,7 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Fonts\Font Awesome 6 Free-Solid-900.otf" />
+	  <None Remove="Resources\Raw\AnikiHamster.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -67,6 +68,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.21" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -74,6 +76,10 @@
 	  <ProjectReference Include="..\..\Core\Application\Application.csproj" />
 	  <ProjectReference Include="..\..\External\Infrastructure\Infrastructure.csproj" />
 	  <ProjectReference Include="..\..\External\Persistance\Persistence.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\Animations\" />
 	</ItemGroup>
 
 </Project>
