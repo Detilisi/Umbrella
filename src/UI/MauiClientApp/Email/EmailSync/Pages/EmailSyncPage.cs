@@ -1,49 +1,36 @@
 ﻿using MauiClientApp.Email.EmailSync.ViewModels;
-using SkiaSharp.Extended.UI.Controls;
+using MauiClientApp.Email.EmailSync.Views;
 
 namespace MauiClientApp.Email.EmailSync.Pages;
 
-public class EmailSyncPage(EmailSyncViewModel viewModel) : EmailPage<EmailSyncViewModel>(viewModel, new VerticalStackLayout())
+public class EmailSyncPage: EmailPage<EmailSyncViewModel>
 {
+    //View components
+    private Label PageTitleLabel = null!;
+    
+    //Construction
+    public EmailSyncPage(EmailSyncViewModel viewModel) : base(viewModel, new VerticalStackLayout())
+    {
+        InitializePageLabel();
+    }
+
     protected override ScrollView PageContent => new()
     {
-        Content = new VerticalStackLayout()
-        {
-            Spacing = 25,
-            Padding = 30,
-            VerticalOptions = LayoutOptions.Center,
-
-            Children =
-            {
-                new Label()
-                {
-                    Text = "Syncing emails",
-                    MaxLines = 1,
-                    FontSize = 28,
-                    FontAttributes = FontAttributes.Bold,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                },
-                new SKLottieView()
-                {
-                    Source = new SKFileLottieImageSource()
-                    {
-                        File = "AnikiHamster.json"
-                    },
-                    RepeatCount = -1,
-                    WidthRequest = 200,
-                    HeightRequest = 200,
-                    BackgroundColor = Colors.AliceBlue,
-                    HorizontalOptions = LayoutOptions.Center
-                },
-                new Label()
-                { 
-                    Text = "Please wait...",
-                    MaxLines = 1,
-                    FontSize = 28,
-                    FontAttributes = FontAttributes.Bold,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                },
-            }
-        }
+        Content = new EmailSyncIndicatorView()
     };
+
+    //View component Initialization
+    private void InitializePageLabel()
+    {
+        PageTitleLabel = new Label
+        {
+            Text = "Umbrella",
+            FontSize = 26,
+            FontAttributes = FontAttributes.Bold,
+            VerticalOptions = LayoutOptions.Center,
+            HorizontalOptions = LayoutOptions.Center
+        };
+
+        Shell.SetTitleView(this, PageTitleLabel);
+    }
 }
