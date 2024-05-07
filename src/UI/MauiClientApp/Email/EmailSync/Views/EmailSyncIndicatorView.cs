@@ -18,7 +18,6 @@ public class EmailSyncIndicatorView : ContentView
         Content = new VerticalStackLayout()
         {
             Spacing = 25,
-            Padding = 30,
             VerticalOptions = LayoutOptions.Center,
             Children =
             {
