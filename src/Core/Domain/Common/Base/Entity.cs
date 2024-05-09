@@ -11,7 +11,7 @@ public abstract class Entity
     //Properties
     public int Id { get; protected set; }
     public DateTime ModifiedAt { get; set; }
-    public DateTime CreatedAt { get; protected set; }
+    public DateTime CreatedAt { get; set; }
 
     //Construction
     public Entity()
