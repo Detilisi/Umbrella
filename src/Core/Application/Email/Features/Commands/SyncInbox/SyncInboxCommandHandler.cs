@@ -20,16 +20,7 @@ internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IEmailFe
             //Save loaded emails to database
             foreach (var emailModel in loadEmailsResult.Value)
             {
-                var emailEntity = EmailEntity.Create
-                (
-                    EmailAddress.Create(emailModel.Sender),
-                    emailModel.Recipients.Select(EmailAddress.Create).ToList(),
-                    EmailSubjectLine.Create(emailModel.Subject),
-                    EmailBodyText.Create(emailModel.Body)
-                );
-
-                emailEntity.CreatedAt = emailModel.CreatedAt;
-
+                var emailEntity = emailModel.ToEmailEntity();
                 _dbContext.Emails.Add(emailEntity);
             }
             
