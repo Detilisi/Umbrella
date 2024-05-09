@@ -29,4 +29,19 @@ public class EmailModel : Model
         };
     }
 
+    public static EmailEntity CreateEmailEntity(EmailModel emailModel)
+    {
+        var emailEntity = EmailEntity.Create(
+            EmailAddress.Create(emailModel.Sender),
+            emailModel.Recipients.Select(EmailAddress.Create).ToList(),
+            EmailSubjectLine.Create(emailModel.Subject),
+            EmailBodyText.Create(emailModel.Body)
+        );
+
+        emailEntity.CreatedAt = emailModel.CreatedAt;
+        emailEntity.ModifiedAt = emailModel.ModifiedAt;
+
+        return emailEntity;
+    }
+
 }
