@@ -1,4 +1,6 @@
-﻿namespace Application.Email.Features.Commands.CreateEmail;
+﻿using Application.Email.Models;
+
+namespace Application.Email.Features.Commands.CreateEmail;
 
 public class CreateEmailCommandHandler(IApplicationDbContext dbContext) : IRequestHandler<CreateEmailCommand, Result<int>>
 {
@@ -17,6 +19,8 @@ public class CreateEmailCommandHandler(IApplicationDbContext dbContext) : IReque
                 EmailSubjectLine.Create(request.Subject),
                 EmailBodyText.Create(request.Body)
             );
+
+            emailEntity.CreatedAt = request.CreatedAt;
 
             _dbContext.Emails.Add(emailEntity);
             await _dbContext.SaveChangesAsync(cancellationToken);
