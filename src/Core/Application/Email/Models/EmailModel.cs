@@ -29,17 +29,17 @@ public class EmailModel : Model
         };
     }
 
-    public static EmailEntity CreateEmailEntity(EmailModel emailModel)
+    public EmailEntity ToEmailEntity()
     {
         var emailEntity = EmailEntity.Create(
-            EmailAddress.Create(emailModel.Sender),
-            emailModel.Recipients.Select(EmailAddress.Create).ToList(),
-            EmailSubjectLine.Create(emailModel.Subject),
-            EmailBodyText.Create(emailModel.Body)
+            EmailAddress.Create(Sender),
+            Recipients.Select(EmailAddress.Create).ToList(),
+            EmailSubjectLine.Create(Subject),
+            EmailBodyText.Create(Body)
         );
 
-        emailEntity.CreatedAt = emailModel.CreatedAt;
-        emailEntity.ModifiedAt = emailModel.ModifiedAt;
+        emailEntity.CreatedAt = CreatedAt;
+        emailEntity.ModifiedAt = ModifiedAt;
 
         return emailEntity;
     }
