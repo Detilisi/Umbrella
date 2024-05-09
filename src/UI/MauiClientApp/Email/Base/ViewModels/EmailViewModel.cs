@@ -18,6 +18,6 @@ public partial class EmailViewModel(IMediator mediator, ViewModel chatViewModel)
     {
         base.OnViewModelClosing(cancellationToken);
 
-        ChildViewModel.OnViewModelClosing(cancellationToken);
+        //ChildViewModel.OnViewModelClosing(cancellationToken);
     }
 }
