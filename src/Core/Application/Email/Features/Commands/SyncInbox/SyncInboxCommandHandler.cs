@@ -27,6 +27,9 @@ internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IEmailFe
                     EmailSubjectLine.Create(emailModel.Subject),
                     EmailBodyText.Create(emailModel.Body)
                 );
+
+                emailEntity.CreatedAt = emailModel.CreatedAt;
+
                 _dbContext.Emails.Add(emailEntity);
             }
             
