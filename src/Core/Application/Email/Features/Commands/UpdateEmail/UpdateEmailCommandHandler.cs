@@ -10,15 +10,7 @@ public class UpdateEmailCommandHandler(IApplicationDbContext dbContext) : IReque
     {
         try
         {
-            var emailEntity = EmailEntity.Create
-            (
-                EmailAddress.Create(request.Sender),
-                request.Recipients.Select(EmailAddress.Create).ToList(),
-                EmailSubjectLine.Create(request.Subject),
-                EmailBodyText.Create(request.Body)
-            );
-
-            emailEntity.CreatedAt = request.CreatedAt;
+            var emailEntity = request.ToEmailEntity();
 
             _dbContext.Emails.Update(emailEntity);
             await _dbContext.SaveChangesAsync(cancellationToken);
