@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Layouts;
+using System.Globalization;
 
 namespace Umbrella.Maui.Email.EmailListing.Templates;
 
@@ -29,6 +30,7 @@ public class EmailDataTemplate : DataTemplate
         InitializeEmailIcon();
         InitializeSeparatorBoxView();
         InitializeEmailLabels();
+        InitializeEmailTimeLabel();
         InitializeEmailDetailsLayout();
         InitializeContentGrid();
 
@@ -60,11 +62,54 @@ public class EmailDataTemplate : DataTemplate
         DockLayout.SetDockPosition(SeparatorBoxView, DockPosition.Bottom);
         SeparatorBoxView.DynamicResource(View.StyleProperty, "EmailDataTemplateSeparator");
     }
+    private static void InitializeEmailTimeLabel()
+    {
+        var todayTrigger = new DataTrigger(typeof(Label))
+        {
+            Value = true,
+            Binding = new Binding(nameof(EmailModel.CreatedAt))
+            {
+                Converter = new DateTimeToTodayConverter()
+            },
+            Setters =
+            {
+                new Setter 
+                { 
+                    Property = Label.TextProperty, 
+                    Value = new Binding(nameof(EmailModel.CreatedAt), stringFormat: "{0:h:mm tt}") 
+                }
+            }
+        };
+
+        var notTodayTrigger = new DataTrigger(typeof(Label))
+        {
+            Value = false,
+            Binding = new Binding(nameof(EmailModel.CreatedAt))
+            {
+                Converter = new DateTimeToTodayConverter()
+            },
+            Setters =
+            {
+                new Setter
+                {
+                    Property = Label.TextProperty,
+                    Value = new Binding(nameof(EmailModel.CreatedAt), stringFormat: "{0:dd MMM}")
+                }
+            }
+        };
+        
+        EmailTimeLabel = new()
+        {
+            Triggers =
+            {
+                todayTrigger,
+                notTodayTrigger
+            }
+        };
+    }
     private static void InitializeEmailLabels()
     {
         //Setup
-        EmailTimeLabel = new();
-
         EmailSubjectLabel = new()
         {
             MaxLines = 1,
@@ -81,11 +126,6 @@ public class EmailDataTemplate : DataTemplate
         };
 
         //Databings
-        EmailTimeLabel.Bind(Label.TextProperty,
-            static (EmailModel email) => email.CreatedAt, mode: BindingMode.OneWay,
-            stringFormat: "{0:h:mm tt}"
-        );
-
         EmailSubjectLabel.Bind(Label.TextProperty,
             static (EmailModel email) => email.Subject, mode: BindingMode.OneWay
         );
@@ -130,4 +170,18 @@ public class EmailDataTemplate : DataTemplate
             }
         };
     }
+}
+
+//Helpers
+public class DateTimeToTodayConverter : IValueConverter
+{
+  public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+  {
+    return value is DateTime date && date.Date == DateTime.Today;
+  }
+
+  public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+  {
+    throw new NotImplementedException();
+  }
 }
