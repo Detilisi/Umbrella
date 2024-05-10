@@ -14,9 +14,8 @@ public class GetEmailListQueryHandler(IApplicationDbContext dbContext) : IReques
         if (emailEntityList.Count == 0) return Result.Failure<List<EmailModel>>(EmailErrors.EmailNotFound);
         
         // Use Select to map entities to models directly
-        var emailModelList = emailEntityList.Select(EmailModel.CreateFromEntity).ToList();
+        var emailModelList = emailEntityList.Select(EmailModel.CreateFromEntity).OrderByDescending(email => email.CreatedAt).ToList();
 
         return Result.Success(emailModelList);
     }
-
 }
