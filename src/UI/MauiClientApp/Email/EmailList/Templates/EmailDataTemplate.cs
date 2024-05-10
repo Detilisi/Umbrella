@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Layouts;
+using MauiClientApp.Email.EmailList.Templates.Triggers;
 using System.Globalization;
 
 namespace Umbrella.Maui.Email.EmailListing.Templates;
@@ -30,7 +31,6 @@ public class EmailDataTemplate : DataTemplate
         InitializeEmailIcon();
         InitializeSeparatorBoxView();
         InitializeEmailLabels();
-        InitializeEmailTimeLabel();
         InitializeEmailDetailsLayout();
         InitializeContentGrid();
 
@@ -62,51 +62,6 @@ public class EmailDataTemplate : DataTemplate
         DockLayout.SetDockPosition(SeparatorBoxView, DockPosition.Bottom);
         SeparatorBoxView.DynamicResource(View.StyleProperty, "EmailDataTemplateSeparator");
     }
-    private static void InitializeEmailTimeLabel()
-    {
-        var todayTrigger = new DataTrigger(typeof(Label))
-        {
-            Value = true,
-            Binding = new Binding(nameof(EmailModel.CreatedAt))
-            {
-                Converter = new DateTimeToTodayConverter()
-            },
-            Setters =
-            {
-                new Setter 
-                { 
-                    Property = Label.TextProperty, 
-                    Value = new Binding(nameof(EmailModel.CreatedAt), stringFormat: "{0:h:mm tt}") 
-                }
-            }
-        };
-
-        var notTodayTrigger = new DataTrigger(typeof(Label))
-        {
-            Value = false,
-            Binding = new Binding(nameof(EmailModel.CreatedAt))
-            {
-                Converter = new DateTimeToTodayConverter()
-            },
-            Setters =
-            {
-                new Setter
-                {
-                    Property = Label.TextProperty,
-                    Value = new Binding(nameof(EmailModel.CreatedAt), stringFormat: "{0:dd MMM}")
-                }
-            }
-        };
-        
-        EmailTimeLabel = new()
-        {
-            Triggers =
-            {
-                todayTrigger,
-                notTodayTrigger
-            }
-        };
-    }
     private static void InitializeEmailLabels()
     {
         //Setup
@@ -123,6 +78,15 @@ public class EmailDataTemplate : DataTemplate
             FontSize = 16,
             FontAttributes = FontAttributes.Bold,
             LineBreakMode = LineBreakMode.TailTruncation,
+        };
+
+        EmailTimeLabel = new()
+        {
+            Triggers =
+            {
+                EmailTemplateTriggers.TodayTrigger,
+                EmailTemplateTriggers.NotTodayTrigger
+            }
         };
 
         //Databings
@@ -170,18 +134,4 @@ public class EmailDataTemplate : DataTemplate
             }
         };
     }
-}
-
-//Helpers
-public class DateTimeToTodayConverter : IValueConverter
-{
-  public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-  {
-    return value is DateTime date && date.Date == DateTime.Today;
-  }
-
-  public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-  {
-    throw new NotImplementedException();
-  }
 }
