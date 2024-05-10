@@ -10,6 +10,7 @@ public class EmailModel : Model
     public required string Subject { get; set; }
 
     public required string Sender { get; set; }
+    public required string SenderName { get; set; }
     public List<string> Recipients { get; set; } = [];
 
     //Methods
@@ -25,6 +26,7 @@ public class EmailModel : Model
             Body = emailEntity.Body.Value,
             Subject = emailEntity.Subject.Value,
             Sender = emailEntity.Sender.Value,
+            SenderName = emailEntity.SenderName,
             Recipients = emailEntity.Recipients.Select(r => r.Value).ToList(),
         };
     }
@@ -38,6 +40,7 @@ public class EmailModel : Model
             EmailBodyText.Create(Body)
         );
 
+        emailEntity.SenderName = SenderName;
         emailEntity.CreatedAt = CreatedAt;
         emailEntity.ModifiedAt = ModifiedAt;
 
