@@ -94,7 +94,7 @@ public class EmailDataTemplate : DataTemplate
         );
 
         EmailSenderLabel.Bind(Label.TextProperty,
-            static (EmailModel email) => email.Sender, mode: BindingMode.OneWay
+            static (EmailModel email) => email.SenderName, mode: BindingMode.OneWay
         );
     }
     private static void InitializeEmailDetailsLayout()
