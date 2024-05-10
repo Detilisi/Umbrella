@@ -1,4 +1,7 @@
-﻿namespace Application.Email.Features.Commands.SyncInbox;
+﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Net.Mail;
+
+namespace Application.Email.Features.Commands.SyncInbox;
 
 internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IEmailFetcher emailFetcher) : IRequestHandler<SyncInboxCommand, Result<int>>
 {
@@ -20,6 +23,10 @@ internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IEmailFe
             //Save loaded emails to database
             foreach (var emailModel in loadEmailsResult.Value)
             {
+                var existingMessage = _dbContext.Emails
+                    .FirstOrDefault(m => m.Subject.Value == emailModel.Subject && m.CreatedAt == emailModel.CreatedAt);
+                if (existingMessage != null) continue;
+
                 var emailEntity = emailModel.ToEmailEntity();
                 _dbContext.Emails.Add(emailEntity);
             }
