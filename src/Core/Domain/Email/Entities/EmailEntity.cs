@@ -12,6 +12,7 @@ public class EmailEntity : Entity
     public EmailBodyText Body { get; }
     public EmailSubjectLine Subject { get; }
     public EmailAddress Sender { get; }
+    public string SenderName { get; set; }
     public List<EmailAddress> Recipients { get; }
 
     //Construction
@@ -33,6 +34,8 @@ public class EmailEntity : Entity
         Recipients = recipients;
         Type = EmailType.Email;
         EmailStatus = EmailStatus.UnRead;
+        
+        SenderName ??= sender.Value;
 
         AddDomainEvent(new EmailEntityCreatedEvent(this));
     }
