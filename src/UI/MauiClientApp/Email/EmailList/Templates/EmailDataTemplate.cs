@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Layouts;
 using MauiClientApp.Email.EmailList.Templates.Triggers;
-using System.Globalization;
 
 namespace Umbrella.Maui.Email.EmailListing.Templates;
 
