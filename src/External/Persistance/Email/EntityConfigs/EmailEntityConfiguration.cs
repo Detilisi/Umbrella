@@ -12,6 +12,7 @@ public class EmailEntityConfiguration : IEntityTypeConfiguration<EmailEntity>
         builder.ToTable(nameof(EmailEntity));
         builder.Property(e => e.Type).IsRequired();
         builder.Property(e => e.EmailStatus).IsRequired();
+        builder.Property(e => e.SenderName).IsRequired();
         builder.Property(e => e.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
         builder.Property(e => e.ModifiedAt).HasDefaultValueSql("GETUTCDATE()");
 
