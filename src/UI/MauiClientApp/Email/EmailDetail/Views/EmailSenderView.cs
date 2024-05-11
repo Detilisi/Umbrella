@@ -63,6 +63,9 @@ public class EmailSenderView : ContentView
         SenderIcon.DynamicResource(View.StyleProperty, "IconLabelStyle");
         ListenIcon.DynamicResource(View.StyleProperty, "IconLabelStyle");
         RepeatIcon.DynamicResource(View.StyleProperty, "IconLabelStyle");
+
+        ListenIcon.FontSize = 30;
+        RepeatIcon.FontSize = 30;
     }
     private void InitializeLabels()
     {
