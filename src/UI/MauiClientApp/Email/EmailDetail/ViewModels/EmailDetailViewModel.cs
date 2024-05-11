@@ -1,5 +1,4 @@
 ﻿using Application.Email.Features.Queries.GetEmailById;
-using Application.Email.Features.Queries.GetEmailList;
 
 namespace MauiClientApp.Email.EmailDetail.ViewModels;
 
