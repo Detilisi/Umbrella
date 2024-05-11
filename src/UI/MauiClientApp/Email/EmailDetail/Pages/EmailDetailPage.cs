@@ -2,13 +2,19 @@
 
 namespace MauiClientApp.Email.EmailDetail.Pages;
 
-public class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<EmailDetailViewModel>(viewModel, new VerticalStackLayout())
+public class EmailDetailPage: EmailPage<EmailDetailViewModel>
 {
     //View components
     private static Label SubjectLabel = null!;
     private static Label BodyTextLabel = null!;
     //private EmailControlView? EmailControls;
     private static BoxView SeparatorBoxView = null!;
+
+    //Construction
+    public EmailDetailPage(EmailDetailViewModel viewModel) : base(viewModel, new VerticalStackLayout())
+    {
+        InitializeViewComponents();
+    }
 
     protected override ScrollView PageContent => throw new NotImplementedException();
 
