@@ -11,7 +11,7 @@ public class EmailSyncPage: EmailPage<EmailSyncViewModel>
     //Construction
     public EmailSyncPage(EmailSyncViewModel viewModel) : base(viewModel, new VerticalStackLayout())
     {
-        InitializePageLabel();
+        InitializeViewComponents();
     }
 
     protected override ScrollView PageContent => new()
@@ -20,7 +20,7 @@ public class EmailSyncPage: EmailPage<EmailSyncViewModel>
     };
 
     //View component Initialization
-    private void InitializePageLabel()
+    private void InitializeViewComponents()
     {
         PageTitleLabel = new Label
         {
