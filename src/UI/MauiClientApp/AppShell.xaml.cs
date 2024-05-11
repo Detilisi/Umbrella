@@ -1,4 +1,5 @@
-﻿using MauiClientApp.Email.EmailList.Pages;
+﻿using MauiClientApp.Email.EmailDetail.Pages;
+using MauiClientApp.Email.EmailList.Pages;
 
 namespace MauiClientApp
 {
@@ -14,6 +15,7 @@ namespace MauiClientApp
         private void RegisterRoutes()
         {
             Routing.RegisterRoute(nameof(EmailListPage), typeof(EmailListPage));
+            Routing.RegisterRoute(nameof(EmailDetailPage), typeof(EmailDetailPage));
         }
     }
 }
