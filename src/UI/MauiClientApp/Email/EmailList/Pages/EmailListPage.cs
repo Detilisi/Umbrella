@@ -1,4 +1,5 @@
-﻿using MauiClientApp.Email.EmailList.ViewModels;
+﻿using MauiClientApp.Email.EmailDetail.Pages;
+using MauiClientApp.Email.EmailList.ViewModels;
 using Umbrella.Maui.Email.EmailListing.Templates;
 
 namespace MauiClientApp.Email.EmailList.Pages;
@@ -17,9 +18,9 @@ public class EmailListPage(EmailListViewModel viewModel) : EmailPage<EmailListVi
         .Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
     };
 
-    private void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         var current = e.CurrentSelection;
-        //await Shell.Current.GoToAsync(nameof(EmailDetailPage));
+        await Shell.Current.GoToAsync(nameof(EmailDetailPage));
     }
 }
