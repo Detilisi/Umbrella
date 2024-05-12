@@ -12,9 +12,9 @@ public class EmailSenderView : ContentView
     private static Label SentAtLabel = null!;
     private static Label SenderNameLabel = null!;
 
-    private static IconView SenderIcon = null!;
-    private static IconView ListenIcon = null!;
-    private static IconView RepeatIcon = null!;
+    private static IconLabel SenderIcon = null!;
+    private static IconLabel ListenIcon = null!;
+    private static IconLabel RepeatIcon = null!;
 
     private static VerticalStackLayout? EmailDetailsLayout;
     private static HorizontalStackLayout? EmailControlsLayout;
