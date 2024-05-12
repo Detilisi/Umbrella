@@ -1,4 +1,7 @@
-﻿namespace MauiClientApp.Email.EmailDetail.Views;
+﻿using MauiClientApp.Common.Views;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace MauiClientApp.Email.EmailDetail.Views;
 
 public class EmailSenderView : ContentView
 {
@@ -12,9 +15,9 @@ public class EmailSenderView : ContentView
     private static Label SentAtLabel = null!;
     private static Label SenderNameLabel = null!;
 
-    private static Label SenderIcon = null!;
-    private static Label ListenIcon = null!;
-    private static Label RepeatIcon = null!;
+    private static IconView SenderIcon = null!;
+    private static IconView ListenIcon = null!;
+    private static IconView RepeatIcon = null!;
 
     private static VerticalStackLayout? EmailDetailsLayout;
     private static HorizontalStackLayout? EmailControlsLayout;
@@ -42,30 +45,17 @@ public class EmailSenderView : ContentView
     //View component Initialization
     private static void InitializeEmailIcons()
     {
-        SenderIcon = new()
-        {
-            Text = FontAwesomeIcons.CircleUser,
-            HorizontalOptions = LayoutOptions.Center
-        };
+        SenderIcon = new(FontAwesomeIcons.CircleUser);
 
-        ListenIcon = new()
+        ListenIcon = new(FontAwesomeIcons.Headphones)
         {
-            Text = FontAwesomeIcons.Headphones,
-            HorizontalOptions = LayoutOptions.Center
+            FontSize = 30
         };
         
-        RepeatIcon = new()
+        RepeatIcon = new(FontAwesomeIcons.Repeat)
         {
-            Text = FontAwesomeIcons.Repeat,
-            HorizontalOptions = LayoutOptions.Center
+            FontSize = 30
         };
-
-        SenderIcon.DynamicResource(View.StyleProperty, "IconLabelStyle");
-        ListenIcon.DynamicResource(View.StyleProperty, "IconLabelStyle");
-        RepeatIcon.DynamicResource(View.StyleProperty, "IconLabelStyle");
-
-        ListenIcon.FontSize = 30;
-        RepeatIcon.FontSize = 30;
     }
     private void InitializeLabels()
     {
