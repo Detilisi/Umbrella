@@ -1,4 +1,4 @@
-﻿namespace MauiClientApp.Common.Controls;
+﻿namespace MauiClientApp.Common.Views;
 
 public class IconView : Label
 {
@@ -6,6 +6,6 @@ public class IconView : Label
     public IconView(string fontIcon)
     {
         Text = fontIcon;
-        this.DynamicResource(View.StyleProperty, "IconLabelStyle");
+        this.DynamicResource(StyleProperty, "IconLabelStyle");
     }
 }
