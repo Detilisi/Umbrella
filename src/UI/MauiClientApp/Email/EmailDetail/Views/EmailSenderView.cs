@@ -1,7 +1,4 @@
-﻿using MauiClientApp.Common.Views;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace MauiClientApp.Email.EmailDetail.Views;
+﻿namespace MauiClientApp.Email.EmailDetail.Views;
 
 public class EmailSenderView : ContentView
 {
