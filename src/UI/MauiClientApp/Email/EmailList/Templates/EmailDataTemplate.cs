@@ -10,7 +10,7 @@ public class EmailDataTemplate : DataTemplate
     private enum Column { Left = 0, Center = 1, Right = 2 }
 
     //View components
-    private static Label EmailIcon = null!;
+    private static IconLabel EmailIcon = null!;
     private static Grid ContentGrid = null!;
     private static Label EmailTimeLabel = null!;
     private static Label EmailSenderLabel = null!;
@@ -27,7 +27,6 @@ public class EmailDataTemplate : DataTemplate
     //Initialization
     private static DockLayout? CreateTemplate()
     {
-        InitializeEmailIcon();
         InitializeSeparatorBoxView();
         InitializeEmailLabels();
         InitializeEmailDetailsLayout();
@@ -45,16 +44,6 @@ public class EmailDataTemplate : DataTemplate
     }
 
     //View component Initialization 
-    private static void InitializeEmailIcon()
-    {
-        EmailIcon = new()
-        {
-            Text = FontAwesomeIcons.Envelope,
-            HorizontalOptions = LayoutOptions.Center
-        };
-
-        EmailIcon.DynamicResource(View.StyleProperty, "IconLabelStyle");
-    }
     private static void InitializeSeparatorBoxView()
     {
         SeparatorBoxView = new();
@@ -64,6 +53,8 @@ public class EmailDataTemplate : DataTemplate
     private static void InitializeEmailLabels()
     {
         //Setup
+        EmailIcon = new(FontAwesomeIcons.Envelope);
+
         EmailSubjectLabel = new()
         {
             MaxLines = 1,
