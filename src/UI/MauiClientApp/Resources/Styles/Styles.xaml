@@ -8,6 +8,7 @@
     <Style TargetType="Label" x:Key="IconLabelStyle">
         <Setter Property="FontSize" Value="42"/>
         <Setter Property="FontFamily" Value="FontAwesomeSolid"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppActionColor}, Dark={StaticResource AppActionDarkColor}}" />
     </Style>
     <Style TargetType="Label">
