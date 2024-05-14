@@ -1,6 +1,4 @@
-﻿using Application.Email.Base;
-
-namespace Umbrella.Maui.Email.Base.Pages;
+﻿namespace Umbrella.Maui.Email.Base.Pages;
 
 public abstract class EmailPage<TViewModel>(TViewModel viewModel, View chatHistoryView) : 
     Page<TViewModel>(viewModel) where TViewModel : EmailViewModel 
