@@ -29,7 +29,14 @@
         <Setter Property="Shell.TabBarTitleColor" 
                 Value="{AppThemeBinding Light={StaticResource AppActionColor}, Dark={StaticResource AppActionDarkColor}}"/>
     </Style>
-
+    
+    <Style x:Key="SeparatorLine" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="2" />
+        <Setter Property="Margin" Value="0, 15, 0, 0" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="BackgroundColor" 
+        Value="{AppThemeBinding Light={StaticResource AppActionColor}, Dark={StaticResource AppActionDarkColor}}"/>
+    </Style>
 
     <!--ChatHistoryView styles-->
     <Style x:Key="ChatHistoryFrame" TargetType="Frame">
