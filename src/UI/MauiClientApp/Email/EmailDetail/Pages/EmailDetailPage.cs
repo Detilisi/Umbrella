@@ -47,6 +47,6 @@ public class EmailDetailPage: EmailPage<EmailDetailViewModel>
         
         SubjectLabel.DynamicResource(View.StyleProperty, "EmailDetailPageSubjectLabel");
         BodyTextLabel.DynamicResource(View.StyleProperty, "EmailDetailPageBodyTextLabel");
-        SeparatorBoxView.DynamicResource(View.StyleProperty, "EmailDataTemplateSeparator");
+        SeparatorBoxView.DynamicResource(View.StyleProperty, "SeparatorLine");
     }
 }
