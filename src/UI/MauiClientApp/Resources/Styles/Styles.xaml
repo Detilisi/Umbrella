@@ -48,15 +48,6 @@
         <Setter Property="BackgroundColor" Value="{StaticResource Tertiary}" />
     </Style>
 
-    <!--EmailDataTemplate styles-->
-    <Style x:Key="EmailDataTemplateSeparator" TargetType="BoxView">
-        <Setter Property="HeightRequest" Value="2" />
-        <Setter Property="Margin" Value="0, 8, 0, 10" />
-        <Setter Property="HorizontalOptions" Value="Fill" />
-        <Setter Property="BackgroundColor" 
-            Value="{AppThemeBinding Light={StaticResource AppActionColor}, Dark={StaticResource AppActionDarkColor}}"/>
-    </Style>
-
     <!--EmailDetailPage styles-->
     <Style x:Key="EmailDetailPageSubjectLabel" TargetType="Label">
         <Setter Property="Margin" Value="16" />
