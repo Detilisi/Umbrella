@@ -35,6 +35,7 @@ public class EmailDetailPage: EmailPage<EmailDetailViewModel>
     //View component Initialization
     private void InitializeViewComponents()
     {
+        SeparatorBoxView = new();
         SubjectLabel = new()
         {
             Text = BindingContext.CurrentEmail.Subject
@@ -43,11 +44,7 @@ public class EmailDetailPage: EmailPage<EmailDetailViewModel>
         {
             Text = BindingContext.CurrentEmail.Body
         };
-        SeparatorBoxView = new()
-        {
-            Margin = new Thickness(10, 0, 10, 0)
-        };
-
+        
         SubjectLabel.DynamicResource(View.StyleProperty, "EmailDetailPageSubjectLabel");
         BodyTextLabel.DynamicResource(View.StyleProperty, "EmailDetailPageBodyTextLabel");
         SeparatorBoxView.DynamicResource(View.StyleProperty, "EmailDataTemplateSeparator");
