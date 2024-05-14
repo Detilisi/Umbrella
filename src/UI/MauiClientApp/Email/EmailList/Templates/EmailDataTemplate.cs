@@ -48,7 +48,7 @@ public class EmailDataTemplate : DataTemplate
     {
         SeparatorBoxView = new();
         DockLayout.SetDockPosition(SeparatorBoxView, DockPosition.Bottom);
-        SeparatorBoxView.DynamicResource(View.StyleProperty, "EmailDataTemplateSeparator");
+        SeparatorBoxView.DynamicResource(View.StyleProperty, "SeparatorLine");
     }
     private static void InitializeEmailLabels()
     {
