@@ -4,7 +4,7 @@ using Umbrella.Maui.Email.EmailListing.Templates;
 
 namespace MauiClientApp.Email.EmailList.Pages;
 
-public class EmailListPage(EmailListViewModel viewModel) : EmailPage<EmailListViewModel>(viewModel, new VerticalStackLayout())
+public class EmailListPage(EmailListViewModel viewModel) : EmailPage<EmailListViewModel>(viewModel)
 {
     protected override ScrollView PageContent => new()
     {

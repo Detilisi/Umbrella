@@ -9,7 +9,7 @@ public class EmailSyncPage: EmailPage<EmailSyncViewModel>
     private Label PageTitleLabel = null!;
     
     //Construction
-    public EmailSyncPage(EmailSyncViewModel viewModel) : base(viewModel, new VerticalStackLayout())
+    public EmailSyncPage(EmailSyncViewModel viewModel) : base(viewModel)
     {
         InitializeViewComponents();
     }

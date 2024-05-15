@@ -1,13 +1,13 @@
 ﻿namespace Umbrella.Maui.Email.Base.Pages;
 
-public abstract class EmailPage<TViewModel>(TViewModel viewModel, View chatHistoryView) : 
+public abstract class EmailPage<TViewModel>(TViewModel viewModel) : 
     Page<TViewModel>(viewModel) where TViewModel : EmailViewModel 
 {
     //Fields
     private enum Row { Content = 0, ChatBox = 1 }
 
     //View components
-    protected View ChatHistory { set; get; } = chatHistoryView;
+    protected View ChatHistory { set; get; } = null!;
     protected abstract ScrollView PageContent { get; }
     protected Grid MainGridLayout { get; set; } = null!;
 
@@ -21,6 +21,7 @@ public abstract class EmailPage<TViewModel>(TViewModel viewModel, View chatHisto
 
     protected virtual void InitializeEmailPage()
     {
+        ChatHistory = new VerticalStackLayout();
         InitializeMainGridLayout();
 
         Padding = 0;

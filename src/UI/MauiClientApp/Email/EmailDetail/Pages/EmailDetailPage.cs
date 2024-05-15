@@ -11,7 +11,7 @@ public class EmailDetailPage: EmailPage<EmailDetailViewModel>
     private static BoxView SeparatorBoxView = null!;
     private readonly EmailSenderView EmailSenderView = null!;
     //Construction
-    public EmailDetailPage(EmailDetailViewModel viewModel) : base(viewModel, new VerticalStackLayout())
+    public EmailDetailPage(EmailDetailViewModel viewModel) : base(viewModel)
     {
         var currentEmail = BindingContext.CurrentEmail;
         EmailSenderView = new(currentEmail.SenderName, currentEmail.CreatedAt);
