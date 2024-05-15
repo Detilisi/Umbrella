@@ -4,8 +4,14 @@ using Umbrella.Maui.Email.EmailListing.Templates;
 
 namespace MauiClientApp.Email.EmailList.Pages;
 
-public class EmailListPage(EmailListViewModel viewModel) : EmailPage<EmailListViewModel>(viewModel)
+public class EmailListPage : EmailPage<EmailListViewModel>
 {
+    //Construction
+    public EmailListPage(EmailListViewModel viewModel) : base(viewModel)
+    {
+        InitializeViewComponents();
+    }
+
     protected override ScrollView PageContent => new()
     {
         Content = new CollectionView
@@ -18,6 +24,17 @@ public class EmailListPage(EmailListViewModel viewModel) : EmailPage<EmailListVi
         .Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
     };
 
+    //View component Initialization
+    private void InitializeViewComponents()
+    {
+        Shell.SetBackButtonBehavior(this, new BackButtonBehavior()
+        {
+            IsVisible = false,
+            IsEnabled = false
+        });
+    }
+
+    //Event handlers
     private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         var current = e.CurrentSelection;
