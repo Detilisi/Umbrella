@@ -56,7 +56,6 @@ public class EmailSyncIndicatorView : ContentView
             RepeatCount = -1,
             WidthRequest = 200,
             HeightRequest = 200,
-            BackgroundColor = Colors.White,
             Source = new SKFileLottieImageSource()
             {
                 File = "AnikiHamster.json"
