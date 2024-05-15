@@ -37,8 +37,13 @@ public class EmailListPage : EmailPage<EmailListViewModel>
     //Event handlers
     private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        var current = e.CurrentSelection;
-        await Shell.Current.GoToAsync(nameof(EmailDetailPage));
+        if (e.CurrentSelection.FirstOrDefault() is not EmailModel selectedEmail) return;
+
+        var navigationParameter = new Dictionary<string, object>
+        {
+            ["EmailModel"] = selectedEmail
+        };
+        await Shell.Current.GoToAsync(nameof(EmailDetailPage) + "?", navigationParameter);
     }
     protected override bool OnBackButtonPressed()
     {
