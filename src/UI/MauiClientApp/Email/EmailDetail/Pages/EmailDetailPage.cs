@@ -8,9 +8,8 @@ public class EmailDetailPage: EmailPage<EmailDetailViewModel>
     //View components
     private static Label SubjectLabel = null!;
     private static Label BodyTextLabel = null!;
-    private EmailSenderView EmailSenderView = null!;
     private static BoxView SeparatorBoxView = null!;
-
+    private readonly EmailSenderView EmailSenderView = null!;
     //Construction
     public EmailDetailPage(EmailDetailViewModel viewModel) : base(viewModel, new VerticalStackLayout())
     {
