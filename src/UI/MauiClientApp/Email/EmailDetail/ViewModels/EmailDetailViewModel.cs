@@ -2,7 +2,8 @@
 
 namespace MauiClientApp.Email.EmailDetail.ViewModels;
 
-public class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator, default)
+
+public partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator, default), IQueryAttributable
 {
     //Properties
     public EmailModel CurrentEmail { get; set; } = null!;
@@ -12,7 +13,7 @@ public class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator,
     {
         base.OnViewModelStarting(token);
 
-        await LoadCurrentEmailAsync(token);
+        //await LoadCurrentEmailAsync(token);
     }
 
     //Load methods
@@ -24,5 +25,19 @@ public class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator,
         if (emailMessage.IsFailure) return;
 
         CurrentEmail = emailMessage.Value;
+    }
+
+    //Navigation
+    public static Dictionary<string, object> CreateParameters(EmailModel selectEmail)
+    {
+        return new Dictionary<string, object>()
+        {
+            { nameof(EmailModel), selectEmail },
+        };
+    }
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        var selectedEmail = (EmailModel)query[nameof(EmailModel)];
+        CurrentEmail = selectedEmail;
     }
 }
