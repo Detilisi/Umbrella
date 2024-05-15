@@ -10,6 +10,7 @@ public class EmailDetailPage: EmailPage<EmailDetailViewModel>
     private static Label BodyTextLabel = null!;
     private static BoxView SeparatorBoxView = null!;
     private readonly EmailSenderView EmailSenderView = null!;
+
     //Construction
     public EmailDetailPage(EmailDetailViewModel viewModel) : base(viewModel)
     {
@@ -44,8 +45,8 @@ public class EmailDetailPage: EmailPage<EmailDetailViewModel>
             Text = BindingContext.CurrentEmail.Body
         };
         
-        SubjectLabel.DynamicResource(View.StyleProperty, "EmailDetailPageSubjectLabel");
-        BodyTextLabel.DynamicResource(View.StyleProperty, "EmailDetailPageBodyTextLabel");
+        SubjectLabel.DynamicResource(View.StyleProperty, "EmailSubjectLabel");
+        BodyTextLabel.DynamicResource(View.StyleProperty, "EmailBodyTextLabel");
         SeparatorBoxView.DynamicResource(View.StyleProperty, "SeparatorLine");
     }
 }
