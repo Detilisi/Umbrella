@@ -40,4 +40,8 @@ public class EmailListPage : EmailPage<EmailListViewModel>
         var current = e.CurrentSelection;
         await Shell.Current.GoToAsync(nameof(EmailDetailPage));
     }
+    protected override bool OnBackButtonPressed()
+    {
+        return true;
+    }
 }
