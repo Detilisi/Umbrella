@@ -9,15 +9,11 @@ public class EmailDetailPage: EmailPage<EmailDetailViewModel>
     private static Label SubjectLabel = null!;
     private static Label BodyTextLabel = null!;
     private static BoxView SeparatorBoxView = null!;
-    private readonly EmailSenderView EmailSenderView = null!;
+    private EmailSenderView EmailSenderView = null!;
 
     //Construction
     public EmailDetailPage(EmailDetailViewModel viewModel) : base(viewModel)
     {
-        var currentEmail = BindingContext.CurrentEmail;
-        EmailSenderView = new(currentEmail.SenderName, currentEmail.CreatedAt);
-
-        InitializeViewComponents();
     }
 
     protected override ScrollView PageContent => new()
@@ -31,6 +27,26 @@ public class EmailDetailPage: EmailPage<EmailDetailViewModel>
             BodyTextLabel
         }
     };
+
+    //Initialization
+    protected override void OnAppearing()
+    {
+        return;
+        InitializeEmailPage();
+
+        base.OnAppearing();
+    }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        var currentEmail = BindingContext.CurrentEmail;
+        EmailSenderView = new(currentEmail.SenderName, currentEmail.CreatedAt);
+
+        InitializeViewComponents();
+        InitializeEmailPage();
+    }
 
     //View component Initialization
     private void InitializeViewComponents()
