@@ -9,6 +9,7 @@ using MauiClientApp.Email.EmailSync.ViewModels;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using MauiClientApp.Email.EmailDetail.Pages;
 using MauiClientApp.Email.EmailDetail.ViewModels;
+using CommunityToolkit.Maui;
 
 namespace MauiClientApp
 {
@@ -38,12 +39,14 @@ namespace MauiClientApp
             builder.Services.AddPersistenceLayer();
             builder.Services.AddInfrastructureLayer();
             
-            //Register Views
-            builder.Services.AddTransient<EmailSyncPage, EmailSyncViewModel>();
-            builder.Services.AddTransient<EmailListPage, EmailListViewModel>();
-            builder.Services.AddTransient<EmailDetailPage, EmailDetailViewModel>();
+            //Register ViewViewModels + Pages
+            builder.Services.AddTransientWithShellRoute<EmailSyncPage, EmailSyncViewModel>(nameof(EmailSyncPage));
+            builder.Services.AddTransientWithShellRoute<EmailListPage, EmailListViewModel>(nameof(EmailListPage));
+            builder.Services.AddTransientWithShellRoute<EmailDetailPage, EmailDetailViewModel>(nameof(EmailDetailPage));
 
             return builder.Build();
         }
     }
+
+    
 }

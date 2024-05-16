@@ -1,5 +1,4 @@
 ﻿using Application.Email.Features.Commands.SyncInbox;
-using MauiClientApp.Email.EmailList.Pages;
 
 namespace MauiClientApp.Email.EmailSync.ViewModels;
 
@@ -12,7 +11,7 @@ public class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator, d
 
         //Synx emails
         await SyncEmailInboxAsync(token);
-        await Shell.Current.GoToAsync(nameof(EmailListPage));
+        await NavigationService.NavigateToViewModelAsync<EmailListViewModel>();
     }
 
     //Sync methods
