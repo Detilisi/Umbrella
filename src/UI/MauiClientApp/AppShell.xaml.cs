@@ -5,14 +5,6 @@
         public AppShell()
         {
             InitializeComponent();
-
-            RegisterRoutes();
-        }
-
-        private void RegisterRoutes()
-        {
-            Routing.RegisterRoute(nameof(EmailListPage), typeof(EmailListPage));
-            Routing.RegisterRoute(nameof(EmailDetailPage), typeof(EmailDetailPage));
         }
     }
 }
