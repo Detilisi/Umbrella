@@ -1,5 +1,4 @@
-﻿using MauiClientApp.Email.EmailSync.ViewModels;
-using MauiClientApp.Email.EmailSync.Views;
+﻿using MauiClientApp.Email.EmailSync.Views;
 
 namespace MauiClientApp.Email.EmailSync.Pages;
 
