@@ -1,5 +1,6 @@
 ﻿global using MediatR;
 global using CommunityToolkit.Maui;
+global using CommunityToolkit.Mvvm.Input;
 global using CommunityToolkit.Maui.Markup;
 global using System.Collections.ObjectModel;
 global using CommunityToolkit.Mvvm.ComponentModel;
