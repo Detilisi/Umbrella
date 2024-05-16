@@ -14,6 +14,7 @@ global using Application.Email.Abstractions.Services;
 global using Application.Common.Abstractions.DataContexts;
 
 global using MauiClientApp.Common.Base;
+global using MauiClientApp.Common.Services;
 global using MauiClientApp.Common.Views;
 global using Umbrella.Maui.Email.Base.Pages;
 global using MauiClientApp.Resources.Fonts.Icons;
