@@ -1,5 +1,4 @@
 ﻿using Application.Email.Features.Commands.SyncInbox;
-using MauiClientApp.Email.EmailList.Pages;
 
 namespace MauiClientApp.Email.EmailSync.ViewModels;
 
