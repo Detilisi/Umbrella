@@ -34,6 +34,7 @@ public class Result
 
     //Failure methods
     public static Result Failure(Error error) => new(false, error);
+    public static Result Failure(Result previousResult) => previousResult;
     public static Result<TValue> Failure<TValue>(Error error) => new(default!, false, error);
 }
 
