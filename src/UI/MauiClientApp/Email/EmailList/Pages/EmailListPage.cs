@@ -1,5 +1,4 @@
-﻿using MauiClientApp.Email.EmailDetail.Pages;
-using MauiClientApp.Email.EmailList.ViewModels;
+﻿
 using Umbrella.Maui.Email.EmailListing.Templates;
 
 namespace MauiClientApp.Email.EmailList.Pages;
@@ -43,7 +42,7 @@ public class EmailListPage : EmailPage<EmailListViewModel>
         {
             ["EmailModel"] = selectedEmail
         };
-        await Shell.Current.GoToAsync(nameof(EmailDetailPage) + "?", navigationParameter);
+        await NavigationService.NavigateToViewModelAsync<EmailDetailViewModel>(navigationParameter);
     }
     protected override bool OnBackButtonPressed()
     {
