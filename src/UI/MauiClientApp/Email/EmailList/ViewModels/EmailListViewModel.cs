@@ -2,7 +2,7 @@
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
 
-public class EmailListViewModel(IMediator mediator) : EmailViewModel(mediator, default)
+public partial class EmailListViewModel(IMediator mediator) : EmailViewModel(mediator, default)
 {
     //Properties
     public ObservableCollection<EmailModel> EmailMessageList { get; set; } = [];
@@ -28,6 +28,17 @@ public class EmailListViewModel(IMediator mediator) : EmailViewModel(mediator, d
         {
             EmailMessageList.Add(emailModel);
         }
+    }
+
+    //Commands
+    [RelayCommand]
+    public async Task OpenEmail(EmailModel selectedEmail)
+    {
+        var navigationParameter = new Dictionary<string, object>
+        {
+            [nameof(EmailModel)] = selectedEmail
+        };
+        await NavigationService.NavigateToViewModelAsync<EmailDetailViewModel>(navigationParameter);
     }
 }
 
