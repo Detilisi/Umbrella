@@ -1,6 +1,6 @@
 ﻿namespace MauiClientApp.Common.Services;
 
-internal class NavigationService
+public static class NavigationService
 {
     //Navigate
     public static async Task<Result> NavigateToViewModelAsync<TViewModel>(Dictionary<string, object> navigationParameters = default) where TViewModel : ViewModel
@@ -44,7 +44,6 @@ internal class NavigationService
             return Result.Failure<string>(new Error("NavigationFailed", $"ViewModelMapping for {viewModelType} not found"));
         }
         
-        var uri = new UriBuilder("", pageTypeMapping.Name);
-        return Result.Success(uri.Uri.OriginalString[..^1]);
+        return Result.Success(pageTypeMapping.Name);
     }
 }
