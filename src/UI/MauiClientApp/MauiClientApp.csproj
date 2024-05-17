@@ -78,8 +78,4 @@
 	  <ProjectReference Include="..\..\External\Persistance\Persistence.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Resources\Animations\" />
-	</ItemGroup>
-
 </Project>
