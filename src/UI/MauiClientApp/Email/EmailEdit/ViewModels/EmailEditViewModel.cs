@@ -10,15 +10,28 @@ internal partial class EmailEditViewModell(IMediator mediator) : EmailViewModel(
     {
         base.OnViewModelStarting(token);
 
-        //load emails
+        //Initialize edit email
+        var currentUser = new UserModel() //Must get from UserSessionService
+        { 
+            EmailAddress = "test@test.com", 
+            EmailPassword = ""
+        }; 
+
         CurrentEditEmail = new() 
         {
-            Sender = "",
-            SenderName = "",
+            Sender = currentUser.EmailAddress,
+            SenderName = currentUser.EmailAddress,
             Recipients = [],
             Subject = "",
             Body = "",
             EmailStatus = Domain.Email.Entities.Enums.EmailStatus.Draft
         };
+    }
+
+    //Commands
+    [RelayCommand]
+    public Task SendEmail()
+    {
+        return Task.CompletedTask;
     }
 }
