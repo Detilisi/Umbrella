@@ -1,5 +1,4 @@
-﻿using MauiClientApp.Email.EmailDetail.ViewModels;
-using MauiClientApp.Email.EmailDetail.Views;
+﻿using MauiClientApp.Email.EmailDetail.Views;
 
 namespace MauiClientApp.Email.EmailDetail.Pages;
 
