@@ -59,6 +59,7 @@
 	<ItemGroup>
 	  <None Remove="Resources\Fonts\Font Awesome 6 Free-Solid-900.otf" />
 	  <None Remove="Resources\Raw\AnikiHamster.json" />
+	  <None Remove="Resources\Raw\EmailSync.json" />
 	</ItemGroup>
 
 	<ItemGroup>

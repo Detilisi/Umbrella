@@ -54,11 +54,11 @@ public class EmailSyncIndicatorView : ContentView
         SyncLottieView = new SKLottieView()
         {
             RepeatCount = -1,
-            WidthRequest = 200,
-            HeightRequest = 200,
+            WidthRequest = 300,
+            HeightRequest = 300,
             Source = new SKFileLottieImageSource()
             {
-                File = "AnikiHamster.json"
+                File = "EmailSync.json"
             }
         };
     }
