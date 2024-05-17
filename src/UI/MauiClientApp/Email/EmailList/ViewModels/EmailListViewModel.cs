@@ -39,7 +39,7 @@ public partial class EmailListViewModel(IMediator mediator) : EmailViewModel(med
             [nameof(EmailModel)] = selectedEmail
         };
 
-        await NavigationService.NavigateToViewModelAsync<EmailDetailViewModel>(navigationParameter);
+        await NavigationService.NavigateToViewModelAsync<EmailEditViewModell>();
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿namespace MauiClientApp.Email.EmailEdit.ViewModels;
 
-internal partial class EmailEditViewModell(IMediator mediator) : EmailViewModel(mediator, default)
+public partial class EmailEditViewModell(IMediator mediator) : EmailViewModel(mediator, default)
 {
     //Properties
     public EmailModel CurrentEditEmail { get; set; } = null!;
@@ -22,8 +22,8 @@ internal partial class EmailEditViewModell(IMediator mediator) : EmailViewModel(
             Sender = currentUser.EmailAddress,
             SenderName = currentUser.EmailAddress,
             Recipients = [],
-            Subject = "",
-            Body = "",
+            Subject = "Subject",
+            Body = "Email Body",
             EmailStatus = Domain.Email.Entities.Enums.EmailStatus.Draft
         };
     }

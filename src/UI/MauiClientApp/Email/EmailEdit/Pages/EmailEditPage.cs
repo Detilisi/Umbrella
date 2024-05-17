@@ -1,16 +1,53 @@
-﻿using MauiClientApp.Email.EmailEdit.ViewModels;
+﻿namespace MauiClientApp.Email.EmailEdit.Pages;
 
-namespace MauiClientApp.Email.EmailEdit.Pages;
-
-internal class EmailEditPage(EmailEditViewModell viewModel) : EmailPage<EmailEditViewModell>(viewModel)
+internal class EmailEditPage : EmailPage<EmailEditViewModell>
 {
     //View components
-    private static Grid ContentGrid = null!;
-    private static Label SenderEmailLabel = null!;
-    private static Label RecipientsEmailsLabel = null!;
+    private static Entry SenderEmailEntry = null!;
+    private static Entry RecipientsEmailsEntry = null!;
 
-    private static Label SubjectLineLabel = null!;
+    private static Entry SubjectLineEntry = null!;
     private static Editor BodyTextEditor = null!;
 
-    protected override ScrollView PageContent => throw new NotImplementedException();
+    //Construction
+    public EmailEditPage(EmailEditViewModell viewModel) : base(viewModel)
+    {
+        InitializeViewComponents();
+    }
+    protected override ScrollView PageContent => new()
+    {
+        Padding = 10,
+        Content = new VerticalStackLayout()
+        {
+            SenderEmailEntry,
+            RecipientsEmailsEntry,
+            SubjectLineEntry,
+            BodyTextEditor
+        }
+    };
+
+    //View component Initialization
+    private void InitializeViewComponents()
+    {   
+        SenderEmailEntry = new()
+        {
+            Text = BindingContext.CurrentEditEmail.Sender,
+        };
+
+        RecipientsEmailsEntry = new()
+        {
+            Text = BindingContext.CurrentEditEmail.Sender,
+        };
+
+        SubjectLineEntry = new()
+        {
+            Text = BindingContext.CurrentEditEmail.Subject,
+        };
+
+        BodyTextEditor = new()
+        {
+            HeightRequest = 400,
+            Text = BindingContext.CurrentEditEmail.Body
+        };
+    }
 }
