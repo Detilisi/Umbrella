@@ -8,14 +8,6 @@ public partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel(m
     //Properties
     public EmailModel CurrentEmail { get; set; } = null!;
 
-    //Life cycle 
-    public override async void OnViewModelStarting(CancellationToken token = default)
-    {
-        base.OnViewModelStarting(token);
-
-        //await LoadCurrentEmailAsync(token);
-    }
-
     //Load methods
     private async Task LoadCurrentEmailAsync(CancellationToken token)
     {
