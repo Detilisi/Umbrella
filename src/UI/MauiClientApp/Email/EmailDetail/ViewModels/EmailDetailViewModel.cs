@@ -2,7 +2,6 @@
 
 namespace MauiClientApp.Email.EmailDetail.ViewModels;
 
-
 public partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator, default), IQueryAttributable
 {
     //Properties
@@ -20,13 +19,6 @@ public partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel(m
     }
 
     //Navigation
-    public static Dictionary<string, object> CreateParameters(EmailModel selectEmail)
-    {
-        return new Dictionary<string, object>()
-        {
-            { nameof(EmailModel), selectEmail },
-        };
-    }
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         var selectedEmail = (EmailModel)query[nameof(EmailModel)];
