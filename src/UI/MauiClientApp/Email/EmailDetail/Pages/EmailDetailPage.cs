@@ -1,9 +1,8 @@
-﻿using MauiClientApp.Email.EmailDetail.ViewModels;
-using MauiClientApp.Email.EmailDetail.Views;
+﻿using MauiClientApp.Email.EmailDetail.Views;
 
 namespace MauiClientApp.Email.EmailDetail.Pages;
 
-public class EmailDetailPage: EmailPage<EmailDetailViewModel>
+public class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<EmailDetailViewModel>(viewModel)
 {
     //View components
     private static Label SubjectLabel = null!;
@@ -12,10 +11,6 @@ public class EmailDetailPage: EmailPage<EmailDetailViewModel>
     private EmailSenderView EmailSenderView = null!;
 
     //Construction
-    public EmailDetailPage(EmailDetailViewModel viewModel) : base(viewModel)
-    {
-    }
-
     protected override ScrollView PageContent => new()
     {
         Padding = 10,
@@ -29,20 +24,12 @@ public class EmailDetailPage: EmailPage<EmailDetailViewModel>
     };
 
     //Initialization
-    protected override void OnAppearing()
-    {
-        return;
-        InitializeEmailPage();
-
-        base.OnAppearing();
-    }
-
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
 
         var currentEmail = BindingContext.CurrentEmail;
-        EmailSenderView = new(currentEmail.SenderName, currentEmail.CreatedAt);
+        EmailSenderView = new(currentEmail.SenderName??currentEmail.Sender, currentEmail.CreatedAt);
 
         InitializeViewComponents();
         InitializeEmailPage();
