@@ -49,9 +49,14 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
 
         BodyTextEditor = new()
         {
-            HeightRequest = 400,
             Placeholder = "Body:",
+            AutoSize = EditorAutoSizeOption.TextChanges,
             Text = BindingContext.CurrentEditEmail.Body
         };
+
+        SenderEmailEntry.DynamicResource(View.StyleProperty, "EmailEntry");
+        RecipientsEmailsEntry.DynamicResource(View.StyleProperty, "EmailEntry");
+        SubjectLineEntry.DynamicResource(View.StyleProperty, "EmailEntry");
+        BodyTextEditor.DynamicResource(View.StyleProperty, "EmailEditor");
     }
 }
