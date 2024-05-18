@@ -31,23 +31,32 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
     {   
         SenderEmailEntry = new()
         {
+            Placeholder = "From:",
             Text = BindingContext.CurrentEditEmail.Sender,
         };
 
         RecipientsEmailsEntry = new()
         {
+            Placeholder = "To:",
             Text = BindingContext.CurrentEditEmail.Sender,
         };
 
         SubjectLineEntry = new()
         {
+            Placeholder = "Subject:",
             Text = BindingContext.CurrentEditEmail.Subject,
         };
 
         BodyTextEditor = new()
         {
-            HeightRequest = 400,
+            Placeholder = "Body:",
+            AutoSize = EditorAutoSizeOption.TextChanges,
             Text = BindingContext.CurrentEditEmail.Body
         };
+
+        SenderEmailEntry.DynamicResource(View.StyleProperty, "EmailEntry");
+        RecipientsEmailsEntry.DynamicResource(View.StyleProperty, "EmailEntry");
+        SubjectLineEntry.DynamicResource(View.StyleProperty, "EmailEntry");
+        BodyTextEditor.DynamicResource(View.StyleProperty, "EmailEditor");
     }
 }

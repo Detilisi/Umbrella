@@ -19,7 +19,7 @@
     <Color x:Key="AppSubTitleDarkColor">#E1E1E1</Color>
 
     <Color x:Key="Secondary">#909CC2</Color>
-    <Color x:Key="SecondaryDarkText">#363E51</Color>
+    <Color x:Key="SecondaryDarkText">#c3c9de</Color>
 
     <Color x:Key="Tertiary">#F0F8FF</Color>
 

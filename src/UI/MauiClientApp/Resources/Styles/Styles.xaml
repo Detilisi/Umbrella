@@ -78,4 +78,28 @@
         <Setter Property="TextColor" 
             Value="{AppThemeBinding Light={StaticResource AppTitleColor}, Dark={StaticResource AppTitleDarkColor}}"/>
     </Style>
+
+    <!--EmailEditPage styles-->
+    <Style x:Key="EmailEntry" TargetType="Entry">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Margin" Value="0, 0, 0, 6" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        <Setter Property="TextColor" 
+            Value="{AppThemeBinding Light={StaticResource AppTitleColor}, Dark={StaticResource AppTitleDarkColor}}"/>
+        <Setter Property="PlaceholderColor" 
+            Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDarkText}}"/>
+    </Style>
+    <Style x:Key="EmailEditor" TargetType="Editor">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="HeightRequest" Value="400" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        <Setter Property="TextColor" 
+        Value="{AppThemeBinding Light={StaticResource AppTitleColor}, Dark={StaticResource AppTitleDarkColor}}"/>
+        <Setter Property="PlaceholderColor" 
+        Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDarkText}}"/>
+    </Style>
+
+
 </ResourceDictionary>
