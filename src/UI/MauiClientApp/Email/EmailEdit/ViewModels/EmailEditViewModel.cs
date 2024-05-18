@@ -13,8 +13,8 @@ public partial class EmailEditViewModell(IMediator mediator) : EmailViewModel(me
         //Initialize edit email
         var currentUser = new UserModel() //Must get from UserSessionService
         { 
-            EmailAddress = "test@test.com", 
-            EmailPassword = ""
+            EmailAddress = string.Empty, 
+            EmailPassword = string.Empty
         }; 
 
         CurrentEditEmail = new() 
@@ -22,8 +22,8 @@ public partial class EmailEditViewModell(IMediator mediator) : EmailViewModel(me
             Sender = currentUser.EmailAddress,
             SenderName = currentUser.EmailAddress,
             Recipients = [],
-            Subject = "Subject",
-            Body = "Email Body",
+            Subject = string.Empty,
+            Body = string.Empty,
             EmailStatus = Domain.Email.Entities.Enums.EmailStatus.Draft
         };
     }
