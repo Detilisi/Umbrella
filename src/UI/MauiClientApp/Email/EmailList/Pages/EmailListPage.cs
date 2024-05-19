@@ -25,11 +25,25 @@ public class EmailListPage : EmailPage<EmailListViewModel>
     //View component Initialization
     private void InitializeViewComponents()
     {
+        Title = "Inbox";
         Shell.SetBackButtonBehavior(this, new BackButtonBehavior()
         {
             IsVisible = false,
             IsEnabled = false
         });
+
+        var outBoxToolbarItem = new ToolbarItem
+        {
+            IconImageSource = new FontImageSource
+            {
+                Size = 30,
+                FontFamily = "FontAwesomeSolid",
+                Glyph = FontAwesomeIcons.PenClip
+            },
+            Command = new Command(async () => await BindingContext.WriteEmailCommand.ExecuteAsync(null))
+        };
+
+        ToolbarItems.Add(outBoxToolbarItem);
     }
 
     //Event handlers
