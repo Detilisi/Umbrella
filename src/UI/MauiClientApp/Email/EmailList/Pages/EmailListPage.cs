@@ -25,11 +25,30 @@ public class EmailListPage : EmailPage<EmailListViewModel>
     //View component Initialization
     private void InitializeViewComponents()
     {
+        Title = "Inbox";
         Shell.SetBackButtonBehavior(this, new BackButtonBehavior()
         {
             IsVisible = false,
             IsEnabled = false
         });
+
+        // Create ToolbarItem for high brightness
+        var highBrightnessToolbarItem = new ToolbarItem
+        {
+            //Command = new Command(async () => await ViewModel.SetHighBrightnessCommand.ExecuteAsync(null)) // Adjust this as per your ViewModel
+        };
+
+        var highBrightnessIcon = new FontImageSource
+        {
+            FontFamily = "FontAwesomeSolid",
+            Glyph = FontAwesomeIcons.PenClip,
+            Size = 30
+        };
+
+        highBrightnessToolbarItem.IconImageSource = highBrightnessIcon;
+
+        // Add ToolbarItems to the ContentPage
+        ToolbarItems.Add(highBrightnessToolbarItem);
     }
 
     //Event handlers
