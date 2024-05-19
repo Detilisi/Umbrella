@@ -32,23 +32,18 @@ public class EmailListPage : EmailPage<EmailListViewModel>
             IsEnabled = false
         });
 
-        // Create ToolbarItem for high brightness
-        var highBrightnessToolbarItem = new ToolbarItem
+        var outBoxToolbarItem = new ToolbarItem
         {
-            //Command = new Command(async () => await ViewModel.SetHighBrightnessCommand.ExecuteAsync(null)) // Adjust this as per your ViewModel
+            IconImageSource = new FontImageSource
+            {
+                Size = 30,
+                FontFamily = "FontAwesomeSolid",
+                Glyph = FontAwesomeIcons.PenClip
+            },
+            Command = new Command(async () => await BindingContext.WriteEmailCommand.ExecuteAsync(null))
         };
 
-        var highBrightnessIcon = new FontImageSource
-        {
-            FontFamily = "FontAwesomeSolid",
-            Glyph = FontAwesomeIcons.PenClip,
-            Size = 30
-        };
-
-        highBrightnessToolbarItem.IconImageSource = highBrightnessIcon;
-
-        // Add ToolbarItems to the ContentPage
-        ToolbarItems.Add(highBrightnessToolbarItem);
+        ToolbarItems.Add(outBoxToolbarItem);
     }
 
     //Event handlers
