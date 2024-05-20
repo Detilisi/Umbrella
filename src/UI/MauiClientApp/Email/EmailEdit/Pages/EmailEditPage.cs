@@ -12,6 +12,7 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
     //Construction
     public EmailEditPage(EmailEditViewModell viewModel) : base(viewModel)
     {
+        InitializeShell();
         InitializeViewComponents();
     }
     protected override ScrollView PageContent => new()
@@ -27,6 +28,27 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
     };
 
     //View component Initialization
+    private void InitializeShell()
+    {
+        Title = "Draft";
+        Shell.SetBackButtonBehavior(this, new BackButtonBehavior()
+        {
+            IsVisible = false,
+            IsEnabled = false
+        });
+
+        var sendToolbarItem = new ToolbarItem
+        {
+            IconImageSource = new FontImageSource
+            {
+                Size = 30,
+                FontFamily = "FontAwesomeSolid",
+                Glyph = FontAwesomeIcons.PaperPlane
+            }
+        };
+
+        ToolbarItems.Add(sendToolbarItem);
+    }
     private void InitializeViewComponents()
     {   
         SenderEmailEntry = new()
