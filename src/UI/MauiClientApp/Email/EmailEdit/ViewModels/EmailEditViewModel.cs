@@ -30,8 +30,8 @@ public partial class EmailEditViewModell(IMediator mediator) : EmailViewModel(me
 
     //Commands
     [RelayCommand]
-    public Task SendEmail()
+    public async Task SendEmail()
     {
-        return Task.CompletedTask;
+        await NavigationService.NavigateToViewModelAsync<EmailListViewModel>();
     }
 }
