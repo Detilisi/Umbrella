@@ -44,7 +44,8 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
                 Size = 30,
                 FontFamily = "FontAwesomeSolid",
                 Glyph = FontAwesomeIcons.PaperPlane
-            }
+            },
+            Command = new Command(async () => await BindingContext.SendEmailCommand.ExecuteAsync(null))
         };
 
         ToolbarItems.Add(sendToolbarItem);
