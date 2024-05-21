@@ -31,12 +31,6 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
     private void InitializeShell()
     {
         Title = "Draft";
-        Shell.SetBackButtonBehavior(this, new BackButtonBehavior()
-        {
-            IsVisible = false,
-            IsEnabled = false
-        });
-
         var sendToolbarItem = new ToolbarItem
         {
             IconImageSource = new FontImageSource
