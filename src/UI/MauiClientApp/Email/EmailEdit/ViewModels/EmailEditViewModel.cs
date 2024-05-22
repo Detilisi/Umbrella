@@ -3,7 +3,8 @@
 public partial class EmailEditViewModell(IMediator mediator) : EmailViewModel(mediator, default)
 {
     //Properties
-    public EmailModel CurrentEditEmail { get; set; } = null!;
+    [ObservableProperty]
+    public EmailModel currentEditEmail = null!;
 
     //Life cycle 
     public override void OnViewModelStarting(CancellationToken token = default)
