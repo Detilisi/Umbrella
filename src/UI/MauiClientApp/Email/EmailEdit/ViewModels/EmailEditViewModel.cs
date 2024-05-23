@@ -25,7 +25,7 @@ public partial class EmailEditViewModell(IMediator mediator) : EmailViewModel(me
             Recipients = [],
             Subject = string.Empty,
             Body = string.Empty,
-            EmailStatus = Domain.Email.Entities.Enums.EmailStatus.Draft
+            EmailType = Domain.Email.Entities.Enums.EmailType.Draft
         };
     }
 
