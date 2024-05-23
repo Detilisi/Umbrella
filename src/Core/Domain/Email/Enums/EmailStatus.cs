@@ -2,5 +2,5 @@
 
 public enum EmailStatus
 {
-    Sent, Read, UnRead, Starred, Archived, Draft
+    Sent, Read, UnRead, Starred, Archived
 }
