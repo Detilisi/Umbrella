@@ -3,7 +3,7 @@
 public class EmailModel : Model
 {
     //Properties
-    public EmailType Type { get; set; }
+    public EmailType EmailType { get; set; }
     public EmailStatus EmailStatus { get; set; }
     
     public required string Body { get; set; }
@@ -21,7 +21,7 @@ public class EmailModel : Model
             EntityId = emailEntity.Id,
             CreatedAt = emailEntity.CreatedAt,
             ModifiedAt = emailEntity.ModifiedAt,
-            Type = emailEntity.Type,
+            EmailType = emailEntity.Type,
             EmailStatus = emailEntity.EmailStatus,
             Body = emailEntity.Body.Value,
             Subject = emailEntity.Subject.Value,
