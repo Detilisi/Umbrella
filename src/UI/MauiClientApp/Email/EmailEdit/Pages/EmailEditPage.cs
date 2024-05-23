@@ -13,7 +13,7 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
     public EmailEditPage(EmailEditViewModell viewModel) : base(viewModel)
     {
         InitializeShell();
-        InitializeViewComponents();
+        EmailEditPage.InitializeViewComponents();
     }
     protected override ScrollView PageContent => new()
     {
@@ -39,25 +39,22 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
                 FontFamily = "FontAwesomeSolid",
                 Glyph = FontAwesomeIcons.PaperPlane
             },
-            Command = BindingContext.SendEmailCommand
+            Command = new Command(async () => await BindingContext.SendEmailCommand.ExecuteAsync(EmailEditPage.ViewInputValues))
         };
 
         ToolbarItems.Add(sendToolbarItem);
     }
     
-    private void InitializeViewComponents()
+    private static void InitializeViewComponents()
     {
         SenderEmailEntry = new Entry{ Placeholder = "From:" };
         SenderEmailEntry.DynamicResource(StyleProperty, "EmailEntry");
-        SenderEmailEntry.SetBinding(Entry.TextProperty, nameof(BindingContext.CurrentEditEmail.Sender), mode: BindingMode.TwoWay);
 
         RecipientsEmailsEntry = new Entry{ Placeholder = "To:" };
         RecipientsEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
-        RecipientsEmailsEntry.SetBinding(Entry.TextProperty, nameof(BindingContext.CurrentEditEmail.Recipients), mode: BindingMode.TwoWay);
 
         SubjectLineEntry = new Entry{ Placeholder = "Subject:" };
         SubjectLineEntry.DynamicResource(StyleProperty, "EmailEntry");
-        SubjectLineEntry.SetBinding(Entry.TextProperty, nameof(BindingContext.CurrentEditEmail.Subject), mode: BindingMode.TwoWay);
 
         BodyTextEditor = new Editor
         {
@@ -65,6 +62,16 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
             AutoSize = EditorAutoSizeOption.TextChanges
         };
         BodyTextEditor.DynamicResource(StyleProperty, "EmailEditor");
-        BodyTextEditor.SetBinding(Editor.TextProperty, nameof(BindingContext.CurrentEditEmail.Body), mode: BindingMode.TwoWay);     
     }
+
+    private static EmailModel ViewInputValues => new()
+    {
+        Sender = SenderEmailEntry.Text,
+        SenderName = SenderEmailEntry.Text,
+        Recipients = [RecipientsEmailsEntry.Text],
+        Subject = SubjectLineEntry.Text,
+        Body = BodyTextEditor.Text,
+        EmailType = Domain.Email.Entities.Enums.EmailType.Draft
+    };
+    
 }
