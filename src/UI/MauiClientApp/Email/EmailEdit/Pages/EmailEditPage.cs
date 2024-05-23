@@ -39,41 +39,32 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
                 FontFamily = "FontAwesomeSolid",
                 Glyph = FontAwesomeIcons.PaperPlane
             },
-            Command = new Command(async () => await BindingContext.SendEmailCommand.ExecuteAsync(null))
+            Command = BindingContext.SendEmailCommand
         };
 
         ToolbarItems.Add(sendToolbarItem);
     }
+    
     private void InitializeViewComponents()
-    {   
-        SenderEmailEntry = new()
-        {
-            Placeholder = "From:",
-            Text = BindingContext.CurrentEditEmail.Sender,
-        };
+    {
+        SenderEmailEntry = new Entry{ Placeholder = "From:" };
+        SenderEmailEntry.DynamicResource(StyleProperty, "EmailEntry");
+        SenderEmailEntry.SetBinding(Entry.TextProperty, nameof(BindingContext.CurrentEditEmail.Sender), mode: BindingMode.TwoWay);
 
-        RecipientsEmailsEntry = new()
-        {
-            Placeholder = "To:",
-            Text = BindingContext.CurrentEditEmail.Sender,
-        };
+        RecipientsEmailsEntry = new Entry{ Placeholder = "To:" };
+        RecipientsEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
+        RecipientsEmailsEntry.SetBinding(Entry.TextProperty, nameof(BindingContext.CurrentEditEmail.Recipients), mode: BindingMode.TwoWay);
 
-        SubjectLineEntry = new()
-        {
-            Placeholder = "Subject:",
-            Text = BindingContext.CurrentEditEmail.Subject,
-        };
+        SubjectLineEntry = new Entry{ Placeholder = "Subject:" };
+        SubjectLineEntry.DynamicResource(StyleProperty, "EmailEntry");
+        SubjectLineEntry.SetBinding(Entry.TextProperty, nameof(BindingContext.CurrentEditEmail.Subject), mode: BindingMode.TwoWay);
 
-        BodyTextEditor = new()
+        BodyTextEditor = new Editor
         {
             Placeholder = "Body:",
-            AutoSize = EditorAutoSizeOption.TextChanges,
-            Text = BindingContext.CurrentEditEmail.Body
+            AutoSize = EditorAutoSizeOption.TextChanges
         };
-
-        SenderEmailEntry.DynamicResource(View.StyleProperty, "EmailEntry");
-        RecipientsEmailsEntry.DynamicResource(View.StyleProperty, "EmailEntry");
-        SubjectLineEntry.DynamicResource(View.StyleProperty, "EmailEntry");
-        BodyTextEditor.DynamicResource(View.StyleProperty, "EmailEditor");
+        BodyTextEditor.DynamicResource(StyleProperty, "EmailEditor");
+        BodyTextEditor.SetBinding(Editor.TextProperty, nameof(BindingContext.CurrentEditEmail.Body), mode: BindingMode.TwoWay);     
     }
 }
