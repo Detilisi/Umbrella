@@ -14,7 +14,7 @@ public class EmailModel : Model
     public List<string> Recipients { get; set; } = [];
 
     //Methods
-    public static EmailModel CreateFromEntity(EmailEntity emailEntity)
+    internal static EmailModel CreateFromEntity(EmailEntity emailEntity)
     {
         return new EmailModel
         {
@@ -31,7 +31,7 @@ public class EmailModel : Model
         };
     }
 
-    public EmailEntity ToEmailEntity()
+    internal EmailEntity ToEmailEntity()
     {
         var emailEntity = EmailEntity.Create(
             EmailAddress.Create(Sender),
