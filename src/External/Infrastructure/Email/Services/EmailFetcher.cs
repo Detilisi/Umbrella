@@ -73,7 +73,7 @@ public class EmailFetcher : IEmailFetcher, IDisposable
         
         return new EmailModel
         {
-            Type = EmailType.Email,
+            EmailType = EmailType.Email,
             EmailStatus = EmailStatus.UnRead,
             Recipients = [_currentUser.EmailAddress],
             CreatedAt = mimeMessage.Date.DateTime,
