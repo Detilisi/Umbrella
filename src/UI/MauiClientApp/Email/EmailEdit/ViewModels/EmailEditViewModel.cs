@@ -2,36 +2,15 @@
 
 public partial class EmailEditViewModell(IMediator mediator) : EmailViewModel(mediator, default)
 {
-    //Properties
-    [ObservableProperty]
-    public EmailModel currentEditEmail = null!;
-
     //Life cycle 
     public override void OnViewModelStarting(CancellationToken token = default)
     {
         base.OnViewModelStarting(token);
-
-        //Initialize edit email
-        var currentUser = new UserModel() //Must get from UserSessionService
-        { 
-            EmailAddress = string.Empty, 
-            EmailPassword = string.Empty
-        }; 
-
-        CurrentEditEmail = new() 
-        {
-            Sender = currentUser.EmailAddress,
-            SenderName = currentUser.EmailAddress,
-            Recipients = [],
-            Subject = string.Empty,
-            Body = string.Empty,
-            EmailType = Domain.Email.Entities.Enums.EmailType.Draft
-        };
     }
 
     //Commands
     [RelayCommand]
-    public async Task SendEmail(EmailModel emailModel)
+    public static async Task SendEmail(EmailModel emailModel)
     {
         await NavigationService.NavigateToViewModelAsync<EmailListViewModel>();
     }
