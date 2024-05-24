@@ -13,10 +13,10 @@ public partial class EmailEditViewModel(IMediator mediator) : EmailViewModel(med
 
         EmailDraft = new() 
         {
-            Sender = "sender@gmail.com",
-            SenderName = string.Empty,
-            Subject = string.Empty,
             Body = string.Empty,
+            Subject = string.Empty,
+            Sender = UserSessionService.CurrentUser.EmailAddress,
+            SenderName = UserSessionService.CurrentUser.UserName,
         };
     }
 
