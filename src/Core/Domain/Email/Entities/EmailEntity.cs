@@ -12,7 +12,7 @@ public class EmailEntity : Entity
     public EmailBodyText Body { get; }
     public EmailSubjectLine Subject { get; }
     public EmailAddress Sender { get; }
-    public string? SenderName { get; set; }
+    public string SenderName { get; set; }
     public List<EmailAddress> Recipients { get; }
 
     //Construction
