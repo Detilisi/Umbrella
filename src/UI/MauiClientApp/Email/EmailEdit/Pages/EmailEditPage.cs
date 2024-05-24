@@ -3,17 +3,16 @@
 internal class EmailEditPage : EmailPage<EmailEditViewModel>
 {
     //View components
-    private static Entry SenderEmailEntry = null!;
-    private static Entry RecipientsEmailsEntry = null!;
-
-    private static Entry SubjectLineEntry = null!;
-    private static Editor BodyTextEditor = null!;
+    private Editor BodyTextEditor = null!;
+    private Entry SubjectLineEntry = null!;
+    private Entry SenderEmailEntry = null!;
+    private Entry RecipientsEmailsEntry = null!;
 
     //Construction
     public EmailEditPage(EmailEditViewModel viewModel) : base(viewModel)
     {
         InitializeShell();
-        EmailEditPage.InitializeViewComponents();
+        InitializeViewComponents();
     }
     protected override ScrollView PageContent => new()
     {
@@ -31,7 +30,8 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
     private void InitializeShell()
     {
         Title = "Draft";
-        var sendToolbarItem = new ToolbarItem
+
+        ToolbarItems.Add(new ToolbarItem
         {
             IconImageSource = new FontImageSource
             {
@@ -40,12 +40,10 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
                 Glyph = FontAwesomeIcons.PaperPlane
             },
             Command = BindingContext.SendEmailCommand
-        };
-
-        ToolbarItems.Add(sendToolbarItem);
+        });
     }
-    
-    private static void InitializeViewComponents()
+
+    private void InitializeViewComponents()
     {
         RecipientsEmailsEntry = new Entry { Placeholder = "To:" };
         RecipientsEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
