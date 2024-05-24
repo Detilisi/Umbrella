@@ -19,8 +19,8 @@ public class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator, d
     {
         var syncCommand = new SyncInboxCommand()
         {
-            EmailAddress = "",
-            EmailPassword = "",
+            EmailAddress = UserSessionService.CurrentUser.EmailAddress,
+            EmailPassword = UserSessionService.CurrentUser.EmailPassword,
         };
 
         var syncResult = await _mediator.Send(syncCommand, token);
