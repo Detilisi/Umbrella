@@ -5,9 +5,9 @@ namespace MauiClientApp.Email.EmailDetail.Pages;
 public class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<EmailDetailViewModel>(viewModel)
 {
     //View components
-    private static Label SubjectLabel = null!;
-    private static Label BodyTextLabel = null!;
-    private static BoxView SeparatorBoxView = null!;
+    private Label SubjectLabel = null!;
+    private Label BodyTextLabel = null!;
+    private BoxView SeparatorBoxView = null!;
     private EmailSenderView EmailSenderView = null!;
 
     //Construction
