@@ -10,7 +10,7 @@ public class EmailModel : Model
     public required string Subject { get; set; }
 
     public required string Sender { get; set; }
-    public required string? SenderName { get; set; }
+    public required string SenderName { get; set; }
     public List<string> Recipients { get; set; } = [];
 
     //Methods
