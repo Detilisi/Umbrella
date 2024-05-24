@@ -19,8 +19,8 @@ public partial class EmailEditViewModel(IMediator mediator, IEmailSender emailSe
             Recipients = [],
             Body = string.Empty,
             Subject = string.Empty,
+            SenderName = string.Empty,
             Sender = UserSessionService.CurrentUser.EmailAddress,
-            SenderName = UserSessionService.CurrentUser.UserName,
         };
     }
 
