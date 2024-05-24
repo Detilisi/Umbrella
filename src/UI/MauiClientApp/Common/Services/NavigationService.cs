@@ -29,7 +29,7 @@ public static class NavigationService
         new KeyValuePair<Type, Type>(typeof(EmailSyncViewModel), typeof(EmailSyncPage)),
         new KeyValuePair<Type, Type>(typeof(EmailListViewModel), typeof(EmailListPage)),
         new KeyValuePair<Type, Type>(typeof(EmailDetailViewModel), typeof(EmailDetailPage)),
-        new KeyValuePair<Type, Type>(typeof(EmailEditViewModell), typeof(EmailEditPage)),
+        new KeyValuePair<Type, Type>(typeof(EmailEditViewModel), typeof(EmailEditPage)),
     ]);
 
     private static Result<string> GetPageRoute<TViewModel>() where TViewModel : ViewModel //ViewModel to page routes

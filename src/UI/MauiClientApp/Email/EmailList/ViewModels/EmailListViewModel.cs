@@ -45,7 +45,7 @@ public partial class EmailListViewModel(IMediator mediator) : EmailViewModel(med
     [RelayCommand]
     public async Task WriteEmail()
     {
-        await NavigationService.NavigateToViewModelAsync<EmailEditViewModell>();
+        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
     }
 }
 

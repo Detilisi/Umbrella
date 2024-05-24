@@ -1,6 +1,6 @@
 ﻿namespace MauiClientApp.Email.EmailEdit.ViewModels;
 
-public partial class EmailEditViewModell(IMediator mediator) : EmailViewModel(mediator, default)
+public partial class EmailEditViewModel(IMediator mediator) : EmailViewModel(mediator, default)
 {
     //Properties
     [ObservableProperty]
