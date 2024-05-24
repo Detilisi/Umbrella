@@ -1,7 +1,4 @@
-﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System.Net.Mail;
-
-namespace Application.Email.Features.Commands.SyncInbox;
+﻿namespace Application.Email.Features.Commands.SyncInbox;
 
 internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IEmailFetcher emailFetcher) : IRequestHandler<SyncInboxCommand, Result<int>>
 {
