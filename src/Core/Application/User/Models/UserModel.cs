@@ -11,7 +11,7 @@ public class UserModel : Model
     public string EmailDomain => this.EmailAddress[(this.EmailAddress.LastIndexOf('@') + 1)..] ?? string.Empty;
 
     //Methods
-    public static UserModel CreateFromEntity(UserEntity userEntity)
+    internal static UserModel CreateFromEntity(UserEntity userEntity)
     {
         return new UserModel()
         {
