@@ -39,7 +39,7 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
                 FontFamily = "FontAwesomeSolid",
                 Glyph = FontAwesomeIcons.PaperPlane
             },
-            Command = new Command(async () => await BindingContext.SendEmailCommand.ExecuteAsync(EmailEditPage.ViewInputValues))
+            Command = BindingContext.SendEmailCommand
         };
 
         ToolbarItems.Add(sendToolbarItem);
@@ -47,14 +47,18 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
     
     private static void InitializeViewComponents()
     {
+        RecipientsEmailsEntry = new Entry { Placeholder = "To:" };
+        RecipientsEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
+
         SenderEmailEntry = new Entry{ Placeholder = "From:" };
         SenderEmailEntry.DynamicResource(StyleProperty, "EmailEntry");
-
-        RecipientsEmailsEntry = new Entry{ Placeholder = "To:" };
-        RecipientsEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
+        SenderEmailEntry.Bind(Entry.TextProperty, static (EmailEditViewModell vm) => vm.EmailDraft.Sender, 
+            static (EmailEditViewModell vm, string text) => vm.EmailDraft.Sender = text);
 
         SubjectLineEntry = new Entry{ Placeholder = "Subject:" };
         SubjectLineEntry.DynamicResource(StyleProperty, "EmailEntry");
+        SubjectLineEntry.Bind(Entry.TextProperty, static (EmailEditViewModell vm) => vm.EmailDraft.Subject,
+            static (EmailEditViewModell vm, string text) => vm.EmailDraft.Subject = text);
 
         BodyTextEditor = new Editor
         {
@@ -62,16 +66,7 @@ internal class EmailEditPage : EmailPage<EmailEditViewModell>
             AutoSize = EditorAutoSizeOption.TextChanges
         };
         BodyTextEditor.DynamicResource(StyleProperty, "EmailEditor");
+        BodyTextEditor.Bind(Editor.TextProperty, static (EmailEditViewModell vm) => vm.EmailDraft.Body,
+            static (EmailEditViewModell vm, string text) => vm.EmailDraft.Body = text);
     }
-
-    private static EmailModel ViewInputValues => new()
-    {
-        Sender = SenderEmailEntry.Text,
-        SenderName = SenderEmailEntry.Text,
-        Recipients = [RecipientsEmailsEntry.Text],
-        Subject = SubjectLineEntry.Text,
-        Body = BodyTextEditor.Text,
-        EmailType = Domain.Email.Entities.Enums.EmailType.Draft
-    };
-    
 }
