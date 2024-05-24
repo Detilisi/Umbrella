@@ -47,6 +47,8 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
     {
         RecipientsEmailsEntry = new Entry { Placeholder = "To:" };
         RecipientsEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
+        RecipientsEmailsEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.SenderName,
+            static (EmailEditViewModel vm, string text) => vm.EmailDraft.Recipients = [text]);
 
         SenderEmailEntry = new Entry{ Placeholder = "From:" };
         SenderEmailEntry.DynamicResource(StyleProperty, "EmailEntry");
