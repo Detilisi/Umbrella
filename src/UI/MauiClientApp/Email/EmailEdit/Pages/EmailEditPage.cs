@@ -45,11 +45,6 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
 
     private void InitializeViewComponents()
     {
-        RecipientsEmailsEntry = new Entry { Placeholder = "To:" };
-        RecipientsEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
-        RecipientsEmailsEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.SenderName,
-            static (EmailEditViewModel vm, string text) => vm.EmailDraft.Recipients = [text]);
-
         SenderEmailEntry = new Entry{ Placeholder = "From:" };
         SenderEmailEntry.DynamicResource(StyleProperty, "EmailEntry");
         SenderEmailEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.Sender, 
@@ -59,6 +54,11 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
         SubjectLineEntry.DynamicResource(StyleProperty, "EmailEntry");
         SubjectLineEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.Subject,
             static (EmailEditViewModel vm, string text) => vm.EmailDraft.Subject = text);
+
+        RecipientsEmailsEntry = new Entry { Placeholder = "To:" };
+        RecipientsEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
+        RecipientsEmailsEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.SenderName,
+            static (EmailEditViewModel vm, string text) => vm.EmailDraft.Recipients = [text]);
 
         BodyTextEditor = new Editor
         {
