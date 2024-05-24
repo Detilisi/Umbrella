@@ -25,7 +25,7 @@ public class EmailDataTemplate : DataTemplate
     }
 
     //Initialization
-    private static DockLayout? CreateTemplate()
+    private static DockLayout CreateTemplate()
     {
         InitializeSeparatorBoxView();
         InitializeEmailLabels();
