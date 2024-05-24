@@ -5,7 +5,7 @@ namespace Infrastructure.Email.Settings;
 internal class SmtpSettings
 {
     //Constants
-    public static readonly EmailSettings Gmail = new("Gmail", "smtp.gmail.com", 587, true);
+    public static readonly EmailSettings Gmail = new("Gmail", "smtp.gmail.com", 465, true);
     public static readonly EmailSettings Yahoo = new("Yahoo", "smtp.mail.yahoo.com", 587, true);
     public static readonly EmailSettings Outlook = new("Outlook", "smtp.office365.com", 587, true);
 
