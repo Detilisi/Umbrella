@@ -1,4 +1,4 @@
-﻿namespace Application.User.Abstractions;
+﻿namespace Application.User.Abstractions.Services;
 
 public interface IUserSessionService
 {

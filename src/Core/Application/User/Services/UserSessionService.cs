@@ -1,4 +1,4 @@
-﻿using Application.User.Abstractions;
+﻿using Application.User.Abstractions.Services;
 using Application.User.Errors;
 
 namespace Application.User.Services;
