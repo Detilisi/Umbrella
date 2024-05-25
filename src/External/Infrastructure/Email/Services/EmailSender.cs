@@ -30,7 +30,7 @@ public class EmailSender : IEmailSender, IDisposable
         await _smtpClient.ConnectAsync(settings.Value.Server, settings.Value.Port, settings.Value.UseSsl, token);
 
         //Authenticate user
-        await _smtpClient.AuthenticateAsync(emailAddress, emailAddress, token);
+        await _smtpClient.AuthenticateAsync(emailAddress, password, token);
         return Result.Success();
     }
     public async Task<Result> SendEmailAsync(EmailModel message, CancellationToken token = default)
