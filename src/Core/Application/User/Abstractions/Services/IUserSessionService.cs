@@ -2,7 +2,7 @@
 
 public interface IUserSessionService
 {
-    public Result CreateSession(UserModel user, CancellationToken token = default);
-    public Result<UserModel> GetCurrentSession(CancellationToken token = default);
-    public Result DeleteCurrentSession(CancellationToken token = default);
+    public Result CreateSession(UserModel user);
+    public Result<UserModel> GetCurrentSession();
+    public Result DeleteCurrentSession();
 }

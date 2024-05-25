@@ -8,7 +8,7 @@ public class UserSessionService : IUserSessionService
     private static bool _isAuthenticated;
     private static UserModel? _currentUser;
 
-    public Result CreateSession(UserModel currentUser, CancellationToken token = default)
+    public Result CreateSession(UserModel currentUser)
     {
         if (_isAuthenticated) return Result.Success();
 
@@ -18,7 +18,7 @@ public class UserSessionService : IUserSessionService
         return Result.Success();
     }
 
-    public Result DeleteCurrentSession(CancellationToken token = default)
+    public Result DeleteCurrentSession()
     {
         if (!_isAuthenticated) return Result.Success();
 
@@ -28,7 +28,7 @@ public class UserSessionService : IUserSessionService
         return Result.Success();
     }
 
-    public Result<UserModel> GetCurrentSession(CancellationToken token = default)
+    public Result<UserModel> GetCurrentSession()
     {
         if (!_isAuthenticated || _currentUser is null)
         {

@@ -1,11 +1,13 @@
-﻿using Application.User.Errors;
+﻿using Application.User.Abstractions.Services;
+using Application.User.Errors;
 
 namespace Application.User.Features.Queries.LoginUser;
 
-public class LoginUserQueryHandler(IApplicationDbContext dbContext) : IRequestHandler<LoginUserQuery, Result<UserModel>>
+public class LoginUserQueryHandler(IApplicationDbContext dbContext, IUserSessionService userSessionService) : IRequestHandler<LoginUserQuery, Result<UserModel>>
 {
     //Fields
     private readonly IApplicationDbContext _dbContext = dbContext;
+    private readonly IUserSessionService _userSessionService = userSessionService;
 
     //Handle method
     public async Task<Result<UserModel>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
@@ -19,6 +21,8 @@ public class LoginUserQueryHandler(IApplicationDbContext dbContext) : IRequestHa
         if (!passwordValid) return Result.Failure<UserModel>(AuthenticationErrors.PasswordInvalid);
 
         var userModel = UserModel.CreateFromEntity(userEntity);
+        _userSessionService.CreateSession(userModel);
+
         return Result.Success(userModel);
     }
 }
