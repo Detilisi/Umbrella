@@ -10,6 +10,6 @@ global using Domain.Email.ValueObjects;
 global using MediatR;
 global using Microsoft.EntityFrameworkCore;
 global using Shared.Common.Results;
-
+global using Application.User.Abstractions.Services;
 
 

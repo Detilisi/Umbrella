@@ -1,6 +1,4 @@
-﻿using Application.User.Abstractions.Services;
-
-namespace Application.Email.Features.Commands.SyncInbox;
+﻿namespace Application.Email.Features.Commands.SyncInbox;
 
 internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IUserSessionService userSessionService, IEmailFetcher emailFetcher) : IRequestHandler<SyncInboxCommand, Result<int>>
 {
