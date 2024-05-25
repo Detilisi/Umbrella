@@ -9,7 +9,6 @@ namespace Infrastructure.Email.Services;
 public class EmailFetcher : IEmailFetcher, IDisposable
 {
     //Fields
-    private UserModel _currentUser = null!;
     private readonly ImapClient _imapClient = new();
 
     //Properties
@@ -77,7 +76,7 @@ public class EmailFetcher : IEmailFetcher, IDisposable
         {
             EmailType = EmailType.Email,
             EmailStatus = EmailStatus.UnRead,
-            Recipients = [_currentUser.EmailAddress],
+            Recipients = [EmailAddress],
             CreatedAt = mimeMessage.Date.DateTime,
             Sender = senderAddress,
             SenderName = senderName,
