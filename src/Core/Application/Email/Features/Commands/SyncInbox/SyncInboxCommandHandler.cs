@@ -24,6 +24,8 @@ internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IUserSes
             var loadEmailsResult = await _emailFetcher.LoadEmailsAsync(tokem);
             if (loadEmailsResult.IsFailure) return Result.Failure<int>(loadEmailsResult.Error);
 
+            _emailFetcher.Dispose();
+
             //Save loaded emails to database
             foreach (var emailModel in loadEmailsResult.Value)
             {
