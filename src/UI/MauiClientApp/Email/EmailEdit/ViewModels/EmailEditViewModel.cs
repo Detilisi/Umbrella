@@ -1,9 +1,13 @@
 ﻿using Application.Email.Features.Commands.SendEmail;
+using Application.User.Abstractions.Services;
 
 namespace MauiClientApp.Email.EmailEdit.ViewModels;
 
-public partial class EmailEditViewModel(IMediator mediator) : EmailViewModel(mediator, default)
+public partial class EmailEditViewModel(IMediator mediator, IUserSessionService userSessionService) : EmailViewModel(mediator, default)
 {
+    //Fields
+    private readonly IUserSessionService _userSessionService = userSessionService;
+
     //Properties
     [ObservableProperty]
     public EmailModel emailDraft = null!;
@@ -13,13 +17,16 @@ public partial class EmailEditViewModel(IMediator mediator) : EmailViewModel(med
     {
         base.OnViewModelStarting(token);
 
+        var currentUserResult = _userSessionService.GetCurrentSession();
+        if (currentUserResult.IsFailure) return; //Handle error
+
         EmailDraft = new() 
         {
             Recipients = [],
             Body = string.Empty,
             Subject = string.Empty,
             SenderName = string.Empty,
-            Sender = UserSessionService.CurrentUser.EmailAddress,
+            Sender = currentUserResult.Value.EmailAddress,
         };
     }
 
