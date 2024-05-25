@@ -14,15 +14,12 @@ public class RegisterUserCommandHandler(IApplicationDbContext dbContext, IEmailF
     {
         try
         {
-            //Load emails from server
-            var connectResult = await _emailFetcher.ConnectAsync(request, cancellationToken);
-            if (connectResult.IsFailure) return Result.Failure<int>(Error.GenericError);
-
-            var loadEmailsResult = await _emailFetcher.LoadEmailsAsync(cancellationToken);
-            if (loadEmailsResult.IsFailure) return Result.Failure<int>(Error.GenericError);
+            //Connect to email server
+            var connectResult = await _emailFetcher.ConnectAsync(request.EmailAddress, request.EmailPassword, cancellationToken);
+            if (connectResult.IsFailure) return Result.Failure<int>(connectResult.Error);
+            _emailFetcher.Dispose();
 
             //Save loaded emails to database
-
             var userEntity = UserEntity.Create
             (
                 EmailAddress.Create(request.EmailAddress),
