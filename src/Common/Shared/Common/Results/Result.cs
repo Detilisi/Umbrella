@@ -3,7 +3,7 @@
 public class Result
 {
     //Properties
-    public Error? Error { get; }
+    public Error Error { get; }
     public bool IsSuccess { get; }
     public bool IsFailure => !IsSuccess;
 
