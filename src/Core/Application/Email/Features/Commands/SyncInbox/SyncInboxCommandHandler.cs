@@ -2,7 +2,7 @@
 
 namespace Application.Email.Features.Commands.SyncInbox;
 
-internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IUserSessionService userSessionService ,IEmailFetcher emailFetcher) : IRequestHandler<SyncInboxCommand, Result<int>>
+internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IUserSessionService userSessionService, IEmailFetcher emailFetcher) : IRequestHandler<SyncInboxCommand, Result<int>>
 {
     //Fields
     private readonly IEmailFetcher _emailFetcher = emailFetcher;
