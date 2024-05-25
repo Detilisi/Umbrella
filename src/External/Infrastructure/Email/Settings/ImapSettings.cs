@@ -10,8 +10,9 @@ internal class ImapSettings
     public static readonly EmailSettings Outlook = new("Outlook", "outlook.office365.com", 993, true);
 
     //Helper methods
-    public static Result<EmailSettings> FindServerSettings(string emailDomain)
+    public static Result<EmailSettings> FindServerSettings(string emailAddress)
     {
+        var emailDomain = emailAddress[(emailAddress.LastIndexOf('@') + 1)..];
         return emailDomain.ToLower() switch
         {
             "gmail.com" => Result.Success(Gmail),

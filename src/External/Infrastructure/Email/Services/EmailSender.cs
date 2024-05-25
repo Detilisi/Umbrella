@@ -19,18 +19,18 @@ public class EmailSender : IEmailSender, IDisposable
     }
 
     //Methods
-    public async Task<Result> ConnectAsync(UserModel userModel, CancellationToken token = default)
+    public async Task<Result> ConnectAsync(string emailAddress, string password, CancellationToken token = default)
     {
         if (IsConnected) Result.Success();
 
-        var settings = SmtpSettings.FindServerSettings(userModel.EmailDomain);
+        var settings = SmtpSettings.FindServerSettings(emailAddress);
         if (settings.IsFailure) return Result.Failure(Error.Cancelled);
 
         //Connect to server
         await _smtpClient.ConnectAsync(settings.Value.Server, settings.Value.Port, settings.Value.UseSsl, token);
 
         //Authenticate user
-        await _smtpClient.AuthenticateAsync(userModel.EmailAddress, userModel.EmailPassword, token);
+        await _smtpClient.AuthenticateAsync(emailAddress, emailAddress, token);
         return Result.Success();
     }
     public async Task<Result> SendEmailAsync(EmailModel message, CancellationToken token = default)

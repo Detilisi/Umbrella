@@ -7,5 +7,5 @@ public interface IEmailSender
 
     //Methods
     Task<Result> SendEmailAsync(EmailModel message, CancellationToken token = default);
-    Task<Result> ConnectAsync(UserModel userModel, CancellationToken token = default);
+    Task<Result> ConnectAsync(string emailAddress, string password, CancellationToken token = default);
 }
