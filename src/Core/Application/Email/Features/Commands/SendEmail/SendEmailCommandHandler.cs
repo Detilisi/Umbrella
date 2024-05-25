@@ -1,6 +1,6 @@
 ﻿namespace Application.Email.Features.Commands.SendEmail;
 
-public class SendEmailCommandHandler(IUserSessionService userSessionService, IEmailSender emailSender) : IRequestHandler<SendEmailCommand, Result<int>>
+internal class SendEmailCommandHandler(IUserSessionService userSessionService, IEmailSender emailSender) : IRequestHandler<SendEmailCommand, Result<int>>
 {
     //Fields
     private readonly IEmailSender _emailSender = emailSender;
