@@ -13,7 +13,7 @@ internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IUserSes
         {
             //Load emails from server
             var currentUserResult = _userSessionService.GetCurrentSession();
-            if(currentUserResult.IsFailure) Result.Failure<int>(currentUserResult.Error);
+            if(currentUserResult.IsFailure) return Result.Failure<int>(currentUserResult.Error);
 
             var currentUser = currentUserResult.Value;
             var connectResult = await _emailFetcher.ConnectAsync(currentUser.EmailAddress, currentUser.EmailPassword, token);
