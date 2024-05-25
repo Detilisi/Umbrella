@@ -9,10 +9,10 @@ namespace Infrastructure.Email.Services;
 public class EmailFetcher : IEmailFetcher, IDisposable
 {
     //Fields
-    private UserModel _currentUser = null!;
     private readonly ImapClient _imapClient = new();
-    
+
     //Properties
+    private string EmailAddress { get; set; } = string.Empty;
     public bool IsConnected => _imapClient.IsConnected && _imapClient.IsAuthenticated;
 
     //Construction
@@ -23,19 +23,19 @@ public class EmailFetcher : IEmailFetcher, IDisposable
     }
 
     //Methods
-    public async Task<Result> ConnectAsync(UserModel userModel, CancellationToken token = default)
+    public async Task<Result> ConnectAsync(string emailAddress, string password, CancellationToken token = default)
     {
         if (IsConnected) Result.Success();
 
-        _currentUser = userModel;
-        var settings = ImapSettings.FindServerSettings(userModel.EmailDomain);
+        EmailAddress = emailAddress;
+        var settings = ImapSettings.FindServerSettings(emailAddress);
         if (settings.IsFailure) return Result.Failure(Error.Cancelled);
 
         //Connect to server
         await _imapClient.ConnectAsync(settings.Value.Server, settings.Value.Port, settings.Value.UseSsl, token);
 
         //Authenticate user
-        await _imapClient.AuthenticateAsync(userModel.EmailAddress, userModel.EmailPassword, token);
+        await _imapClient.AuthenticateAsync(emailAddress, password, token);
         return Result.Success();
     }
 
@@ -76,7 +76,7 @@ public class EmailFetcher : IEmailFetcher, IDisposable
         {
             EmailType = EmailType.Email,
             EmailStatus = EmailStatus.UnRead,
-            Recipients = [_currentUser.EmailAddress],
+            Recipients = [EmailAddress],
             CreatedAt = mimeMessage.Date.DateTime,
             Sender = senderAddress,
             SenderName = senderName,

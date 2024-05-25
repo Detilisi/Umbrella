@@ -1,21 +1,28 @@
 ﻿namespace Application.Email.Features.Commands.SyncInbox;
 
-internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IEmailFetcher emailFetcher) : IRequestHandler<SyncInboxCommand, Result<int>>
+internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IUserSessionService userSessionService, IEmailFetcher emailFetcher) : IRequestHandler<SyncInboxCommand, Result<int>>
 {
     //Fields
     private readonly IEmailFetcher _emailFetcher = emailFetcher;
     private readonly IApplicationDbContext _dbContext = dbContext;
+    private readonly IUserSessionService _userSessionService = userSessionService;
 
-    public async Task<Result<int>> Handle(SyncInboxCommand request, CancellationToken cancellationToken)
+    public async Task<Result<int>> Handle(SyncInboxCommand request, CancellationToken token)
     {
         try
         {
             //Load emails from server
-            var connectResult = await _emailFetcher.ConnectAsync(request, cancellationToken);
-            if (connectResult.IsFailure) return Result.Failure<int>(Error.GenericError);
+            var currentUserResult = _userSessionService.GetCurrentSession();
+            if(currentUserResult.IsFailure) return Result.Failure<int>(currentUserResult.Error);
 
-            var loadEmailsResult = await _emailFetcher.LoadEmailsAsync(cancellationToken);
-            if (loadEmailsResult.IsFailure) return Result.Failure<int>(Error.GenericError);
+            var currentUser = currentUserResult.Value;
+            var connectResult = await _emailFetcher.ConnectAsync(currentUser.EmailAddress, currentUser.EmailPassword, token);
+            if (connectResult.IsFailure) return Result.Failure<int>(connectResult.Error);
+
+            var loadEmailsResult = await _emailFetcher.LoadEmailsAsync(token);
+            if (loadEmailsResult.IsFailure) return Result.Failure<int>(loadEmailsResult.Error);
+
+            _emailFetcher.Dispose();
 
             //Save loaded emails to database
             foreach (var emailModel in loadEmailsResult.Value)
@@ -28,7 +35,7 @@ internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IEmailFe
                 _dbContext.Emails.Add(emailEntity);
             }
             
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(token);
 
             return Result.Success(loadEmailsResult.Value.Count);
         }

@@ -1,9 +1,12 @@
-﻿namespace MauiClientApp.Email.EmailEdit.ViewModels;
+﻿using Application.Email.Features.Commands.SendEmail;
+using Application.User.Abstractions.Services;
 
-public partial class EmailEditViewModel(IMediator mediator, IEmailSender emailSender) : EmailViewModel(mediator, default)
+namespace MauiClientApp.Email.EmailEdit.ViewModels;
+
+public partial class EmailEditViewModel(IMediator mediator, IUserSessionService userSessionService) : EmailViewModel(mediator, default)
 {
     //Fields
-    private readonly IEmailSender _emailSender = emailSender;
+    private readonly IUserSessionService _userSessionService = userSessionService;
 
     //Properties
     [ObservableProperty]
@@ -14,13 +17,16 @@ public partial class EmailEditViewModel(IMediator mediator, IEmailSender emailSe
     {
         base.OnViewModelStarting(token);
 
+        var currentUserResult = _userSessionService.GetCurrentSession();
+        if (currentUserResult.IsFailure) return; //Handle error
+
         EmailDraft = new() 
         {
             Recipients = [],
             Body = string.Empty,
             Subject = string.Empty,
             SenderName = string.Empty,
-            Sender = UserSessionService.CurrentUser.EmailAddress,
+            Sender = currentUserResult.Value.EmailAddress,
         };
     }
 
@@ -28,11 +34,9 @@ public partial class EmailEditViewModel(IMediator mediator, IEmailSender emailSe
     [RelayCommand]
     public async Task SendEmail()
     {
-        var connectResult = await _emailSender.ConnectAsync(UserSessionService.CurrentUser);
-        if (connectResult.IsFailure) return;//Handle error
-        
-        var sendResult = await _emailSender.SendEmailAsync(EmailDraft);
-        if (sendResult.IsFailure) return;//Handle error
+        var sendCommand = new SendEmailCommand(EmailDraft);
+        var sendEmailResult = await _mediator.Send(sendCommand);
+        if (sendEmailResult.IsFailure) return; // handle error
 
         await NavigationService.NavigateToViewModelAsync<EmailListViewModel>();
     }
