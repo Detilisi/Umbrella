@@ -18,10 +18,10 @@ internal class SendEmailCommandHandler(IUserSessionService userSessionService, I
             var connectResult = await _emailSender.ConnectAsync(currentUser.EmailAddress, currentUser.EmailPassword, token);
             if (connectResult.IsFailure) return Result.Failure<int>(connectResult.Error);
 
-            var sendResult = await _emailSender.SendEmailAsync(request, token);
+            var sendResult = await _emailSender.SendEmailAsync(request.EmailMessage, token);
             if (sendResult.IsFailure) return Result.Failure<int>(sendResult.Error);
 
-            return Result.Success(request.EntityId);
+            return Result.Success(request.EmailMessage.EntityId);
         }
         catch (Exception ex)
         {

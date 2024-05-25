@@ -20,6 +20,6 @@ public class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator, d
         var syncCommand = new SyncInboxCommand();
 
         var syncResult = await _mediator.Send(syncCommand, token);
-        if (syncResult.IsFailure) return;
+        if (syncResult.IsFailure) return; // handle error
     }
 }

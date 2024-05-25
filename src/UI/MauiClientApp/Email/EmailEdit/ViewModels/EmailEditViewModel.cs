@@ -1,10 +1,9 @@
-﻿namespace MauiClientApp.Email.EmailEdit.ViewModels;
+﻿using Application.Email.Features.Commands.SendEmail;
 
-public partial class EmailEditViewModel(IMediator mediator, IEmailSender emailSender) : EmailViewModel(mediator, default)
+namespace MauiClientApp.Email.EmailEdit.ViewModels;
+
+public partial class EmailEditViewModel(IMediator mediator) : EmailViewModel(mediator, default)
 {
-    //Fields
-    private readonly IEmailSender _emailSender = emailSender;
-
     //Properties
     [ObservableProperty]
     public EmailModel emailDraft = null!;
@@ -28,11 +27,9 @@ public partial class EmailEditViewModel(IMediator mediator, IEmailSender emailSe
     [RelayCommand]
     public async Task SendEmail()
     {
-        var connectResult = await _emailSender.ConnectAsync(UserSessionService.CurrentUser);
-        if (connectResult.IsFailure) return;//Handle error
-        
-        var sendResult = await _emailSender.SendEmailAsync(EmailDraft);
-        if (sendResult.IsFailure) return;//Handle error
+        var sendCommand = new SendEmailCommand(EmailDraft);
+        var sendEmailResult = await _mediator.Send(sendCommand);
+        if (sendEmailResult.IsFailure) return; // handle error
 
         await NavigationService.NavigateToViewModelAsync<EmailListViewModel>();
     }
