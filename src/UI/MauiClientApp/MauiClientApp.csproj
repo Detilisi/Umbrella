@@ -78,4 +78,8 @@
 	  <ProjectReference Include="..\..\External\Persistance\Persistence.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="User\Login\" />
+	</ItemGroup>
+
 </Project>

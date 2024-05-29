@@ -2,5 +2,5 @@
 
 public class SendEmailCommand(EmailModel emailModel) : IRequest<Result<int>>
 {
-    public EmailModel EmailMessage { get; } = emailModel;
+    internal EmailModel EmailMessage { get; } = emailModel;
 }
