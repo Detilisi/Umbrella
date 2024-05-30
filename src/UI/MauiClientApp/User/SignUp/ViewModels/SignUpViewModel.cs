@@ -15,6 +15,8 @@ internal partial class SignUpViewModel(IMediator mediator) : ViewModel
     [RelayCommand]
     public async Task RegisterUser()
     {
+        if(string.IsNullOrEmpty(UserEmail) || string.IsNullOrEmpty(UserPassword)) return;
+
         var registerUsercommand = new RegisterUserCommand()
         {
             EmailAddress = UserEmail,
