@@ -14,6 +14,10 @@
     <Style TargetType="Label">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource AppTitleColor}, Dark={StaticResource AppTitleDarkColor}}" />
     </Style>
+    <Style TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource Tertiary}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource AppActionColor}, Dark={StaticResource AppActionDarkColor}}"/>
+    </Style>
 
     <Style TargetType="Page" ApplyToDerivedTypes="True">
         <Setter Property="Padding" Value="0"/>
