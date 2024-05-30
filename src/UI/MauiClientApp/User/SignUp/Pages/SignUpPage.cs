@@ -7,6 +7,7 @@ internal class SignUpPage : Page<SignUpViewModel>
     //View components
     private Entry EmailEntry = null!;
     private Entry PasswordEntry = null!;
+    private Button SignUpButton = null!;
 
     //Construction
     public SignUpPage(SignUpViewModel viewModel) : base(viewModel)
@@ -20,7 +21,8 @@ internal class SignUpPage : Page<SignUpViewModel>
             {
                 new SignUpHeaderView(),
                 EmailEntry,
-                PasswordEntry
+                PasswordEntry,
+                SignUpButton
             }
         };
     }
@@ -40,5 +42,13 @@ internal class SignUpPage : Page<SignUpViewModel>
         PasswordEntry.DynamicResource(StyleProperty, "SignUpEntry");
         PasswordEntry.Bind(Entry.TextProperty, static (SignUpViewModel vm) => vm.UserPassword,
             static (SignUpViewModel vm, string text) => vm.UserPassword = text);
+
+        SignUpButton = new Button()
+        {
+            Text = "Next",
+            FontSize = 24,
+            WidthRequest = 300,
+            Command = BindingContext.RegisterUserCommand
+        };
     }
 }
