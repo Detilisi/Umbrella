@@ -29,12 +29,16 @@ internal class SignUpPage : Page<SignUpViewModel>
     {
         EmailEntry = new Entry { Placeholder = "Email:" };
         EmailEntry.DynamicResource(StyleProperty, "SignUpEntry");
-        EmailEntry.Bind(Entry.TextProperty, static (SignUpViewModel vm) => vm.NewUser.EmailAddress,
-            static (SignUpViewModel vm, string text) => vm.NewUser.EmailAddress = text);
+        EmailEntry.Bind(Entry.TextProperty, static (SignUpViewModel vm) => vm.UserEmail,
+            static (SignUpViewModel vm, string text) => vm.UserEmail = text);
 
-        PasswordEntry = new Entry { Placeholder = "Password:" };
+        PasswordEntry = new Entry 
+        { 
+            Placeholder = "Password:",
+            IsPassword = true 
+        };
         PasswordEntry.DynamicResource(StyleProperty, "SignUpEntry");
-        PasswordEntry.Bind(Entry.TextProperty, static (SignUpViewModel vm) => vm.NewUser.EmailAddress,
-            static (SignUpViewModel vm, string text) => vm.NewUser.EmailAddress = text);
+        PasswordEntry.Bind(Entry.TextProperty, static (SignUpViewModel vm) => vm.UserPassword,
+            static (SignUpViewModel vm, string text) => vm.UserPassword = text);
     }
 }
