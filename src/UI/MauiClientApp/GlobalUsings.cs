@@ -28,3 +28,5 @@ global using MauiClientApp.Email.EmailSync.Pages;
 global using MauiClientApp.Email.EmailSync.ViewModels;
 global using MauiClientApp.Email.EmailEdit.Pages;
 global using MauiClientApp.Email.EmailEdit.ViewModels;
+global using MauiClientApp.User.SignUp.Pages;
+global using MauiClientApp.User.SignUp.ViewModels;
