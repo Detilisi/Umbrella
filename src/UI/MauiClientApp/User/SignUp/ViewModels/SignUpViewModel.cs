@@ -18,7 +18,8 @@ internal partial class SignUpViewModel(IMediator mediator) : ViewModel
         var registerUsercommand = new RegisterUserCommand()
         {
             EmailAddress = UserEmail,
-            EmailPassword = UserPassword
+            EmailPassword = UserPassword,
+            UserName = UserEmail
         };
         var registerUserResult = await _mediator.Send(registerUsercommand);
         if (registerUserResult.IsFailure) return; // handle error
