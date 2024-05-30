@@ -8,19 +8,18 @@ internal partial class SignUpViewModel(IMediator mediator) : ViewModel
     protected readonly IMediator _mediator = mediator;
 
     //Properties
-    public UserModel NewUser { get; set; } = null!;
-
-    //Life cycle 
-    public override void OnViewModelStarting(CancellationToken token = default)
-    {
-        NewUser = new() { EmailAddress = ""};
-    }
+    public string UserEmail { set; get; } = null!;
+    public string UserPassword { set; get; } = null!;
 
     //Commands
     [RelayCommand]
     public async Task RegisterUser()
     {
-        var registerUsercommand = new RegisterUserCommand(NewUser);
+        var registerUsercommand = new RegisterUserCommand()
+        {
+            EmailAddress = UserEmail,
+            EmailPassword = UserPassword
+        };
         var registerUserResult = await _mediator.Send(registerUsercommand);
         if (registerUserResult.IsFailure) return; // handle error
 
