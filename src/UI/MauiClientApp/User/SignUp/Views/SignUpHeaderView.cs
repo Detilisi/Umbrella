@@ -26,13 +26,8 @@ internal class SignUpHeaderView : ContentView
     //View component Initialization
     private void InitializeComponents()
     {
-        HeaderLabel = new Label()
-        {
-            FontSize = 32,
-            Text = "Sign up",
-            FontAttributes = FontAttributes.Bold,
-            HorizontalTextAlignment = TextAlignment.Center,
-        };
+        HeaderLabel = new Label(){ Text = "Sign up" };
+        HeaderLabel.DynamicResource(StyleProperty, "SignUpHeaderLabel");
 
         var headerImage = new Image
         {
@@ -52,7 +47,7 @@ internal class SignUpHeaderView : ContentView
             HeightRequest = 250,
             Content = headerImage,
             IsClippedToBounds = true,
-            BackgroundColor = Colors.GhostWhite,
+            BackgroundColor = Colors.White,
             HorizontalOptions = LayoutOptions.Center,
         };
     }

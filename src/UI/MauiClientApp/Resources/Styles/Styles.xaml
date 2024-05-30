@@ -96,10 +96,28 @@
         <Setter Property="HorizontalTextAlignment" Value="Start" />
         <Setter Property="HorizontalOptions" Value="FillAndExpand" />
         <Setter Property="TextColor" 
-        Value="{AppThemeBinding Light={StaticResource AppTitleColor}, Dark={StaticResource AppTitleDarkColor}}"/>
+            Value="{AppThemeBinding Light={StaticResource AppTitleColor}, Dark={StaticResource AppTitleDarkColor}}"/>
         <Setter Property="PlaceholderColor" 
-        Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDarkText}}"/>
+            Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDarkText}}"/>
     </Style>
 
+    <!--SignUpPage styles-->
+    <Style x:Key="SignUpHeaderLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="TextColor" 
+            Value="{AppThemeBinding Light={StaticResource AppActionColor}, Dark={StaticResource AppActionDarkColor}}"/>
+    </Style>
+    <Style x:Key="SignUpEntry" TargetType="Entry">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="WidthRequest" Value="300" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="TextColor" 
+            Value="{AppThemeBinding Light={StaticResource AppTitleColor}, Dark={StaticResource AppTitleDarkColor}}"/>
+        <Setter Property="PlaceholderColor" 
+            Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDarkText}}"/>
+    </Style>
 
 </ResourceDictionary>
