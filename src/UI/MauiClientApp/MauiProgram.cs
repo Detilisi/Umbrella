@@ -37,6 +37,7 @@ namespace MauiClientApp
             builder.Services.AddTransientWithShellRoute<EmailListPage, EmailListViewModel>(nameof(EmailListPage));
             builder.Services.AddTransientWithShellRoute<EmailDetailPage, EmailDetailViewModel>(nameof(EmailDetailPage));
             builder.Services.AddTransientWithShellRoute<EmailEditPage, EmailEditViewModel>(nameof(EmailEditPage));
+            builder.Services.AddTransientWithShellRoute<SignUpPage, SignUpViewModel>(nameof(SignUpPage));
 
             return builder.Build();
         }

@@ -28,7 +28,7 @@ internal class SignUpHeaderView : ContentView
     {
         HeaderLabel = new Label()
         {
-            FontSize = 22,
+            FontSize = 32,
             Text = "Sign up",
             FontAttributes = FontAttributes.Bold,
             HorizontalTextAlignment = TextAlignment.Center,
@@ -36,8 +36,8 @@ internal class SignUpHeaderView : ContentView
 
         var headerImage = new Image
         {
-            HeightRequest = 300,
-            WidthRequest = 300,
+            HeightRequest = 200,
+            WidthRequest = 200,
             Source = "sign_up.png",
             Aspect = Aspect.AspectFit,
             VerticalOptions = LayoutOptions.Center,
@@ -47,15 +47,13 @@ internal class SignUpHeaderView : ContentView
         HeaderFrameImage = new Frame
         {
             Padding = 0,
-            CornerRadius = 70,
-            WidthRequest = 310,
-            HeightRequest = 310,
+            CornerRadius = 120,
+            WidthRequest = 250,
+            HeightRequest = 250,
             Content = headerImage,
             IsClippedToBounds = true,
-            BorderColor = Colors.Gray,
-            Margin = new Thickness(0, 0, 0, 0),
             BackgroundColor = Colors.GhostWhite,
-            HorizontalOptions = LayoutOptions.Center
+            HorizontalOptions = LayoutOptions.Center,
         };
     }
 }
