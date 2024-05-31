@@ -18,6 +18,7 @@ internal class SyncInboxCommandHandler(IApplicationDbContext dbContext, IUserSes
             var currentUser = currentUserResult.Value;
             var connectResult = await _emailFetcher.ConnectAsync(currentUser.EmailAddress, currentUser.EmailPassword, token);
             if (connectResult.IsFailure) return Result.Failure<int>(connectResult.Error);
+            _emailFetcher.Dispose();
 
             var loadEmailsResult = await _emailFetcher.LoadEmailsAsync(token);
             if (loadEmailsResult.IsFailure) return Result.Failure<int>(loadEmailsResult.Error);
