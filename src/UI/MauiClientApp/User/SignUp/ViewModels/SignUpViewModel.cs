@@ -1,5 +1,6 @@
 ﻿using Application.Common.Abstractions.Services;
 using Application.User.Features.Commands.RegisterUser;
+using Application.User.Features.Queries.AutoLoginUser;
 
 namespace MauiClientApp.User.SignUp.ViewModels;
 
@@ -12,6 +13,19 @@ internal partial class SignUpViewModel(IMediator mediator, IEncryptionService en
     //Properties
     public string UserEmail { set; get; } = null!;
     public string UserPassword { set; get; } = null!;
+
+    //Life cycle 
+    public override async void OnViewModelStarting(CancellationToken token = default)
+    {
+        base.OnViewModelStarting(token);
+
+        var autoLoginUserQuery = new AutoLoginUserQuery();
+        var autoLoginUserResult = await _mediator.Send(autoLoginUserQuery);
+        if (autoLoginUserResult.IsSuccess)
+        {
+            await NavigationService.NavigateToViewModelAsync<EmailSyncViewModel>();
+        }
+    }
 
     //Commands
     [RelayCommand]
