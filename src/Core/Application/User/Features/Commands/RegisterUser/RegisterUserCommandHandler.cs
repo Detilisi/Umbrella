@@ -22,14 +22,14 @@ public class RegisterUserCommandHandler
         try
         {
             //Connect to email server
-            var connectResult = await _emailFetcher.ConnectAsync(request.EmailAddress, request.EmailPassword, cancellationToken);
+            var connectResult = await _emailFetcher.ConnectAsync(request.EmailAddress, request.EncrytedPassword, cancellationToken);
             if (connectResult.IsFailure) return Result.Failure<int>(connectResult.Error);
 
             //Save loaded emails to database
             var userEntity = UserEntity.Create
             (
                 EmailAddress.Create(request.EmailAddress),
-                EmailPassword.Create(request.EmailPassword),
+                EmailPassword.Create(request.EncrytedPassword),
                 request.UserName
             );
 

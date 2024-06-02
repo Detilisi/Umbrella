@@ -5,7 +5,7 @@ namespace Application.User.Models;
 public class UserModel : Model
 {
     //Properties
-    public string EmailPassword { get; set; } = string.Empty;
+    public string EncrytedPassword { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
     public required string EmailAddress { get; set; } = string.Empty;
     
@@ -19,7 +19,7 @@ public class UserModel : Model
             ModifiedAt = userEntity.ModifiedAt,
             UserName = userEntity.UserName,
             EmailAddress = userEntity.EmailAddress.Value,
-            EmailPassword = userEntity.EmailPassword.Value
+            EncrytedPassword = userEntity.EmailPassword.Value
         };
     }
 }

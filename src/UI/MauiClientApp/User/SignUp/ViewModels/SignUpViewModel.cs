@@ -22,7 +22,7 @@ internal partial class SignUpViewModel(IMediator mediator, IEncryptionService en
         var registerUsercommand = new RegisterUserCommand()
         {
             EmailAddress = UserEmail,
-            EmailPassword = encryptedPasssword,
+            EncrytedPassword = encryptedPasssword,
             UserName = UserEmail
         };
         var registerUserResult = await _mediator.Send(registerUsercommand);
