@@ -1,5 +1,4 @@
-﻿using Application.User.Models;
-using Domain.User.Entities;
+﻿using Domain.User.Entities;
 using Domain.User.ValueObjects;
 
 namespace Application.User.Features.Commands.RegisterUser;
