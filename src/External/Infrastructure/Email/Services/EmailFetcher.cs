@@ -10,14 +10,16 @@ public class EmailFetcher : IEmailFetcher, IDisposable
 {
     //Fields
     private readonly ImapClient _imapClient = new();
-
+    private readonly IEncryptionService _encryptionService;
     //Properties
     private string EmailAddress { get; set; } = string.Empty;
     public bool IsConnected => _imapClient.IsConnected && _imapClient.IsAuthenticated;
 
     //Construction
-    public EmailFetcher()
+    public EmailFetcher(IEncryptionService encryptionService)
     {
+        _encryptionService = encryptionService;
+
        //Set up client
         _imapClient.CheckCertificateRevocation = false;
     }
@@ -25,7 +27,7 @@ public class EmailFetcher : IEmailFetcher, IDisposable
     //Methods
     public async Task<Result> ConnectAsync(string emailAddress, string password, CancellationToken token = default)
     {
-        if (IsConnected) Result.Success();
+        if (IsConnected) return Result.Success();
 
         EmailAddress = emailAddress;
         var settings = ImapSettings.FindServerSettings(emailAddress);
@@ -35,7 +37,8 @@ public class EmailFetcher : IEmailFetcher, IDisposable
         await _imapClient.ConnectAsync(settings.Value.Server, settings.Value.Port, settings.Value.UseSsl, token);
 
         //Authenticate user
-        await _imapClient.AuthenticateAsync(emailAddress, password, token);
+        var decryptedPassword = _encryptionService.Decrypt(password);
+        await _imapClient.AuthenticateAsync(emailAddress, decryptedPassword, token);
         return Result.Success();
     }
 

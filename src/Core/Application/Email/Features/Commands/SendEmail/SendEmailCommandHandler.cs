@@ -15,7 +15,7 @@ internal class SendEmailCommandHandler(IUserSessionService userSessionService, I
             if (currentUserResult.IsFailure) Result.Failure<int>(currentUserResult.Error);
 
             var currentUser = currentUserResult.Value;
-            var connectResult = await _emailSender.ConnectAsync(currentUser.EmailAddress, currentUser.EmailPassword, token);
+            var connectResult = await _emailSender.ConnectAsync(currentUser.EmailAddress, currentUser.EncrytedPassword, token);
             if (connectResult.IsFailure) return Result.Failure<int>(connectResult.Error);
 
             var sendResult = await _emailSender.SendEmailAsync(request.EmailMessage, token);

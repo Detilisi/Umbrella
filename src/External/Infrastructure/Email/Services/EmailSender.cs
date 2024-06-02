@@ -7,13 +7,16 @@ public class EmailSender : IEmailSender, IDisposable
 {
     //Fields
     private readonly SmtpClient _smtpClient = new();
+    private readonly IEncryptionService _encryptionService;
 
     //Properties
     public bool IsConnected => _smtpClient.IsConnected && _smtpClient.IsAuthenticated;
 
     //Construction
-    public EmailSender()
+    public EmailSender(IEncryptionService encryptionService)
     {
+        _encryptionService = encryptionService;
+
         //Set up client
         _smtpClient.CheckCertificateRevocation = false;
     }
@@ -30,7 +33,8 @@ public class EmailSender : IEmailSender, IDisposable
         await _smtpClient.ConnectAsync(settings.Value.Server, settings.Value.Port, settings.Value.UseSsl, token);
 
         //Authenticate user
-        await _smtpClient.AuthenticateAsync(emailAddress, password, token);
+        var decryptedPassword = _encryptionService.Decrypt(password);
+        await _smtpClient.AuthenticateAsync(emailAddress, decryptedPassword, token);
         return Result.Success();
     }
     public async Task<Result> SendEmailAsync(EmailModel message, CancellationToken token = default)
