@@ -6,7 +6,7 @@ namespace Application.User.Features.Commands.RegisterUser;
 public class RegisterUserCommandHandler
 (
     IApplicationDbContext dbContext, 
-    IEmailFetcher emailFetcher
+    IEmailFetcher emailFetcher,
     IUserSessionService userSessionService
 )
     : IRequestHandler<RegisterUserCommand, Result<int>>
