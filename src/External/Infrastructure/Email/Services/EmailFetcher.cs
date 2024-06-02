@@ -25,7 +25,7 @@ public class EmailFetcher : IEmailFetcher, IDisposable
     //Methods
     public async Task<Result> ConnectAsync(string emailAddress, string password, CancellationToken token = default)
     {
-        if (IsConnected) Result.Success();
+        if (IsConnected) return Result.Success();
 
         EmailAddress = emailAddress;
         var settings = ImapSettings.FindServerSettings(emailAddress);

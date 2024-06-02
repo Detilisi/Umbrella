@@ -19,7 +19,6 @@ public class RegisterUserCommandHandler(IApplicationDbContext dbContext, IEmailF
             //Connect to email server
             var connectResult = await _emailFetcher.ConnectAsync(request.EmailAddress, request.EmailPassword, cancellationToken);
             if (connectResult.IsFailure) return Result.Failure<int>(connectResult.Error);
-            _emailFetcher.Dispose();
 
             //Save loaded emails to database
             var userEntity = UserEntity.Create
