@@ -1,5 +1,4 @@
-﻿using Application.Common.Abstractions.Services;
-using Domain.Email.Entities.Enums;
+﻿using Domain.Email.Entities.Enums;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
