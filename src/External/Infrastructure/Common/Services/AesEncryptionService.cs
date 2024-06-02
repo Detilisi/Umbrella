@@ -5,35 +5,37 @@ namespace Infrastructure.Common.Services;
 
 public class AesEncryptionService : IEncryptionService
 {
-    private static readonly string key = "your-encryption-key"; // Must be 16, 24, or 32 bytes for AES-128, AES-192, or AES-256
-    private static readonly string iv = "your-initialization-vector"; // Must be 16 bytes for AES
-
+    private static readonly string _encrptionKey = "mysecretkey1234567890123456";
     public string Encrypt(string plainText)
     {
-        using Aes aes = Aes.Create();
-        aes.Key = Encoding.UTF8.GetBytes(key);
-        aes.IV = Encoding.UTF8.GetBytes(iv);
+        using var md5 = MD5.Create();
+        using var des = TripleDES.Create();
+        des.Key = md5.ComputeHash(Encoding.UTF8.GetBytes(_encrptionKey));
+        des.Mode = CipherMode.ECB;
+        des.Padding = PaddingMode.PKCS7;
 
-        var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-        using var ms = new MemoryStream();
-        using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
-        using var sw = new StreamWriter(cs);
-        sw.Write(plainText);
+        //Encryption process
+        using var encryptor = des.CreateEncryptor();
+        var encryptedArray = Encoding.UTF8.GetBytes(plainText);
+        var cryptoArray = encryptor.TransformFinalBlock(encryptedArray, 0, encryptedArray.Length);
 
-        return Convert.ToBase64String(ms.ToArray());
+        return Convert.ToBase64String(cryptoArray, 0, cryptoArray.Length);
     }
-
     public string Decrypt(string cipherText)
     {
-        using Aes aes = Aes.Create();
-        aes.Key = Encoding.UTF8.GetBytes(key);
-        aes.IV = Encoding.UTF8.GetBytes(iv);
+        using var md5 = MD5.Create();
+        using var des = TripleDES.Create();
+        des.Key = md5.ComputeHash(Encoding.UTF8.GetBytes(_encrptionKey));
+        des.Mode = CipherMode.ECB;
+        des.Padding = PaddingMode.PKCS7;
 
-        var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-        using var ms = new MemoryStream(Convert.FromBase64String(cipherText));
-        using var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read);
-        using var sr = new StreamReader(cs);
+        //Decryption process
+        using var encryptor = des.CreateDecryptor();
+        var decryptArray = Convert.FromBase64String(cipherText);
+        var cryptoArray = encryptor.TransformFinalBlock(decryptArray, 0, decryptArray.Length);
 
-        return sr.ReadToEnd();
+        des.Clear();
+
+        return Encoding.UTF8.GetString(cryptoArray);
     }
 }
