@@ -1,15 +1,23 @@
-﻿using Domain.User.Entities;
+﻿using Application.Common.Abstractions.Services;
+using Domain.User.Entities;
 using Domain.User.ValueObjects;
 
 namespace Application.User.Features.Commands.RegisterUser;
 
-public class RegisterUserCommandHandler(IApplicationDbContext dbContext, IEmailFetcher emailFetcher, IUserSessionService userSessionService) 
+public class RegisterUserCommandHandler
+(
+    IApplicationDbContext dbContext, 
+    IEmailFetcher emailFetcher, 
+    IEncryptionService encryptionService, 
+    IUserSessionService userSessionService
+)
     : IRequestHandler<RegisterUserCommand, Result<int>>
 {
     //Fields
     private readonly IEmailFetcher _emailFetcher = emailFetcher;
     private readonly IApplicationDbContext _dbContext = dbContext;
     private readonly IUserSessionService _userSessionService = userSessionService;
+    private readonly IEncryptionService _encryptionService = encryptionService;
 
     //Handle method
     public async Task<Result<int>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -21,6 +29,7 @@ public class RegisterUserCommandHandler(IApplicationDbContext dbContext, IEmailF
             if (connectResult.IsFailure) return Result.Failure<int>(connectResult.Error);
 
             //Save loaded emails to database
+            var encryptedPasssword = _encryptionService.Encrypt(request.EmailPassword);
             var userEntity = UserEntity.Create
             (
                 EmailAddress.Create(request.EmailAddress),
