@@ -17,6 +17,7 @@ internal class SignUpPage : Page<SignUpViewModel>
         Content = new VerticalStackLayout()
         {
             Spacing = 25,
+            VerticalOptions = LayoutOptions.Center,
             Children =
             {
                 new SignUpHeaderView(),
