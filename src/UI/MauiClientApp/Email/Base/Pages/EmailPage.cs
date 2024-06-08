@@ -1,4 +1,6 @@
-﻿namespace Umbrella.Maui.Email.Base.Pages;
+﻿using MauiClientApp.Common.ChatHistory.Views;
+
+namespace Umbrella.Maui.Email.Base.Pages;
 
 public abstract class EmailPage<TViewModel>(TViewModel viewModel) : 
     Page<TViewModel>(viewModel) where TViewModel : EmailViewModel 
@@ -21,7 +23,7 @@ public abstract class EmailPage<TViewModel>(TViewModel viewModel) :
 
     protected virtual void InitializeEmailPage()
     {
-        ChatHistory = new VerticalStackLayout();
+        ChatHistory = new ChatHistorySubView();
         InitializeMainGridLayout();
 
         Padding = 0;

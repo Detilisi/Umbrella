@@ -52,11 +52,19 @@
 
 
     <!--ChatDataTemplate styles-->
-    <Style x:Key="ChatDataTemplateContentFrame" TargetType="Frame">
+    <Style TargetType="Label" x:Key="ChatTemplateIcon">
+        <Setter Property="FontSize" Value="42"/>
+        <Setter Property="FontFamily" Value="FontAwesomeSolid"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="TextColor" 
+            Value="{AppThemeBinding Light={StaticResource AppBackgroundColor}, Dark={StaticResource AppBackgroundDarkColor}}" />
+    </Style>
+    <Style x:Key="ChatTemplateContentFrame" TargetType="Frame">
         <Setter Property="Padding" Value="10" />
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Margin" Value="10,0,10,0" />
-        <Setter Property="BackgroundColor" Value="{StaticResource Tertiary}" />
+        <Setter Property="BackgroundColor" 
+            Value="{AppThemeBinding Light={StaticResource AppBackgroundColor}, Dark={StaticResource AppBackgroundDarkColor}}" />
     </Style>
 
     <!--EmailDetailPage styles-->
