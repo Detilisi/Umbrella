@@ -56,7 +56,8 @@
         <Setter Property="Padding" Value="10" />
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Margin" Value="10,0,10,0" />
-        <Setter Property="BackgroundColor" Value="{StaticResource Tertiary}" />
+        <Setter Property="BackgroundColor" 
+            Value="{AppThemeBinding Light={StaticResource AppBackgroundColor}, Dark={StaticResource AppBackgroundDarkColor}}" />
     </Style>
 
     <!--EmailDetailPage styles-->
