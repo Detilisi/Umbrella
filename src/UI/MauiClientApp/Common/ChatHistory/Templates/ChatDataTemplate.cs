@@ -18,7 +18,6 @@ internal class ChatDataTemplate : DataTemplate
         //Initialize user icon
         var userIcon = new IconLabel(FontAwesomeIcons.CircleUser)
         {
-            FontSize = 40,
             Triggers =
             {
                 ChatTemplateIconTriggers.HumanSenderTrigger,
