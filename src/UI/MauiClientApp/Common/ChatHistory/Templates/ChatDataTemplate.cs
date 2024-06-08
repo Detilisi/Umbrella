@@ -14,10 +14,13 @@ internal class ChatDataTemplate : DataTemplate
 
     private static Grid CreateTemplateGrid()
     {
+        var isDarkMode = Microsoft.Maui.Controls.Application.Current.RequestedTheme is AppTheme.Dark;
+
         //Initialize user icon
         var userIcon = new IconLabel(FontAwesomeIcons.CircleUser)
         {
-            FontSize = 30,
+            FontSize = 40,
+            TextColor = isDarkMode? Color.FromUint(0xFF242C3B) : Color.FromUint(0xFFF0F8FF),
             Triggers =
             {
                 ChatTemplateIconTriggers.HumanSenderTrigger,
