@@ -4,6 +4,6 @@ namespace MauiClientApp.Common.ChatHistory.Models;
 
 internal class ChatHistoryModel
 {
-    public ChatSender Sender { get; set; }
-    public string Message { get; set; } = string.Empty;
+    public required ChatSender Sender { get; set; }
+    public required string Message { get; set; }
 }
