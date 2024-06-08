@@ -50,10 +50,7 @@ internal class ChatHistorySubView : Frame
         };
 
         var actionIcon = new IconLabel(FontAwesomeIcons.UmbrellaBeach)
-        {
-            FontSize = 40,
-            TextColor = Colors.WhiteSmoke
-        };
+            .DynamicResource(View.StyleProperty, "ChatTemplateIcon");
 
         HistoryGrid = new Grid
         {
