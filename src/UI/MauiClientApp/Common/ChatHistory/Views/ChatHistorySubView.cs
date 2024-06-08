@@ -1,4 +1,6 @@
-﻿using MauiClientApp.Common.ChatHistory.Templates;
+﻿using MauiClientApp.Common.ChatHistory.Emums;
+using MauiClientApp.Common.ChatHistory.Models;
+using MauiClientApp.Common.ChatHistory.Templates;
 
 namespace MauiClientApp.Common.ChatHistory.Views;
 
@@ -30,13 +32,27 @@ internal class ChatHistorySubView : Frame
             Content = new CollectionView
             {
                 SelectionMode = SelectionMode.None,
-                ItemTemplate = new ChatDataTemplate()
+                ItemTemplate = new ChatDataTemplate(),
+                ItemsSource = new ObservableCollection<ChatHistoryModel>()
+                {
+                    new()
+                    {
+                        Sender = ChatSender.Bot,
+                        Message = "Hello world"
+                    },
+                    new()
+                    {
+                        Sender = ChatSender.Human,
+                        Message = "Hello world"
+                    }
+                }
             }
         };
 
         var actionIcon = new IconLabel(FontAwesomeIcons.UmbrellaBeach)
         {
             FontSize = 40,
+            TextColor = Colors.WhiteSmoke
         };
 
         HistoryGrid = new Grid
