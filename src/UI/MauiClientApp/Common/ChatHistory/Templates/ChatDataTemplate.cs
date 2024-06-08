@@ -42,7 +42,7 @@ internal class ChatDataTemplate : DataTemplate
                 ChatTemplateFrameTriggers.HumanSenderTrigger,
                 ChatTemplateFrameTriggers.BotSenderTrigger
             }
-        }.DynamicResource(View.StyleProperty, "ChatDataTemplateContentFrame");
+        }.DynamicResource(View.StyleProperty, "ChatTemplateContentFrame");
 
         return new Grid()
         {
