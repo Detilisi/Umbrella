@@ -19,6 +19,19 @@ internal class ChatTemplateIconTriggers
             }
         }
     };
+    public static DataTrigger HumanIconTrigger => new(typeof(Label))
+    {
+        Value = ChatSender.Human,
+        Binding = new Binding(nameof(ChatHistoryModel.Sender)),
+        Setters =
+        {
+            new Setter()
+            {
+                Property = Label.TextProperty,
+                Value = FontAwesomeIcons.CircleUser
+            }
+        }
+    };
 
     public static DataTrigger BotSenderTrigger => new(typeof(Label))
     {
@@ -30,6 +43,19 @@ internal class ChatTemplateIconTriggers
             {
                 Property = Grid.ColumnProperty,
                 Value = (int)ChatTemplateColumn.Right // Go right for human sender
+            }
+        }
+    };
+    public static DataTrigger BotIconTrigger => new(typeof(Label))
+    {
+        Value = ChatSender.Bot,
+        Binding = new Binding(nameof(ChatHistoryModel.Sender)),
+        Setters =
+        {
+            new Setter()
+            {
+                Property = Label.TextProperty,
+                Value = FontAwesomeIcons.Robot
             }
         }
     };
