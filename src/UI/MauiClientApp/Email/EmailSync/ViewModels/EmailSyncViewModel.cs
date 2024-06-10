@@ -2,7 +2,7 @@
 
 namespace MauiClientApp.Email.EmailSync.ViewModels;
 
-public class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator, default)
+internal class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator)
 {
     //Life cycle 
     public override async void OnViewModelStarting(CancellationToken token = default)

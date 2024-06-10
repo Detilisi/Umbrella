@@ -1,6 +1,6 @@
 ﻿namespace MauiClientApp.Email.EmailDetail.ViewModels;
 
-public partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator, default), IQueryAttributable
+internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator), IQueryAttributable
 {
     //Properties
     public EmailModel CurrentEmail { get; set; } = null!;

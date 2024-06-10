@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace MauiClientApp.Common.Base;
 
-public abstract partial class ViewModel : ObservableObject
+internal abstract partial class ViewModel : ObservableObject
 {
     //Services
     private AppTextToSpeech TextToSpeech { get; } = new AppTextToSpeech();

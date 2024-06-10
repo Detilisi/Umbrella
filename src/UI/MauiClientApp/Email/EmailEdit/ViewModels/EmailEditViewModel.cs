@@ -3,7 +3,7 @@ using Application.User.Abstractions.Services;
 
 namespace MauiClientApp.Email.EmailEdit.ViewModels;
 
-public partial class EmailEditViewModel(IMediator mediator, IUserSessionService userSessionService) : EmailViewModel(mediator, default)
+internal partial class EmailEditViewModel(IMediator mediator, IUserSessionService userSessionService) : EmailViewModel(mediator)
 {
     //Fields
     private readonly IUserSessionService _userSessionService = userSessionService;

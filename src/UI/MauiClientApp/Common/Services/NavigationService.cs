@@ -1,9 +1,9 @@
 ﻿namespace MauiClientApp.Common.Services;
 
-public static class NavigationService
+internal static class NavigationService
 {
     //Navigate
-    public static async Task<Result> NavigateToViewModelAsync<TViewModel>(Dictionary<string, object> navigationParameters = default) where TViewModel : ViewModel
+    internal static async Task<Result> NavigateToViewModelAsync<TViewModel>(Dictionary<string, object> navigationParameters = default) where TViewModel : ViewModel
     {
         var pageRouteResult = GetPageRoute<TViewModel>();
         if (pageRouteResult.IsFailure)

@@ -2,7 +2,7 @@
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
 
-public partial class EmailListViewModel(IMediator mediator) : EmailViewModel(mediator, default)
+internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(mediator)
 {
     //Properties
     public ObservableCollection<EmailModel> EmailMessageList { get; set; } = [];
