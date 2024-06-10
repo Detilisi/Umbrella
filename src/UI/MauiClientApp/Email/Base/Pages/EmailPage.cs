@@ -9,7 +9,7 @@ internal abstract partial class EmailPage<TViewModel>(TViewModel viewModel) :
     private enum Row { Content = 0, ChatBox = 1 }
 
     //View components
-    protected ChatHistorySubView ChatHistory { get; set; } = null!;
+    protected ChatHistorySubView ChatHistory { get; set; } = new();
     protected abstract ScrollView PageContent { get; }
     protected Grid MainGridLayout { get; set; } = null!;
 
@@ -23,7 +23,6 @@ internal abstract partial class EmailPage<TViewModel>(TViewModel viewModel) :
 
     protected virtual void InitializeEmailPage()
     {
-        ChatHistory = new ChatHistorySubView();
         InitializeMainGridLayout();
 
         Padding = 0;
