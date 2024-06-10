@@ -1,6 +1,4 @@
 ﻿using Infrastructure.Common.Services;
-using MauiClientApp.Common.ChatHistory.Emums;
-using MauiClientApp.Common.ChatHistory.Models;
 using System.Diagnostics;
 
 namespace MauiClientApp.Common.Base;
