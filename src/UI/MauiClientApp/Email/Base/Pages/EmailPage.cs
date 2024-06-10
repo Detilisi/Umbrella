@@ -1,5 +1,4 @@
-﻿using MauiClientApp.Common.ChatHistory.Models;
-using MauiClientApp.Common.ChatHistory.Views;
+﻿using MauiClientApp.Common.ChatHistory.Views;
 
 namespace Umbrella.Maui.Email.Base.Pages;
 
@@ -10,7 +9,7 @@ public abstract partial class EmailPage<TViewModel>(TViewModel viewModel) :
     private enum Row { Content = 0, ChatBox = 1 }
 
     //View components
-    protected View ChatHistory { set; get; } = null!;
+    protected ChatHistorySubView ChatHistory { set; get; } = null!;
     protected abstract ScrollView PageContent { get; }
     protected Grid MainGridLayout { get; set; } = null!;
 
