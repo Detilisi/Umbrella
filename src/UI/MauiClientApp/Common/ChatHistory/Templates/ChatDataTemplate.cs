@@ -20,9 +20,9 @@ internal class ChatDataTemplate : DataTemplate
         {
             Triggers =
             {
-                ChatTemplateIconTriggers.HumanSenderTrigger,
+                ChatTemplateIconTriggers.HumanColumnTrigger,
                 ChatTemplateIconTriggers.HumanIconTrigger,
-                ChatTemplateIconTriggers.BotSenderTrigger,
+                ChatTemplateIconTriggers.BotColumnTrigger,
                 ChatTemplateIconTriggers.BotIconTrigger
             }
         }.DynamicResource(View.StyleProperty, "ChatTemplateIcon");
