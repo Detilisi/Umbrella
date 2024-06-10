@@ -1,8 +1,9 @@
-﻿using MauiClientApp.Common.ChatHistory.Views;
+﻿using MauiClientApp.Common.ChatHistory.Models;
+using MauiClientApp.Common.ChatHistory.Views;
 
 namespace Umbrella.Maui.Email.Base.Pages;
 
-public abstract class EmailPage<TViewModel>(TViewModel viewModel) : 
+public abstract partial class EmailPage<TViewModel>(TViewModel viewModel) : 
     Page<TViewModel>(viewModel) where TViewModel : EmailViewModel 
 {
     //Fields
