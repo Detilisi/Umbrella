@@ -2,7 +2,7 @@
 
 namespace MauiClientApp.Email.EmailDetail.Pages;
 
-public class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<EmailDetailViewModel>(viewModel)
+internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<EmailDetailViewModel>(viewModel)
 {
     //View components
     private Label SubjectLabel = null!;
