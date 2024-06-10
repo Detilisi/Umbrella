@@ -21,7 +21,7 @@ public abstract partial class ViewModel : ObservableObject
 
         if(MicrophoneUsable) return;
         MicrophoneUsable = await SpeechRecognition.RequestPermissions(token);
-        await SpeakAsync("Elevate your email experince with Umbrella.");
+        await SpeakCommand.ExecuteAsync("Elevate your email experince with Umbrella.");
     }
     public virtual async void OnViewModelClosing(CancellationToken token = default)
     {
@@ -30,8 +30,9 @@ public abstract partial class ViewModel : ObservableObject
         await SpeechRecognition.StopListenAsync(token);
     }
 
-    //Text-to-speech methods
-    public async Task SpeakAsync(string messageText)
+    //Commands
+    [RelayCommand]
+    public async Task Speak(string messageText)
     {
         if (IsListening || string.IsNullOrEmpty(messageText)) return;
 
@@ -43,7 +44,8 @@ public abstract partial class ViewModel : ObservableObject
         await TextToSpeech.SpeakAsync(messageText);
     }
 
-    public async Task ListenAsync()
+    [RelayCommand]
+    public async Task Listen()
     {
         if (IsListening) return;
 
@@ -52,14 +54,14 @@ public abstract partial class ViewModel : ObservableObject
             IsListening = true;
             if (!MicrophoneUsable)
             {
-                await SpeakAsync("Permission not granted to use microphone.");
+                await SpeakCommand.ExecuteAsync("Permission not granted to use microphone.");
                 return;
             }
 
             var listenResult = await SpeechRecognition.ListenAsync();
             if (listenResult.IsFailure)
             {
-                await SpeakAsync(listenResult.Error.Message);
+                await Speak(listenResult.Error.Message);
             }
 
             ChatHistory.Add(new()
@@ -70,7 +72,7 @@ public abstract partial class ViewModel : ObservableObject
         }
         catch
         {
-            await SpeakAsync("Speech recognition has failed!");
+            await SpeakCommand.ExecuteAsync("Speech recognition has failed!");
         }
         finally
         {
