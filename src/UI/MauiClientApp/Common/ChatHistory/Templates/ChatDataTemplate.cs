@@ -16,12 +16,14 @@ internal class ChatDataTemplate : DataTemplate
     {
         
         //Initialize user icon
-        var userIcon = new IconLabel(FontAwesomeIcons.CircleUser)
+        var userIcon = new IconLabel(string.Empty)
         {
             Triggers =
             {
-                ChatTemplateIconTriggers.HumanSenderTrigger,
-                ChatTemplateIconTriggers.BotSenderTrigger
+                ChatTemplateIconTriggers.HumanColumnTrigger,
+                ChatTemplateIconTriggers.HumanIconTrigger,
+                ChatTemplateIconTriggers.BotColumnTrigger,
+                ChatTemplateIconTriggers.BotIconTrigger
             }
         }.DynamicResource(View.StyleProperty, "ChatTemplateIcon");
 
