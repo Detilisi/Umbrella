@@ -10,14 +10,10 @@ public partial class EmailViewModel(IMediator mediator, ViewModel chatViewModel)
     public override void OnViewModelStarting(CancellationToken token = default)
     {
         base.OnViewModelStarting(token);
-
-        //await ChildViewModel.AuthorizeMicrophoneUsageAsync(cancellationToken);
     }
 
     public override void OnViewModelClosing(CancellationToken cancellationToken = default)
     {
         base.OnViewModelClosing(cancellationToken);
-
-        //ChildViewModel.OnViewModelClosing(cancellationToken);
     }
 }
