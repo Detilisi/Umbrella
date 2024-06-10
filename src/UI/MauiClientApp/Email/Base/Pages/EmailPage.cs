@@ -2,14 +2,14 @@
 
 namespace Umbrella.Maui.Email.Base.Pages;
 
-public abstract partial class EmailPage<TViewModel>(TViewModel viewModel) : 
+internal abstract partial class EmailPage<TViewModel>(TViewModel viewModel) : 
     Page<TViewModel>(viewModel) where TViewModel : EmailViewModel 
 {
     //Fields
     private enum Row { Content = 0, ChatBox = 1 }
 
     //View components
-    protected ChatHistorySubView ChatHistory { set; get; } = null!;
+    protected ChatHistorySubView ChatHistory { get; set; } = null!;
     protected abstract ScrollView PageContent { get; }
     protected Grid MainGridLayout { get; set; } = null!;
 
