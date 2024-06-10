@@ -2,7 +2,7 @@
 
 namespace MauiClientApp.Email.EmailList.Pages;
 
-public class EmailListPage : EmailPage<EmailListViewModel>
+internal class EmailListPage : EmailPage<EmailListViewModel>
 {
     //Construction
     public EmailListPage(EmailListViewModel viewModel) : base(viewModel)
