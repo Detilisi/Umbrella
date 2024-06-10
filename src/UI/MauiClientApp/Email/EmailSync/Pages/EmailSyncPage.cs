@@ -10,8 +10,8 @@ internal class EmailSyncPage: EmailPage<EmailSyncViewModel>
     //Construction
     public EmailSyncPage(EmailSyncViewModel viewModel) : base(viewModel)
     {
-        ChatHistory.IsVisible = false;
         InitializeViewComponents();
+        ChatHistory.IsVisible = false;
     }
 
     protected override ScrollView PageContent => new()
