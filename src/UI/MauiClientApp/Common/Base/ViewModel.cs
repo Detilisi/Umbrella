@@ -15,7 +15,7 @@ public abstract partial class ViewModel : ObservableObject
     //Fields
     private static bool MicrophoneUsable { get; set; } = false;
     [ObservableProperty] public bool isListening = false;
-    private ObservableCollection<ChatHistoryModel> ChatHistory { get; set; } = [];
+    internal ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
 
     //ViewModel lifecylce
     public virtual async void OnViewModelStarting(CancellationToken token = default)
