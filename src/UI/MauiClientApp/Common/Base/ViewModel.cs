@@ -9,13 +9,13 @@ namespace MauiClientApp.Common.Base;
 public abstract partial class ViewModel : ObservableObject
 {
     //Services
-    private readonly IAppTextToSpeech _textToSpeech = new AppTextToSpeech();
-    private readonly IAppSpeechRecognition _speechRecognition = new AppSpeechRecognition();
+    private AppTextToSpeech TextToSpeech { get; } = new AppTextToSpeech();
+    private AppSpeechRecognition SpeechRecognition { get; } = new AppSpeechRecognition();
 
     //Fields
-    private static bool MicrophoneUsable { get; set; } = false;
     [ObservableProperty] public bool isListening = false;
-    internal ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
+    private static bool MicrophoneUsable { get; set; } = false;
+    internal static ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
 
     //ViewModel lifecylce
     public virtual async void OnViewModelStarting(CancellationToken token = default)
@@ -23,14 +23,14 @@ public abstract partial class ViewModel : ObservableObject
         Debug.WriteLine($"{GetType().Name} is starting");
 
         if(MicrophoneUsable) return;
-        MicrophoneUsable = await _speechRecognition.RequestPermissions(token);
+        MicrophoneUsable = await SpeechRecognition.RequestPermissions(token);
         await SpeakAsync("Elevate your email experince with Umbrella.");
     }
     public virtual async void OnViewModelClosing(CancellationToken token = default)
     {
         Debug.WriteLine($"{GetType().Name} is closing");
 
-        await _speechRecognition.StopListenAsync(token);
+        await SpeechRecognition.StopListenAsync(token);
     }
 
     //Text-to-speech methods
@@ -43,7 +43,7 @@ public abstract partial class ViewModel : ObservableObject
             Sender = ChatSender.Bot,
             Message = messageText
         });
-        await _textToSpeech.SpeakAsync(messageText);
+        await TextToSpeech.SpeakAsync(messageText);
     }
 
     public async Task ListenAsync()
@@ -59,7 +59,7 @@ public abstract partial class ViewModel : ObservableObject
                 return;
             }
 
-            var listenResult = await _speechRecognition.ListenAsync();
+            var listenResult = await SpeechRecognition.ListenAsync();
             if (listenResult.IsFailure)
             {
                 await SpeakAsync(listenResult.Error.Message);

@@ -11,7 +11,7 @@ internal abstract partial class EmailPage<TViewModel>(TViewModel viewModel) :
     //View components
     protected abstract ScrollView PageContent { get; }
     protected Grid MainGridLayout { get; set; } = null!;
-    protected ChatHistorySubView ChatHistory { get; set; } = new(viewModel);
+    protected ChatHistorySubView ChatHistory { get; set; } = new();
 
     //Initialization
     protected override void OnAppearing()

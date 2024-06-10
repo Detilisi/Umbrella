@@ -1,6 +1,4 @@
-﻿using MauiClientApp.Common.ChatHistory.Emums;
-using MauiClientApp.Common.ChatHistory.Models;
-using MauiClientApp.Common.ChatHistory.Templates;
+﻿using MauiClientApp.Common.ChatHistory.Templates;
 
 namespace MauiClientApp.Common.ChatHistory.Views;
 
@@ -9,15 +7,12 @@ internal class ChatHistorySubView : Frame
     //Fields
     private enum Row { Top = 0, Bottom = 1 }
 
-    private ViewModel ParentViewModel { get; }
-
     //View components
     private Grid HistoryGrid = null!;
 
     //Construction
-    public ChatHistorySubView(ViewModel parentViewModel)
+    public ChatHistorySubView()
     {
-        ParentViewModel = parentViewModel; 
         IntializeViewCompoments();
     }
 
@@ -33,7 +28,7 @@ internal class ChatHistorySubView : Frame
             {
                 SelectionMode = SelectionMode.None,
                 ItemTemplate = new ChatDataTemplate(),
-                ItemsSource = ParentViewModel.ChatHistory
+                ItemsSource = ViewModel.ChatHistory
             }
         };
 
@@ -57,11 +52,4 @@ internal class ChatHistorySubView : Frame
         Content = HistoryGrid;
         this.DynamicResource(View.StyleProperty, "ChatHistoryFrame");
     }
-
-    //Helper methods
-    public void AddToChatHistory(ChatHistoryModel message)
-    {
-        ChatHistory.Add(message);
-    }
-
 }
