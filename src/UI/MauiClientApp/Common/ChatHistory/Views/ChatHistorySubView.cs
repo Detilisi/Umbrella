@@ -10,7 +10,6 @@ internal class ChatHistorySubView : Frame
     private enum Row { Top = 0, Bottom = 1 }
 
     private ViewModel ParentViewModel { get; }
-    private ObservableCollection<ChatHistoryModel> ChatHistory { get; set; }
 
     //View components
     private Grid HistoryGrid = null!;
@@ -18,13 +17,6 @@ internal class ChatHistorySubView : Frame
     //Construction
     public ChatHistorySubView(ViewModel parentViewModel)
     {
-        ChatHistory = 
-        [
-            new() { 
-                Sender = ChatSender.Bot ,
-                Message = "Elevate your email experince with Umbrella."
-            }
-        ];
         ParentViewModel = parentViewModel; 
         IntializeViewCompoments();
     }
