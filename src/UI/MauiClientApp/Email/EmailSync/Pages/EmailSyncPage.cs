@@ -2,7 +2,7 @@
 
 namespace MauiClientApp.Email.EmailSync.Pages;
 
-public class EmailSyncPage: EmailPage<EmailSyncViewModel>
+internal class EmailSyncPage: EmailPage<EmailSyncViewModel>
 {
     //View components
     private Label PageTitleLabel = null!;
@@ -10,6 +10,7 @@ public class EmailSyncPage: EmailPage<EmailSyncViewModel>
     //Construction
     public EmailSyncPage(EmailSyncViewModel viewModel) : base(viewModel)
     {
+        ChatHistory.IsVisible = false;
         InitializeViewComponents();
     }
 
