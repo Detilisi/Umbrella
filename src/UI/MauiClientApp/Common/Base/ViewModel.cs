@@ -1,4 +1,5 @@
 ﻿using Application.Common.Abstractions.Services;
+using Infrastructure.Common.Services;
 using MauiClientApp.Common.ChatHistory.Emums;
 using MauiClientApp.Common.ChatHistory.Models;
 using System.Diagnostics;
@@ -8,8 +9,8 @@ namespace MauiClientApp.Common.Base;
 public abstract partial class ViewModel : ObservableObject
 {
     //Services
-    private readonly IAppTextToSpeech _textToSpeech;
-    private readonly IAppSpeechRecognition _speechRecognition;
+    private readonly IAppTextToSpeech _textToSpeech = new AppTextToSpeech();
+    private readonly IAppSpeechRecognition _speechRecognition = new AppSpeechRecognition();
 
     //Fields
     private static bool MicrophoneUsable { get; set; } = false;
@@ -23,6 +24,7 @@ public abstract partial class ViewModel : ObservableObject
 
         if(MicrophoneUsable) return;
         MicrophoneUsable = await _speechRecognition.RequestPermissions(token);
+        await SpeakAsync("Elevate your email experince with Umbrella.");
     }
     public virtual async void OnViewModelClosing(CancellationToken token = default)
     {
