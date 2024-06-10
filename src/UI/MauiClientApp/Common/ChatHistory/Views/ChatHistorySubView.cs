@@ -8,13 +8,15 @@ internal class ChatHistorySubView : Frame
 {
     //Fields
     private enum Row { Top = 0, Bottom = 1 }
+
+    private ViewModel ParentViewModel { get; }
     private ObservableCollection<ChatHistoryModel> ChatHistory { get; set; }
 
     //View components
     private Grid HistoryGrid = null!;
 
     //Construction
-    public ChatHistorySubView()
+    public ChatHistorySubView(ViewModel parentViewModel)
     {
         ChatHistory = 
         [
@@ -23,10 +25,8 @@ internal class ChatHistorySubView : Frame
                 Message = "Elevate your email experince with Umbrella."
             }
         ];
+        ParentViewModel = parentViewModel; 
         IntializeViewCompoments();
-
-        Content = HistoryGrid;
-        this.DynamicResource(View.StyleProperty, "ChatHistoryFrame");
     }
 
     //Initialization
@@ -41,7 +41,7 @@ internal class ChatHistorySubView : Frame
             {
                 SelectionMode = SelectionMode.None,
                 ItemTemplate = new ChatDataTemplate(),
-                ItemsSource = ChatHistory
+                ItemsSource = ParentViewModel.ChatHistory
             }
         };
 
@@ -61,6 +61,9 @@ internal class ChatHistorySubView : Frame
                 actionIcon.Row(Row.Bottom),
             }
         };
+
+        Content = HistoryGrid;
+        this.DynamicResource(View.StyleProperty, "ChatHistoryFrame");
     }
 
     //Helper methods
