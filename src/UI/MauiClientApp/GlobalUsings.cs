@@ -17,6 +17,9 @@ global using Application.Common.Abstractions.DataContexts;
 global using MauiClientApp.Common.Base;
 global using MauiClientApp.Common.Services;
 global using MauiClientApp.Common.Views;
+global using MauiClientApp.Common.ChatHistory.Emums;
+global using MauiClientApp.Common.ChatHistory.Models;
+
 global using Umbrella.Maui.Email.Base.Pages;
 global using MauiClientApp.Resources.Fonts.Icons;
 
@@ -30,3 +33,4 @@ global using MauiClientApp.Email.EmailEdit.Pages;
 global using MauiClientApp.Email.EmailEdit.ViewModels;
 global using MauiClientApp.User.SignUp.Pages;
 global using MauiClientApp.User.SignUp.ViewModels;
+
