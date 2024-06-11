@@ -16,7 +16,7 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
         {
             SelectionMode = SelectionMode.Single,
             ItemTemplate = new EmailDataTemplate(),
-            ItemsSource = BindingContext.EmailMessageList,
+            ItemsSource = ViewModel.EmailMessageList,
 
         }
         .Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
@@ -40,7 +40,7 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
                 FontFamily = "FontAwesomeSolid",
                 Glyph = FontAwesomeIcons.PenClip
             },
-            Command = new Command(async () => await BindingContext.WriteEmailCommand.ExecuteAsync(null))
+            Command = new Command(async () => await ViewModel.WriteEmailCommand.ExecuteAsync(null))
         };
 
         ToolbarItems.Add(outBoxToolbarItem);
@@ -51,7 +51,7 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
     {
         if (e.CurrentSelection.FirstOrDefault() is not EmailModel selectedEmail) return;
 
-        await BindingContext.OpenEmailCommand.ExecuteAsync(selectedEmail);
+        await ViewModel.OpenEmailCommand.ExecuteAsync(selectedEmail);
     }
     protected override bool OnBackButtonPressed()
     {

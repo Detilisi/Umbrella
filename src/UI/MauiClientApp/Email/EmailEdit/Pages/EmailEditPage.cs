@@ -39,7 +39,7 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
                 FontFamily = "FontAwesomeSolid",
                 Glyph = FontAwesomeIcons.PaperPlane
             },
-            Command = BindingContext.SendEmailCommand
+            Command = ViewModel.SendEmailCommand
         });
     }
 

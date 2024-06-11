@@ -28,7 +28,7 @@ internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<Email
     {
         base.OnNavigatedTo(args);
 
-        var currentEmail = BindingContext.CurrentEmail;
+        var currentEmail = ViewModel.CurrentEmail;
         EmailSenderView = new(currentEmail.SenderName??currentEmail.Sender, currentEmail.CreatedAt);
 
         InitializeViewComponents();
@@ -41,11 +41,11 @@ internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<Email
         SeparatorBoxView = new();
         SubjectLabel = new()
         {
-            Text = BindingContext.CurrentEmail.Subject
+            Text = ViewModel.CurrentEmail.Subject
         };
         BodyTextLabel = new()
         {
-            Text = BindingContext.CurrentEmail.Body
+            Text = ViewModel.CurrentEmail.Body
         };
         
         SubjectLabel.DynamicResource(View.StyleProperty, "EmailSubjectLabel");

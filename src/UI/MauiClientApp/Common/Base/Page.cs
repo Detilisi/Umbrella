@@ -9,14 +9,14 @@ namespace MauiClientApp.Common.Base;
 internal abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel) where TViewModel : ViewModel
 {
     //Properties
-    public new TViewModel BindingContext => (TViewModel)base.BindingContext;
+    public new TViewModel ViewModel => (TViewModel)base.BindingContext;
 
     //Life-cylce
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
 
-        BindingContext.OnViewModelStarting();
+        ViewModel.OnViewModelStarting();
         Debug.WriteLine($"OnBindingContextChanged: {Title}");
     }
     protected override void OnAppearing()
@@ -29,7 +29,7 @@ internal abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel)
     {
         base.OnDisappearing();
 
-        BindingContext.OnViewModelClosing();
+        ViewModel.OnViewModelClosing();
         Debug.WriteLine($"OnDisappearing: {Title}");
     }
 }

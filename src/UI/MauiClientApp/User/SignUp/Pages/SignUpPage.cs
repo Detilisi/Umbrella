@@ -49,7 +49,7 @@ internal class SignUpPage : Page<SignUpViewModel>
             Text = "Next",
             FontSize = 24,
             WidthRequest = 300,
-            Command = BindingContext.RegisterUserCommand
+            Command = ViewModel.RegisterUserCommand
         };
     }
 }
