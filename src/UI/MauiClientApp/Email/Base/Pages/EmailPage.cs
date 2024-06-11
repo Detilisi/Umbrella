@@ -11,7 +11,7 @@ internal abstract partial class EmailPage<TViewModel>(TViewModel viewModel) :
     //View components
     protected abstract ScrollView PageContent { get; }
     protected Grid MainGridLayout { get; set; } = null!;
-    protected ChatHistorySubView ChatHistory { get; set; } = new();
+    protected ChatHistorySubView ChatHistory { get; set; } = null!;
 
     //Initialization
     protected override void OnAppearing()
@@ -35,6 +35,7 @@ internal abstract partial class EmailPage<TViewModel>(TViewModel viewModel) :
         var contentRowSize = 0.72;
         var chatBoxRowSize = 0.28;
 
+        ChatHistory = new();
         MainGridLayout = new Grid
         {
             RowDefinitions =
