@@ -9,7 +9,7 @@ internal class SpeechRecognition
     const string defaultLanguage = "en-US";
 
     //Fields
-    private bool _canStartListenExecute;
+    private bool _canStartListenExecute = true;
     private static ISpeechToText _speechToText = SpeechToText.Default;
 
     //Permision method
@@ -19,21 +19,22 @@ internal class SpeechRecognition
     }
 
     //Listen methods
-    public async Task StartListen(CancellationToken cancellationToken)
+    public async Task StartListenAsync(CancellationToken token = default)
     {
         if (!_canStartListenExecute) return;
-        _canStartListenExecute = true;
+        _canStartListenExecute = false;
 
-        await _speechToText.StartListenAsync(CultureInfo.GetCultureInfo(defaultLanguage), cancellationToken);
+        await _speechToText.StartListenAsync(CultureInfo.GetCultureInfo(defaultLanguage), token);
         _speechToText.RecognitionResultUpdated += HandleRecognitionResultUpdated;
     }
-    public async Task StopListen(CancellationToken cancellationToken)
+    public async Task StopListen(CancellationToken token = default)
     {
+        if (_canStartListenExecute) return;
         _canStartListenExecute = true;
 
         _speechToText.RecognitionResultUpdated -= HandleRecognitionResultUpdated;
 
-        await _speechToText.StopListenAsync(cancellationToken);
+        await _speechToText.StopListenAsync(token);
     }
 
     //Helpers
