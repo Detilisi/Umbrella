@@ -14,7 +14,6 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
 
         //load emails
         await LoadEmailsAsync(token);
-        await StartListenCommand.ExecuteAsync(token);
     }
 
     //Load methods
