@@ -7,19 +7,17 @@ namespace MauiClientApp.Common.Base;
 
 internal abstract partial class ViewModel : ObservableObject
 {
-    private const string defaultLanguage = "en-US";
-    internal string RecognitionText = string.Empty;
-
-    //Booleans
-    private bool _canStopListenExecute;
-    private bool _canStartListenExecute = true;
-    
     //Services
     private readonly ITextToSpeech _textToSpeech;
     private readonly ISpeechToText _speechToText;
+    private const string defaultLanguage = "en-US";
+    
+    //Properties
+    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(StartListenCommand))]
+    bool canStartListenExecute = true;
 
-    //Other
-    internal event EventHandler OnSpeechRecognized = null!;
+    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(StopListenCommand))]
+    bool canStopListenExecute = false;
     internal static ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
 
     //Construction
@@ -39,12 +37,19 @@ internal abstract partial class ViewModel : ObservableObject
     }
 
     //Method
+    [RelayCommand]
     internal async Task Speak(string text, CancellationToken token = default)
     {
         var timeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
         try
         {
+            ChatHistory.Add(new ChatHistoryModel()
+            {
+                Sender = ChatSender.Bot,
+                Message = text
+            });
+
             await _textToSpeech.SpeakAsync(text, new()
             {
                 Pitch = 1,
@@ -57,47 +62,44 @@ internal abstract partial class ViewModel : ObservableObject
         }
     }
 
-    internal async Task StartListen(CancellationToken token = default)
+    [RelayCommand(CanExecute = nameof(CanStartListenExecute))]
+    internal async Task StartListen()
     {
-        _canStartListenExecute = false;
-        _canStopListenExecute = true;
+        CanStartListenExecute = false;
+        CanStopListenExecute = true;
 
-        var isGranted = await _speechToText.RequestPermissions(token);
+        var isGranted = await _speechToText.RequestPermissions();
         if (!isGranted)
         {
-            await Toast.Make("Permission not granted").Show(token);
+            await Toast.Make("Permission not granted").Show();
             return;
         }
 
-        await _speechToText.StartListenAsync(CultureInfo.GetCultureInfo(defaultLanguage), token);
+        await _speechToText.StartListenAsync(CultureInfo.GetCultureInfo(defaultLanguage));
 
         _speechToText.RecognitionResultUpdated += HandleRecognitionResultUpdated;
     }
 
-    Task StopListen(CancellationToken cancellationToken)
+    [RelayCommand(CanExecute = nameof(CanStopListenExecute))]
+    internal Task StopListen(CancellationToken cancellationToken)
     {
-        _canStartListenExecute = true;
-        _canStopListenExecute = false;
+        CanStartListenExecute = true;
+        CanStopListenExecute = false;
         _speechToText.RecognitionResultUpdated -= HandleRecognitionResultUpdated;
 
         return _speechToText.StopListenAsync(cancellationToken);
     }
 
     //Event handlers
-    async void HandleRecognitionResultUpdated(object? sender, SpeechToTextRecognitionResultUpdatedEventArgs e)
+    private async void HandleRecognitionResultUpdated(object? sender, SpeechToTextRecognitionResultUpdatedEventArgs e)
     {
-        RecognitionText = e.RecognitionResult;
-        await Speak(RecognitionText);
-    }
+        var recognitionText = e.RecognitionResult;
+        ChatHistory.Add(new ChatHistoryModel() 
+        { 
+            Sender = ChatSender.Human, 
+            Message = recognitionText
+        });
 
-    async void HandleRecognitionResultCompleted(object? sender, SpeechToTextRecognitionResultCompletedEventArgs e)
-    {
-        RecognitionText = e.RecognitionResult;
-        await Speak(RecognitionText);
-    }
-
-    async void HandleSpeechToTextStateChanged(object? sender, SpeechToTextStateChangedEventArgs e)
-    {
-        await Toast.Make($"State Changed: {e.State}").Show(CancellationToken.None);
+        await SpeakCommand.ExecuteAsync(recognitionText);
     }
 }
