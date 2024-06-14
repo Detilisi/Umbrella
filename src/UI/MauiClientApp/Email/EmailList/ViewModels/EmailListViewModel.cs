@@ -14,6 +14,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
 
         //load emails
         await LoadEmailsAsync(token);
+        await StartListenCommand.ExecuteAsync(token);
     }
 
     //Load methods
@@ -28,6 +29,8 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
         {
             EmailMessageList.Add(emailModel);
         }
+
+        
     }
 
     //Commands
@@ -45,7 +48,8 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     [RelayCommand]
     public async Task WriteEmail()
     {
-        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
+        await StartListenCommand.ExecuteAsync(default);
+        //await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
     }
 }
 
