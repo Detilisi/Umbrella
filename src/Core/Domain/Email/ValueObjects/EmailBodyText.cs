@@ -5,7 +5,7 @@ namespace Domain.Email.ValueObjects;
 public class EmailBodyText : ValueObject<string>
 {
     //Fields
-    public const int MAXBODYLENGTH = 100000;
+    public const int MAXBODYLENGTH = 10000;
 
     //Contructions
     private EmailBodyText() : base(string.Empty) 
