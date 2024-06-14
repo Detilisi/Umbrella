@@ -27,13 +27,15 @@ internal abstract partial class ViewModel : ObservableObject
         _speechToText = SpeechToText.Default;
     }
 
-    public virtual void OnViewModelStarting(CancellationToken token = default)
+    public virtual async void OnViewModelStarting(CancellationToken token = default)
     {
         Debug.WriteLine($"{GetType().Name} is closing");
+        await StartListenCommand.ExecuteAsync(token);
     }
     public virtual void OnViewModelClosing(CancellationToken token = default)
     {
         Debug.WriteLine($"{GetType().Name} is closing");
+        StopListenCommand.Execute(token);
     }
 
     //Method
