@@ -34,7 +34,7 @@ internal class SpeechService
 
         try
         {
-            if(OnSpeechAnounced != null)
+            if (OnSpeechAnounced != null)
             {
                 OnSpeechAnounced.Invoke(text);
             }
@@ -52,7 +52,7 @@ internal class SpeechService
     }
 
     //Listen methods
-    internal async Task StartListenAsync(CancellationToken token = default)
+    internal static async Task StartListenAsync(CancellationToken token = default)
     {
         if (!CanStartListenExecute) return;
         CanStartListenExecute = false;
