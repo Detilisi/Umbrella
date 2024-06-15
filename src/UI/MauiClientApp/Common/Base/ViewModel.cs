@@ -13,17 +13,5 @@ internal abstract partial class ViewModel : ObservableObject
     public virtual void OnViewModelClosing(CancellationToken token = default)
     {
         Debug.WriteLine($"{GetType().Name} is closing");
-
-
-        SpeechService.OnSpeechAnounced = text => ChatHistory.Add(new ChatHistoryModel()
-        {
-            Sender = ChatSender.Bot,
-            Message = text
-        });
-        SpeechService.OnSpeechRecognized = recognitionText => ChatHistory.Add(new ChatHistoryModel()
-        {
-            Sender = ChatSender.Human,
-            Message = recognitionText
-        });
     }
 }
