@@ -1,82 +1,107 @@
-﻿using Infrastructure.Common.Services;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Media;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace MauiClientApp.Common.Base;
 
 internal abstract partial class ViewModel : ObservableObject
 {
     //Services
-    private AppTextToSpeech TextToSpeech { get; } = new AppTextToSpeech();
-    private AppSpeechRecognition SpeechRecognition { get; } = new AppSpeechRecognition();
+    private readonly ITextToSpeech _textToSpeech;
+    private readonly ISpeechToText _speechToText;
+    private const string defaultLanguage = "en-US";
+    
+    //Properties
+    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(StartListenCommand))]
+    bool canStartListenExecute = true;
 
-    //Fields
-    [ObservableProperty] public bool isListening = false;
-    private static bool MicrophoneUsable { get; set; } = false;
+    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(StopListenCommand))]
+    bool canStopListenExecute = false;
     internal static ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
 
-    //ViewModel lifecylce
+    //Construction
+    protected ViewModel()
+    {
+        _textToSpeech = TextToSpeech.Default;
+        _speechToText = SpeechToText.Default;
+    }
+
     public virtual async void OnViewModelStarting(CancellationToken token = default)
     {
-        Debug.WriteLine($"{GetType().Name} is starting");
-
-        if(MicrophoneUsable) return;
-        MicrophoneUsable = await SpeechRecognition.RequestPermissions(token);
-        await SpeakCommand.ExecuteAsync("Elevate your email experince with Umbrella.");
+        Debug.WriteLine($"{GetType().Name} is closing");
+        await StartListenCommand.ExecuteAsync(token);
     }
-    public virtual async void OnViewModelClosing(CancellationToken token = default)
+    public virtual void OnViewModelClosing(CancellationToken token = default)
     {
         Debug.WriteLine($"{GetType().Name} is closing");
-
-        await SpeechRecognition.StopListenAsync(token);
+        StopListenCommand.Execute(token);
     }
 
-    //Commands
+    //Method
     [RelayCommand]
-    public async Task Speak(string messageText)
+    internal async Task Speak(string text, CancellationToken token = default)
     {
-        if (IsListening || string.IsNullOrEmpty(messageText)) return;
-
-        ChatHistory.Add(new() 
-        {
-            Sender = ChatSender.Bot,
-            Message = messageText
-        });
-        await TextToSpeech.SpeakAsync(messageText);
-    }
-
-    [RelayCommand]
-    public async Task Listen()
-    {
-        if (IsListening) return;
+        var timeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
         try
         {
-            IsListening = true;
-            if (!MicrophoneUsable)
-            {
-                await SpeakCommand.ExecuteAsync("Permission not granted to use microphone.");
-                return;
-            }
-
-            var listenResult = await SpeechRecognition.ListenAsync();
-            if (listenResult.IsFailure)
-            {
-                await Speak(listenResult.Error.Message);
-            }
-
-            ChatHistory.Add(new()
+            ChatHistory.Add(new ChatHistoryModel()
             {
                 Sender = ChatSender.Bot,
-                Message = listenResult.Value
+                Message = text
             });
+
+            await _textToSpeech.SpeakAsync(text, new()
+            {
+                Pitch = 1,
+                Volume = 1
+            }, token).WaitAsync(timeoutCancellationTokenSource.Token);
         }
-        catch
+        catch (TaskCanceledException)
         {
-            await SpeakCommand.ExecuteAsync("Speech recognition has failed!");
+            await Toast.Make("Playback automatically stopped after 5 seconds").Show(token);
         }
-        finally
+    }
+
+    [RelayCommand(CanExecute = nameof(CanStartListenExecute))]
+    internal async Task StartListen()
+    {
+        CanStartListenExecute = false;
+        CanStopListenExecute = true;
+
+        var isGranted = await _speechToText.RequestPermissions();
+        if (!isGranted)
         {
-            IsListening = false;
+            await Toast.Make("Permission not granted").Show();
+            return;
         }
+
+        await _speechToText.StartListenAsync(CultureInfo.GetCultureInfo(defaultLanguage));
+
+        _speechToText.RecognitionResultUpdated += HandleRecognitionResultUpdated;
+    }
+
+    [RelayCommand(CanExecute = nameof(CanStopListenExecute))]
+    internal Task StopListen(CancellationToken cancellationToken)
+    {
+        CanStartListenExecute = true;
+        CanStopListenExecute = false;
+        _speechToText.RecognitionResultUpdated -= HandleRecognitionResultUpdated;
+
+        return _speechToText.StopListenAsync(cancellationToken);
+    }
+
+    //Event handlers
+    private async void HandleRecognitionResultUpdated(object? sender, SpeechToTextRecognitionResultUpdatedEventArgs e)
+    {
+        var recognitionText = e.RecognitionResult;
+        ChatHistory.Add(new ChatHistoryModel() 
+        { 
+            Sender = ChatSender.Human, 
+            Message = recognitionText
+        });
+
+        await SpeakCommand.ExecuteAsync(recognitionText);
     }
 }
