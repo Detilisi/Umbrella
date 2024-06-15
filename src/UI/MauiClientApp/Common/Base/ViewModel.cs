@@ -1,152 +1,29 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Media;
-using System.Diagnostics;
-using System.Globalization;
+﻿using System.Diagnostics;
 
 namespace MauiClientApp.Common.Base;
 
 internal abstract partial class ViewModel : ObservableObject
 {
-    //Services
-    private readonly ITextToSpeech _textToSpeech;
-    private readonly ISpeechToText _speechToText;
-    private const string defaultLanguage = "en-US";
-
-    //Properties
-    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(ListenCommand))]
-    bool canListenExecute = true;
-
-    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(StartListenCommand))]
-    bool canStartListenExecute = true;
-
-    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(StopListenCommand))]
-    bool canStopListenExecute = false;
     internal static ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
 
-    //Construction
-    protected ViewModel()
-    {
-        _textToSpeech = TextToSpeech.Default;
-        _speechToText = SpeechToText.Default;
-    }
-
-    public virtual async void OnViewModelStarting(CancellationToken token = default)
+    public virtual void OnViewModelStarting(CancellationToken token = default)
     {
         Debug.WriteLine($"{GetType().Name} is closing");
-        await StartListenCommand.ExecuteAsync(token);
     }
     public virtual void OnViewModelClosing(CancellationToken token = default)
     {
         Debug.WriteLine($"{GetType().Name} is closing");
-        StopListenCommand.Execute(token);
-    }
 
-    //Method
-    [RelayCommand]
-    internal async Task Speak(string text, CancellationToken token = default)
-    {
-        var timeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
-        try
+        SpeechService.OnSpeechAnounced = text => ChatHistory.Add(new ChatHistoryModel()
         {
-            ChatHistory.Add(new ChatHistoryModel()
-            {
-                Sender = ChatSender.Bot,
-                Message = text
-            });
-
-            await _textToSpeech.SpeakAsync(text, new()
-            {
-                Pitch = 1,
-                Volume = 1
-            }, token).WaitAsync(timeoutCancellationTokenSource.Token);
-        }
-        catch (TaskCanceledException)
+            Sender = ChatSender.Bot,
+            Message = text
+        });
+        SpeechService.OnSpeechRecognized = recognitionText => ChatHistory.Add(new ChatHistoryModel()
         {
-            await Toast.Make("Playback automatically stopped after 5 seconds").Show(token);
-        }
-    }
-
-    [RelayCommand(CanExecute = nameof(CanStartListenExecute))]
-    internal async Task StartListen()
-    {
-        CanStartListenExecute = false;
-        CanStopListenExecute = true;
-
-        var isGranted = await _speechToText.RequestPermissions();
-        if (!isGranted)
-        {
-            await Toast.Make("Permission not granted").Show();
-            return;
-        }
-
-        await _speechToText.StartListenAsync(CultureInfo.GetCultureInfo(defaultLanguage));
-
-        _speechToText.RecognitionResultUpdated += HandleRecognitionResultUpdated;
-    }
-
-    [RelayCommand(IncludeCancelCommand = true, CanExecute = nameof(CanListenExecute))]
-    async Task<string> Listen(CancellationToken cancellationToken)
-    {
-        CanStartListenExecute = false;
-        var recognitionText = string.Empty;
-
-        try
-        {
-            var isGranted = await _speechToText.RequestPermissions(cancellationToken);
-            if (!isGranted)
-            {
-                await Toast.Make("Permission not granted").Show(cancellationToken);
-            }
-
-            var recognitionResult = await _speechToText.ListenAsync(
-                CultureInfo.GetCultureInfo(defaultLanguage),
-                new Progress<string>(partialText =>
-                {
-                }), cancellationToken);
-
-            if (recognitionResult.IsSuccessful)
-            {
-                recognitionText = recognitionResult.Text;
-                ChatHistory.Add(new ChatHistoryModel()
-                {
-                    Sender = ChatSender.Human,
-                    Message = recognitionText
-                });
-            }
-            else
-            {
-                await Toast.Make(recognitionResult.Exception?.Message ?? "Unable to recognize speech").Show(CancellationToken.None);
-            }
-
-            return recognitionText;
-        }
-        finally
-        {
-            CanStartListenExecute = true;
-        }
-    }
-
-    [RelayCommand(CanExecute = nameof(CanStopListenExecute))]
-    internal Task StopListen(CancellationToken cancellationToken)
-    {
-        CanStartListenExecute = true;
-        CanStopListenExecute = false;
-        _speechToText.RecognitionResultUpdated -= HandleRecognitionResultUpdated;
-
-        return _speechToText.StopListenAsync(cancellationToken);
-    }
-
-    //Event handlers
-    private async void HandleRecognitionResultUpdated(object? sender, SpeechToTextRecognitionResultUpdatedEventArgs e)
-    {
-        var recognitionText = e.RecognitionResult;
-        ChatHistory.Add(new ChatHistoryModel() 
-        { 
-            Sender = ChatSender.Human, 
+            Sender = ChatSender.Human,
             Message = recognitionText
         });
-
-        await SpeakCommand.ExecuteAsync(recognitionText);
     }
 }
