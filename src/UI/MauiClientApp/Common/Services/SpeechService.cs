@@ -64,13 +64,12 @@ internal static class SpeechService
 
         try
         {
-            var recognitionResult = await SpeechToText.ListenAsync(
-                CultureInfo.GetCultureInfo(defaultLanguage),
-                new Progress<string>(partialText =>
-                {
-                    if (OnSpeechRecognized == null) return;
-                    OnSpeechRecognized.Invoke(partialText);
-                }), token);
+            var recognitionResult = await SpeechToText.ListenAsync
+            (
+                CultureInfo.GetCultureInfo(defaultLanguage), 
+                new Progress<string>(), 
+                token
+            );
 
             if (recognitionResult.IsSuccessful)
             {
@@ -82,11 +81,14 @@ internal static class SpeechService
                 await Toast.Make(recognitionResult.Exception?.Message ?? recognitionText).Show(CancellationToken.None);
             }
 
+
             return recognitionText;
         }
         finally
         {
             CanListenExecute = true;
+            await SpeakAsync(recognitionText, token);
+            OnSpeechRecognized?.Invoke(recognitionText);
         }
     }
     internal static async Task StopListen(CancellationToken token = default)
