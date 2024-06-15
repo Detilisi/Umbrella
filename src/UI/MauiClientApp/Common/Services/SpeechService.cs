@@ -57,7 +57,7 @@ internal static class SpeechService
         await SpeechToText.StartListenAsync(CultureInfo.GetCultureInfo(defaultLanguage), token);
         SpeechToText.RecognitionResultUpdated += HandleRecognitionResultUpdated;
     }
-    internal static async Task<string> Listen(CancellationToken token = default)
+    internal static async Task<string> ListenAsync(CancellationToken token = default)
     {
         CanListenExecute = false;
         var recognitionText = string.Empty;
