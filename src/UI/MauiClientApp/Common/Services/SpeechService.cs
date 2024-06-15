@@ -8,49 +8,76 @@ internal class SpeechService
 {
     //Fields
     const string defaultLanguage = "en-US";
-    internal static EventHandler OnSpeechRecognized { get; set; } = delegate { };
 
     //Fields
-    private static bool _canListenExecute = true;
-    private static bool _canStartListenExecute = true;
-    
-    private static ITextToSpeech _textToSpeech = TextToSpeech.Default;
-    private static ISpeechToText _speechToText = SpeechToText.Default;
+    private static bool CanListenExecute { get; set; }
+    private static bool CanStartListenExecute { get; set; }
+    private static ITextToSpeech TextToSpeech { get; } = Microsoft.Maui.Media.TextToSpeech.Default;
+    private static ISpeechToText SpeechToText { get; } = CommunityToolkit.Maui.Media.SpeechToText.Default;
+
+    //Propertues
+    internal static Action<string> OnSpeechAnounced { get; set; } = null!;
+    internal static Action<string> OnSpeechRecognized { get; set; } = null!;
 
     //Permision method
     internal static void RequestPermissions(CancellationToken token = default)
     {
-        var isGranted = _speechToText.RequestPermissions(token);
-        _canListenExecute = isGranted.Result;
-        _canStartListenExecute = isGranted.Result;
+        var isGranted = SpeechToText.RequestPermissions(token);
+        CanListenExecute = isGranted.Result;
+        CanStartListenExecute = isGranted.Result;
+    }
+
+    //Speak methods
+    internal async Task SpeakAsync(string text, CancellationToken token = default)
+    {
+        var timeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+
+        try
+        {
+            if(OnSpeechAnounced != null)
+            {
+                OnSpeechAnounced.Invoke(text);
+            }
+
+            await TextToSpeech.SpeakAsync(text, new()
+            {
+                Pitch = 1,
+                Volume = 1
+            }, token).WaitAsync(timeoutCancellationTokenSource.Token);
+        }
+        catch (TaskCanceledException)
+        {
+            await Toast.Make("Playback automatically stopped after 5 seconds").Show(token);
+        }
     }
 
     //Listen methods
     internal async Task StartListenAsync(CancellationToken token = default)
     {
-        if (!_canStartListenExecute) return;
-        _canStartListenExecute = false;
+        if (!CanStartListenExecute) return;
+        CanStartListenExecute = false;
 
-        await _speechToText.StartListenAsync(CultureInfo.GetCultureInfo(defaultLanguage), token);
-        _speechToText.RecognitionResultUpdated += HandleRecognitionResultUpdated;
+        await SpeechToText.StartListenAsync(CultureInfo.GetCultureInfo(defaultLanguage), token);
+        SpeechToText.RecognitionResultUpdated += HandleRecognitionResultUpdated;
     }
-    internal static async Task<string> Listen(CancellationToken cancellationToken)
+    internal static async Task<string> Listen(CancellationToken token = default)
     {
-        _canListenExecute = false;
+        CanListenExecute = false;
         var recognitionText = string.Empty;
 
         try
         {
-            var recognitionResult = await _speechToText.ListenAsync(
+            var recognitionResult = await SpeechToText.ListenAsync(
                 CultureInfo.GetCultureInfo(defaultLanguage),
                 new Progress<string>(partialText =>
                 {
-                }), cancellationToken);
+                    if (OnSpeechRecognized == null) return;
+                    OnSpeechRecognized.Invoke(partialText);
+                }), token);
 
             if (recognitionResult.IsSuccessful)
             {
                 recognitionText = recognitionResult.Text;
-                //Execute handler
             }
             else
             {
@@ -62,18 +89,18 @@ internal class SpeechService
         }
         finally
         {
-            _canListenExecute = true;
+            CanListenExecute = true;
         }
     }
     internal static async Task StopListen(CancellationToken token = default)
     {
-        if (_canStartListenExecute || _canListenExecute) return;
-        _canListenExecute = true;
-        _canStartListenExecute = true;
+        if (CanStartListenExecute || CanListenExecute) return;
+        CanListenExecute = true;
+        CanStartListenExecute = true;
 
-        _speechToText.RecognitionResultUpdated -= HandleRecognitionResultUpdated;
+        SpeechToText.RecognitionResultUpdated -= HandleRecognitionResultUpdated;
 
-        await _speechToText.StopListenAsync(token);
+        await SpeechToText.StopListenAsync(token);
     }
 
     //Helpers
