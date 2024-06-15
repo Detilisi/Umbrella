@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace MauiClientApp.Common.Services;
 
-internal class SpeechService
+internal static class SpeechService
 {
     //Fields
     const string defaultLanguage = "en-US";
@@ -28,16 +28,13 @@ internal class SpeechService
     }
 
     //Speak methods
-    internal async Task SpeakAsync(string text, CancellationToken token = default)
+    internal static async Task SpeakAsync(string text, CancellationToken token = default)
     {
         var timeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
         try
         {
-            if (OnSpeechAnounced != null)
-            {
-                OnSpeechAnounced.Invoke(text);
-            }
+            OnSpeechAnounced?.Invoke(text);
 
             await TextToSpeech.SpeakAsync(text, new()
             {
