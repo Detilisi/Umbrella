@@ -29,15 +29,26 @@ internal class EmailSyncPage: EmailPage<EmailSyncViewModel>
     //View component Initialization
     private void InitializeViewComponents()
     {
+        Shell.SetBackButtonBehavior(this, new BackButtonBehavior()
+        {
+            IsVisible = false,
+            IsEnabled = false
+        });
+
         PageTitleLabel = new Label
         {
             Text = "Umbrella",
             FontSize = 26,
+            TextColor = Colors.White,
             FontAttributes = FontAttributes.Bold,
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center
         };
 
         Shell.SetTitleView(this, PageTitleLabel);
+    }
+    protected override bool OnBackButtonPressed()
+    {
+        return true;
     }
 }
