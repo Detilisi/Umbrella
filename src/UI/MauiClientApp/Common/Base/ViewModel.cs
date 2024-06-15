@@ -11,8 +11,11 @@ internal abstract partial class ViewModel : ObservableObject
     private readonly ITextToSpeech _textToSpeech;
     private readonly ISpeechToText _speechToText;
     private const string defaultLanguage = "en-US";
-    
+
     //Properties
+    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(ListenCommand))]
+    bool canListenExecute = true;
+
     [ObservableProperty, NotifyCanExecuteChangedFor(nameof(StartListenCommand))]
     bool canStartListenExecute = true;
 
@@ -80,6 +83,48 @@ internal abstract partial class ViewModel : ObservableObject
         await _speechToText.StartListenAsync(CultureInfo.GetCultureInfo(defaultLanguage));
 
         _speechToText.RecognitionResultUpdated += HandleRecognitionResultUpdated;
+    }
+
+    [RelayCommand(IncludeCancelCommand = true, CanExecute = nameof(CanListenExecute))]
+    async Task<string> Listen(CancellationToken cancellationToken)
+    {
+        CanStartListenExecute = false;
+        var recognitionText = string.Empty;
+
+        try
+        {
+            var isGranted = await _speechToText.RequestPermissions(cancellationToken);
+            if (!isGranted)
+            {
+                await Toast.Make("Permission not granted").Show(cancellationToken);
+            }
+
+            var recognitionResult = await _speechToText.ListenAsync(
+                CultureInfo.GetCultureInfo(defaultLanguage),
+                new Progress<string>(partialText =>
+                {
+                }), cancellationToken);
+
+            if (recognitionResult.IsSuccessful)
+            {
+                recognitionText = recognitionResult.Text;
+                ChatHistory.Add(new ChatHistoryModel()
+                {
+                    Sender = ChatSender.Human,
+                    Message = recognitionText
+                });
+            }
+            else
+            {
+                await Toast.Make(recognitionResult.Exception?.Message ?? "Unable to recognize speech").Show(CancellationToken.None);
+            }
+
+            return recognitionText;
+        }
+        finally
+        {
+            CanStartListenExecute = true;
+        }
     }
 
     [RelayCommand(CanExecute = nameof(CanStopListenExecute))]
