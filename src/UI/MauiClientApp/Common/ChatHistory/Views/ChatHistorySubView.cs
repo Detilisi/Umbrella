@@ -22,14 +22,12 @@ internal class ChatHistorySubView : Frame
         var topRowSize = 0.7;
         var bottomRowSize = 0.3;
 
-        var chatHistory = new ScrollView()
+        var historyCollection = new CollectionView
         {
-            Content = new CollectionView
-            {
-                SelectionMode = SelectionMode.None,
-                ItemTemplate = new ChatDataTemplate(),
-                ItemsSource = ViewModel.ChatHistory
-            }
+            SelectionMode = SelectionMode.None,
+            ItemTemplate = new ChatDataTemplate(),
+            ItemsSource = ViewModel.ChatHistory,
+            ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView,
         };
 
         var actionIcon = new IconLabel(FontAwesomeIcons.UmbrellaBeach)
@@ -44,7 +42,7 @@ internal class ChatHistorySubView : Frame
             ],
             Children =
             {
-                chatHistory.Row(Row.Top),
+                historyCollection.Row(Row.Top),
                 actionIcon.Row(Row.Bottom),
             }
         };
