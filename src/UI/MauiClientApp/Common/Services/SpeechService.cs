@@ -87,7 +87,6 @@ internal static class SpeechService
         finally
         {
             CanListenExecute = true;
-            await SpeakAsync(recognitionText, token);
             OnSpeechRecognized?.Invoke(recognitionText);
         }
     }
