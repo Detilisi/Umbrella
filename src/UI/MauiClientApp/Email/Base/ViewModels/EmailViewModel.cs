@@ -10,7 +10,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     {
         base.OnViewModelStarting(token);
 
-        if (SpeechService.OnSpeechAnounced == null || SpeechService.OnSpeechRecognized == null) return;
+        if (SpeechService.OnSpeechAnounced != null && SpeechService.OnSpeechRecognized != null) return;
         SpeechService.OnSpeechAnounced = text => ChatHistory.Add(new ChatHistoryModel()
         {
             Sender = ChatSender.Bot,
