@@ -44,7 +44,7 @@ internal static class SpeechService
         }
         catch (TaskCanceledException)
         {
-            await Toast.Make("Playback automatically stopped after 5 seconds").Show(token);
+            //await Toast.Make("Playback automatically stopped after 5 seconds").Show(token);
         }
     }
 
