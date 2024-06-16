@@ -14,6 +14,9 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
 
         //load emails
         await LoadEmailsAsync(token);
+
+        //Start convo
+        await HandleConvernsation();
     }
 
     //Load methods
@@ -28,8 +31,34 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
         {
             EmailMessageList.Add(emailModel);
         }
+    }
 
-        
+    //
+    private async Task HandleConvernsation()
+    {
+        //Announce option
+        await SpeechService.SpeakAsync($"You have {EmailMessageList.Count} new messages.");
+        await SpeechService.SpeakAsync($"Would you like to read your emails or compose a new email messages?");
+
+        //Get user input
+        var userInput = await SpeechService.ListenAsync();
+
+        //Process
+        if (!string.IsNullOrEmpty(userInput)) 
+        {
+            //Get intent
+            var writeIntent = userInput.ToLower().Contains("write");
+            var readIntent = userInput.ToLower().Contains("read");
+
+            //Perform intent
+            if (writeIntent)
+            {
+                await WriteEmailCommand.ExecuteAsync(writeIntent);
+                return;
+            }
+        }
+
+        await HandleConvernsation();
     }
 
     //Commands
