@@ -78,7 +78,7 @@ internal static class SpeechService
             else
             {
                 recognitionText = "Unable to recognize speech";
-                await Toast.Make(recognitionResult.Exception?.Message ?? recognitionText).Show(CancellationToken.None);
+                //await Toast.Make(recognitionResult.Exception?.Message ?? recognitionText).Show(CancellationToken.None);
             }
 
 
