@@ -38,7 +38,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     {
         //Announce option
         await SpeechService.SpeakAsync($"You have {EmailMessageList.Count} new messages.");
-        await SpeechService.SpeakAsync($"Would you like to read your emails or compose a new email messages?");
+        await SpeechService.SpeakAsync($"Would you like to read your emails or compose a new email message?");
 
         //Get user input
         var userInput = await SpeechService.ListenAsync();
