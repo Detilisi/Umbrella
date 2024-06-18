@@ -11,6 +11,13 @@ internal class IntentRecognizer
 {
     private static readonly Dictionary<UserIntent, HashSet<string>> IntentCommands = new Dictionary<UserIntent, HashSet<string>>
     {
+        { UserIntent.ReadEmails, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "Read", "Check", "Review", "Scan", "Skim", "Look over", "Browse", "Peruse", "Inspect",
+                "Examine", "Glance at", "Go through", "Scroll through", "Study", "Monitor", "Look through",
+                "Analyze", "Verify", "Observe", "Take a look"
+            }
+        },
         { UserIntent.WriteEmail, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
                 "Compose", "Draft", "Write", "Send", "Type", "Create", "Prepare", "Pen down", "Construct",
@@ -18,13 +25,6 @@ internal class IntentRecognizer
                 "Jot down", "Fire off"
             }
         },
-        { UserIntent.ReadEmails, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-            {
-                "Read", "Check", "Review", "Scan", "Skim", "Look over", "Browse", "Peruse", "Inspect",
-                "Examine", "Glance at", "Go through", "Scroll through", "Study", "Monitor", "Look through",
-                "Analyze", "Verify", "Observe", "Take a look"
-            }
-        }
     };
 
     internal static UserIntent GetIntent(string text)
