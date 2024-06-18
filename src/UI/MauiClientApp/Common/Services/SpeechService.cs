@@ -59,6 +59,7 @@ internal static class SpeechService
     }
     internal static async Task<string> ListenAsync(CancellationToken token = default)
     {
+        RequestPermissions();
         CanListenExecute = false;
         var recognitionText = string.Empty;
 
@@ -66,8 +67,11 @@ internal static class SpeechService
         {
             var recognitionResult = await SpeechToText.ListenAsync
             (
-                CultureInfo.GetCultureInfo(defaultLanguage), 
-                new Progress<string>(), 
+                CultureInfo.GetCultureInfo(defaultLanguage),
+                new Progress<string>(partialText =>
+                {
+                    recognitionText += partialText + " ";
+                }), 
                 token
             );
 
