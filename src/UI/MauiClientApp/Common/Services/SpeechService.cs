@@ -59,7 +59,7 @@ internal static class SpeechService
     }
     internal static async Task<string> ListenAsync(CancellationToken token = default)
     {
-        RequestPermissions();
+        RequestPermissions(token);
         CanListenExecute = false;
         var recognitionText = string.Empty;
 
@@ -67,11 +67,8 @@ internal static class SpeechService
         {
             var recognitionResult = await SpeechToText.ListenAsync
             (
-                CultureInfo.GetCultureInfo(defaultLanguage),
-                new Progress<string>(partialText =>
-                {
-                    recognitionText += partialText + " ";
-                }), 
+                CultureInfo.GetCultureInfo(defaultLanguage), 
+                new Progress<string>(), 
                 token
             );
 
@@ -82,7 +79,6 @@ internal static class SpeechService
             else
             {
                 recognitionText = "Unable to recognize speech";
-                //await Toast.Make(recognitionResult.Exception?.Message ?? recognitionText).Show(CancellationToken.None);
             }
 
 
