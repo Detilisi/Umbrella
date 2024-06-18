@@ -1,4 +1,5 @@
 ﻿using Application.Email.Features.Queries.GetEmailList;
+using MauiClientApp.Common.Enums;
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
 
@@ -16,7 +17,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
         await LoadEmailsAsync(token);
 
         //Start convo
-        await HandleConvernsation();
+        await InitializeConvernsation();
     }
 
     //Load methods
@@ -31,34 +32,6 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
         {
             EmailMessageList.Add(emailModel);
         }
-    }
-
-    //
-    private async Task HandleConvernsation()
-    {
-        //Announce option
-        await SpeechService.SpeakAsync($"You have {EmailMessageList.Count} new messages.");
-        await SpeechService.SpeakAsync($"Would you like to read your emails or compose a new email message?");
-
-        //Get user input
-        var userInput = await SpeechService.ListenAsync();
-
-        //Process
-        if (!string.IsNullOrEmpty(userInput)) 
-        {
-            //Get intent
-            var writeIntent = userInput.ToLower().Contains("write");
-            var readIntent = userInput.ToLower().Contains("read");
-
-            //Perform intent
-            if (writeIntent)
-            {
-                await WriteEmailCommand.ExecuteAsync(writeIntent);
-                return;
-            }
-        }
-
-        await HandleConvernsation();
     }
 
     //Commands
@@ -77,6 +50,58 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     public async Task WriteEmail()
     {
         await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
+    }
+
+    //UI method
+    private async Task InitializeConvernsation()
+    {
+        //Intro
+        await SpeechService.SpeakAsync("Hello,my name is Umbrella, your voice operated emailing system.");
+        await SpeechService.SpeakAsync("Please let me know how I can help you?");
+
+        //Get user input
+        await GetAndHandleUserInput();
+
+        //Announce option
+        await SpeechService.SpeakAsync($"You currently have {EmailMessageList.Count} new messages.");
+        await SpeechService.SpeakAsync("Please let me know if you want me to read your messages, " +
+            "or if you want me to help you write an email to a friend or boss?");
+
+        //Get user input
+        await GetAndHandleUserInput();
+
+        //Repeat
+        await InitializeConvernsation();
+    }
+
+    //Helpers
+    private async Task GetAndHandleUserInput()
+    {
+        //Get user input
+        var userInput = await SpeechService.ListenAsync();
+
+        //Process
+        if (!string.IsNullOrEmpty(userInput))
+        {
+            //Get intent
+            var userIntent = IntentRecognizer.GetIntent(userInput);
+
+            //Perform intent
+            if (userIntent == UserIntent.WriteEmail)
+            {
+                await WriteEmailCommand.ExecuteAsync(null);
+                return;
+            }
+            if (userIntent == UserIntent.ReadEmails)
+            {
+                //Skim through all message
+                for (var i = 0; i < EmailMessageList.Count; i++)
+                {
+                    var message = EmailMessageList[i];
+                    await SpeechService.SpeakAsync($@"Message {i} is from {message.SenderName}, subject {message.Subject}");
+                }
+            }
+        }
     }
 }
 
