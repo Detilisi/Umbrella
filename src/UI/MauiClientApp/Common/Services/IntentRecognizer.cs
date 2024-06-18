@@ -37,7 +37,7 @@ internal class IntentRecognizer
             return UserIntent.WriteEmail;
         }
 
-        var readEmailActionWords = new List<string>
+        var readEmailCommands = new List<string>
         {
             "Read",
             "Check",
