@@ -6,6 +6,7 @@ namespace MauiClientApp.Email.EmailList.ViewModels;
 internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(mediator)
 {
     //Properties
+    private bool ShouldKeepConversation { get; set; }
     public ObservableCollection<EmailModel> EmailMessageList { get; set; } = [];
 
     //Life cycle 
@@ -55,23 +56,20 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     //UI method
     private async Task InitializeConvernsation()
     {
-        //Intro
-        await SpeechService.SpeakAsync("Hello,my name is Umbrella, your voice operated emailing system.");
-        await SpeechService.SpeakAsync("Please let me know how I can help you?");
+        ShouldKeepConversation = true;
+        while (ShouldKeepConversation)
+        {
+            //Intro
+            await SpeechService.SpeakAsync("Hello,my name is Umbrella, your voice operated emailing system.");
+            await SpeechService.SpeakAsync("Please let me know how I can help you?");
+            await GetAndHandleUserInput();
 
-        //Get user input
-        await GetAndHandleUserInput();
-
-        //Announce option
-        await SpeechService.SpeakAsync($"You currently have {EmailMessageList.Count} new messages.");
-        await SpeechService.SpeakAsync("Please let me know if you want me to read your messages, " +
-            "or if you want me to help you write an email to a friend or boss?");
-
-        //Get user input
-        await GetAndHandleUserInput();
-
-        //Repeat
-        await InitializeConvernsation();
+            //Announce option
+            await SpeechService.SpeakAsync($"You currently have {EmailMessageList.Count} new messages.");
+            await SpeechService.SpeakAsync("Please let me know if you want me to read your messages, " +
+                "or if you want me to help you write an email to a friend or boss?");
+            await GetAndHandleUserInput();
+        }
     }
 
     //Helpers
@@ -91,15 +89,17 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
             if (userIntent == UserIntent.WriteEmail)
             {
                 await WriteEmailCommand.ExecuteAsync(null);
+                ShouldKeepConversation = false;
                 return;
             }
             if (userIntent == UserIntent.ReadEmails)
             {
+                ShouldKeepConversation = false;
                 //Skim through all message
                 for (var i = 0; i < EmailMessageList.Count; i++)
                 {
                     var message = EmailMessageList[i];
-                    await SpeechService.SpeakAsync($@"Message {i} is from {message.SenderName}, subject {message.Subject}");
+                    await SpeechService.SpeakAsync($"Message {i + 1} is from {message.SenderName}, subject {message.Subject}");
                 }
             }
         }
