@@ -90,7 +90,7 @@ internal static class SpeechService
             OnSpeechRecognized?.Invoke(recognitionText);
         }
     }
-    internal static async Task StopListen(CancellationToken token = default)
+    internal static async Task StopListenAsync(CancellationToken token = default)
     {
         if (CanStartListenExecute || CanListenExecute) return;
         CanListenExecute = true;
