@@ -79,6 +79,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     {
         //Get user input
         var userInput = await SpeechService.ListenAsync();
+        await SpeechService.StopListenAsync();
 
         //Process
         if (!string.IsNullOrEmpty(userInput))
