@@ -13,11 +13,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     public override async void OnViewModelStarting(CancellationToken token = default)
     {
         base.OnViewModelStarting(token);
-
-        //load emails
         await LoadEmailsAsync(token);
-
-        //Start convo
         await InitializeConvernsation();
     }
 
@@ -29,6 +25,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
         var emailList = await _mediator.Send(loadEmailQuery, token);
         if (emailList.IsFailure) return;
 
+        EmailMessageList.Clear();
         foreach (var emailModel in emailList.Value)
         {
             EmailMessageList.Add(emailModel);
@@ -57,17 +54,17 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     private async Task InitializeConvernsation()
     {
         ShouldKeepConversation = true;
+
+        //Intro
+        await SpeechService.SpeakAsync("Hello,my name is Umbrella, your voice operated emailing system.");
+        await SpeechService.SpeakAsync("Please let me know how I can help you?");
+        await GetAndHandleUserInput();
+
         while (ShouldKeepConversation)
         {
-            //Intro
-            await SpeechService.SpeakAsync("Hello,my name is Umbrella, your voice operated emailing system.");
-            await SpeechService.SpeakAsync("Please let me know how I can help you?");
-            await GetAndHandleUserInput();
-
             //Announce option
             await SpeechService.SpeakAsync($"You currently have {EmailMessageList.Count} new messages.");
-            await SpeechService.SpeakAsync("Please let me know if you want me to read your messages, " +
-                "or if you want me to help you write an email to a friend or boss?");
+            await SpeechService.SpeakAsync("Would you like me to read your messages or help you write an email?");
             await GetAndHandleUserInput();
         }
     }
