@@ -23,8 +23,9 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         });
     }
 
-    public override void OnViewModelClosing(CancellationToken cancellationToken = default)
+    public override async void OnViewModelClosing(CancellationToken cancellationToken = default)
     {
         base.OnViewModelClosing(cancellationToken);
+        await SpeechService.StopListenAsync();
     }
 }
