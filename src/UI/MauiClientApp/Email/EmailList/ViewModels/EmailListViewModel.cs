@@ -1,4 +1,4 @@
-﻿using Application.Email.Features.Queries.GetEmailList;
+using Application.Email.Features.Queries.GetEmailList;
 using MauiClientApp.Common.Enums;
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
