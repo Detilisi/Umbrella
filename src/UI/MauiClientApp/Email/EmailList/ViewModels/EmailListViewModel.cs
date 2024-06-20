@@ -1,5 +1,6 @@
 using Application.Email.Features.Queries.GetEmailList;
 using MauiClientApp.Common.Enums;
+using MauiClientApp.Resources.Strings;
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
 
@@ -20,8 +21,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     //Load methods
     private async Task LoadEmailsAsync(CancellationToken token)
     {
-        var userId = 1;
-        var loadEmailQuery = new GetEmailListQuery(userId);
+        var loadEmailQuery = new GetEmailListQuery(1);
         var emailList = await _mediator.Send(loadEmailQuery, token);
         if (emailList.IsFailure) return;
 
@@ -56,15 +56,15 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
         ShouldKeepConversation = true;
 
         //Intro
-        await SpeechService.SpeakAsync("Hello,my name is Umbrella, your voice operated emailing system.");
-        await SpeechService.SpeakAsync("Please let me know how I can help you?");
+        await SpeechService.SpeakAsync(UiStrings.AppIntroduction);
+        await SpeechService.SpeakAsync(UiStrings.GenericQuery);
         await GetAndHandleUserInput();
 
         while (ShouldKeepConversation)
         {
             //Announce option
-            await SpeechService.SpeakAsync($"You currently have {EmailMessageList.Count} new messages.");
-            await SpeechService.SpeakAsync("Would you like me to read your messages or help you write an email?");
+            await SpeechService.SpeakAsync(string.Format(UiStrings.InboxCountMessage, EmailMessageList.Count));
+            await SpeechService.SpeakAsync(UiStrings.ReadEmailQuery);
             await GetAndHandleUserInput();
         }
     }
@@ -96,7 +96,8 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
                 for (var i = 0; i < EmailMessageList.Count; i++)
                 {
                     var message = EmailMessageList[i];
-                    await SpeechService.SpeakAsync($"Message {i + 1} is from {message.SenderName}, subject {message.Subject}");
+                    await SpeechService.SpeakAsync(
+                        string.Format(UiStrings.GlanceOverEmailMessage, i + 1, message.SenderName, message.Subject));
                 }
             }
         }
