@@ -61,47 +61,101 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hello,my name is Umbrella, your voice operated emailing system..
+        ///   Looks up a localized string similar to Please try again..
         /// </summary>
-        internal static string AppIntroduction {
+        internal static string AppCommand_Restart {
             get {
-                return ResourceManager.GetString("AppIntroduction", resourceCulture);
+                return ResourceManager.GetString("AppCommand_Restart", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please let me know how I can help you?.
+        ///   Looks up a localized string similar to My capabilities are only limited to reading or writing email messages..
         /// </summary>
-        internal static string GenericQuery {
+        internal static string AppInfo_Capabilities {
             get {
-                return ResourceManager.GetString("GenericQuery", resourceCulture);
+                return ResourceManager.GetString("AppInfo_Capabilities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hi there! I’m Umbrella, your friendly voice-operated email assistant..
+        /// </summary>
+        internal static string AppInfo_Introduction {
+            get {
+                return ResourceManager.GetString("AppInfo_Introduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How can I help you today?.
+        /// </summary>
+        internal static string AppQuery_Generic {
+            get {
+                return ResourceManager.GetString("AppQuery_Generic", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Message {0} is from {1}, subject {2}.
         /// </summary>
-        internal static string GlanceOverEmailMessage {
+        internal static string InboxInfo_EmailSummarry {
             get {
-                return ResourceManager.GetString("GlanceOverEmailMessage", resourceCulture);
+                return ResourceManager.GetString("InboxInfo_EmailSummarry", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You currently have {0} new messages..
+        ///   Looks up a localized string similar to Do you want me to open this email?.
         /// </summary>
-        internal static string InboxCountMessage {
+        internal static string InboxQuery_OpenEmail {
             get {
-                return ResourceManager.GetString("InboxCountMessage", resourceCulture);
+                return ResourceManager.GetString("InboxQuery_OpenEmail", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Would you like me to read your messages or help you write an email?.
+        ///   Looks up a localized string similar to Certainly! You currently have {0} unread messages..
         /// </summary>
-        internal static string ReadEmailQuery {
+        internal static string InputReponse_ReadEmails {
             get {
-                return ResourceManager.GetString("ReadEmailQuery", resourceCulture);
+                return ResourceManager.GetString("InputReponse_ReadEmails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got it! Let&apos;s head over to the email drafting screen and begin.
+        /// </summary>
+        internal static string InputReponse_WriteEmail {
+            get {
+                return ResourceManager.GetString("InputReponse_WriteEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hmm, I didn&apos;t quite get that. Could you repeat it for me?.
+        /// </summary>
+        internal static string InputResponse_Invalid {
+            get {
+                return ResourceManager.GetString("InputResponse_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Great! Let&apos;s move forward and review the email in detail..
+        /// </summary>
+        internal static string InputResponse_OpenEmail {
+            get {
+                return ResourceManager.GetString("InputResponse_OpenEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I&apos;m afraid I can&apos;t perform that task at the moment..
+        /// </summary>
+        internal static string InputResponse_Undefined {
+            get {
+                return ResourceManager.GetString("InputResponse_Undefined", resourceCulture);
             }
         }
     }
