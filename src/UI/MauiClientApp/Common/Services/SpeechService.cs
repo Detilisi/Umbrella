@@ -28,7 +28,7 @@ internal static class SpeechService
     }
 
     //Speak methods
-    internal static async Task SpeakAsync(string text, CancellationToken token = default)
+    internal static async Task<Result> SpeakAsync(string text, CancellationToken token = default)
     {
         var timeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
@@ -41,10 +41,12 @@ internal static class SpeechService
                 Pitch = 1,
                 Volume = 1
             }, token).WaitAsync(timeoutCancellationTokenSource.Token);
+
+            return Result.Success();
         }
         catch (TaskCanceledException)
         {
-            //await Toast.Make("Playback automatically stopped after 5 seconds").Show(token);
+            return Result.Failure(new Error("SpeecToText.Speak Failed", ""));
         }
     }
 
@@ -57,7 +59,7 @@ internal static class SpeechService
         await SpeechToText.StartListenAsync(CultureInfo.GetCultureInfo(defaultLanguage), token);
         SpeechToText.RecognitionResultUpdated += HandleRecognitionResultUpdated;
     }
-    internal static async Task<string> ListenAsync(CancellationToken token = default)
+    internal static async Task<Result<string>> ListenAsync(CancellationToken token = default)
     {
         RequestPermissions(token);
         CanListenExecute = false;
@@ -78,11 +80,11 @@ internal static class SpeechService
             }
             else
             {
-                recognitionText = "Unable to recognize speech";
+                return Result.Failure<string>(new Error("SpeecToText.Listen Failed", ""));
             }
 
 
-            return recognitionText;
+            return Result.Success(recognitionText); 
         }
         finally
         {
