@@ -80,6 +80,7 @@ internal static class SpeechService
             }
             else
             {
+                recognitionText = "Error";
                 return Result.Failure<string>(new Error("SpeecToText.Listen Failed", ""));
             }
 
