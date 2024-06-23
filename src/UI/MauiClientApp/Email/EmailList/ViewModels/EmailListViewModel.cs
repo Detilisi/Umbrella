@@ -53,31 +53,12 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     //VM conversationm
     private async Task StartVMConversationm()
     {
-        var userInputFailCount = 0;
         await SpeechService.SpeakAsync(UiStrings.AppInfo_Introduction);
         await SpeechService.SpeakAsync(UiStrings.AppQuery_Generic);
-
-        //Get user input
-        start : var userInput = await SpeechService.ListenAsync();
-        if (userInput.IsFailure) 
-        {
-            userInputFailCount++;
-            if (userInputFailCount == 4) OnViewModelClosing(); //Close app
-            
-            await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid);
-            goto start;
-        }
-
+   
         //Get intent
-        var userIntent = IntentRecognizer.GetIntent(userInput.Value);
-        if (userIntent == UserIntent.Undefined)
-        {
-            await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined);
-            await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities);
-            await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart);
-            goto start;
-        }
-        else if (userIntent == UserIntent.WriteEmail)
+        var userIntent = await ListenAndUserIntent();
+        if (userIntent == UserIntent.WriteEmail)
         {
             await SpeechService.SpeakAsync(UiStrings.InputReponse_WriteEmail);
             await WriteEmailCommand.ExecuteAsync(null);
@@ -91,9 +72,10 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
                 var message = EmailMessageList[i];
                 await SpeechService.SpeakAsync(string.Format(UiStrings.InboxInfo_EmailSummarry, i + 1, message.SenderName, message.Subject));
                 await SpeechService.SpeakAsync(UiStrings.InboxQuery_OpenEmail);
-                var userInput1 = await SpeechService.ListenAsync();
-                var userIntent1 = IntentRecognizer.GetIntent(userInput1.Value);
-                if (userIntent1 == UserIntent.OpenEmail || userIntent1 == UserIntent.Affirm)
+
+                //Get intent
+                var userIntenti = await ListenAndUserIntent();
+                if (userIntenti == UserIntent.OpenEmail || userIntenti == UserIntent.Affirm)
                 {
                     await SpeechService.SpeakAsync(UiStrings.InputResponse_OpenEmail);
                     await OpenEmailCommand.ExecuteAsync(message);
@@ -101,6 +83,35 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
                 }
             }
         }
+    }
+
+    //Helper method
+    private async Task<UserIntent> ListenAndUserIntent()
+    {
+        var userInputFailCount = 0;
+
+        //Get user input
+        start : var userInput = await SpeechService.ListenAsync();
+        if (userInputFailCount == 4) OnViewModelClosing(); //Close app
+        if (userInput.IsFailure) 
+        {
+            userInputFailCount++;
+            await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid);
+            goto start;
+        }
+
+        //Get intent
+        var userIntent = IntentRecognizer.GetIntent(userInput.Value);
+        if (userIntent == UserIntent.Undefined)
+        {
+            userInputFailCount++;
+            await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined);
+            await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities);
+            await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart);
+            goto start;
+        }
+
+        return userIntent;
     }
 }
 
