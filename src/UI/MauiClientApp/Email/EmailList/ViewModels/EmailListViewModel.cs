@@ -54,7 +54,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     private async Task StartVMConversationm()
     {
         var userInputFailCount = 0;
-        await SpeechService.SpeakAsync("Hello my name is Umbrella, your voice operated emailing system.");
+        await SpeechService.SpeakAsync("Hi there! I’m Umbrella, your friendly voice-operated email assistant.");
         await SpeechService.SpeakAsync("How can I help you today?");
 
         //Get user input
@@ -64,7 +64,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
             userInputFailCount++;
             if (userInputFailCount == 4) OnViewModelClosing(); //Close app
             
-            await SpeechService.SpeakAsync("Sorry, I don't think I understood that, may you please try again.");
+            await SpeechService.SpeakAsync("Hmm, I didn't quite get that. Could you repeat it for me?");
             goto start;
         }
 
@@ -72,19 +72,19 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
         var userIntent = IntentRecognizer.GetIntent(userInput.Value);
         if (userIntent == UserIntent.Undefined)
         {
-            await SpeechService.SpeakAsync("Sorry, I cannot perform this request at the moment.");
+            await SpeechService.SpeakAsync("I'm afraid I can't perform that task at the moment.");
             await SpeechService.SpeakAsync("My capabilities are only limited to reading or writing email messages.");
             await SpeechService.SpeakAsync("Please try again.");
             goto start;
         }
         else if (userIntent == UserIntent.WriteEmail)
         {
-            await SpeechService.SpeakAsync("Sure thing, I will navigate to the email drafting screen and we will get started from there.");
+            await SpeechService.SpeakAsync("Got it! Let's head over to the email drafting screen and begin.");
             await WriteEmailCommand.ExecuteAsync(null);
         }
         else if (userIntent == UserIntent.ReadEmails)
         {
-            await SpeechService.SpeakAsync($"Sure thing, you have {EmailMessageList.Count} unread messages");
+            await SpeechService.SpeakAsync($"Of course! There are {EmailMessageList.Count} unread messages for you.");
             //Skim through all message
             for (var i = 0; i < EmailMessageList.Count; i++)
             {
@@ -93,15 +93,14 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
                 await SpeechService.SpeakAsync("Do you want me to open this email?");
                 var userInput1 = await SpeechService.ListenAsync();
                 var userIntent1 = IntentRecognizer.GetIntent(userInput1.Value);
-                if (userIntent1 == UserIntent.OpenEmail || userInput1.Value.ToLower() == "yes")
+                if (userIntent1 == UserIntent.OpenEmail || userIntent1 == UserIntent.Affirm)
                 {
-                    await SpeechService.SpeakAsync("No problem, I will navigate to the email detail screen and we will get started from there.");
+                    await SpeechService.SpeakAsync("Great! Let's move forward and review the email in detail.");
                     await OpenEmailCommand.ExecuteAsync(message);
                     break;
                 }
             }
         }
-
     }
 }
 
