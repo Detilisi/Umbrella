@@ -117,19 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppIntroduction" xml:space="preserve">
-    <value>Hello,my name is Umbrella, your voice operated emailing system.</value>
+  <data name="AppCommand_Restart" xml:space="preserve">
+    <value>Please try again.</value>
   </data>
-  <data name="GenericQuery" xml:space="preserve">
-    <value>Please let me know how I can help you?</value>
+  <data name="AppInfo_Capabilities" xml:space="preserve">
+    <value>My capabilities are only limited to reading or writing email messages.</value>
   </data>
-  <data name="GlanceOverEmailMessage" xml:space="preserve">
+  <data name="AppInfo_Introduction" xml:space="preserve">
+    <value>Hi there! I’m Umbrella, your friendly voice-operated email assistant.</value>
+  </data>
+  <data name="AppQuery_Generic" xml:space="preserve">
+    <value>How can I help you today?</value>
+  </data>
+  <data name="InboxInfo_EmailSummarry" xml:space="preserve">
     <value>Message {0} is from {1}, subject {2}</value>
   </data>
-  <data name="InboxCountMessage" xml:space="preserve">
-    <value>You currently have {0} new messages.</value>
+  <data name="InboxQuery_OpenEmail" xml:space="preserve">
+    <value>Do you want me to open this email?</value>
   </data>
-  <data name="ReadEmailQuery" xml:space="preserve">
-    <value>Would you like me to read your messages or help you write an email?</value>
+  <data name="InputReponse_ReadEmails" xml:space="preserve">
+    <value>Certainly! You currently have {0} unread messages.</value>
+  </data>
+  <data name="InputReponse_WriteEmail" xml:space="preserve">
+    <value>Got it! Let's head over to the email drafting screen and begin</value>
+  </data>
+  <data name="InputResponse_Invalid" xml:space="preserve">
+    <value>Hmm, I didn't quite get that. Could you repeat it for me?</value>
+  </data>
+  <data name="InputResponse_OpenEmail" xml:space="preserve">
+    <value>Great! Let's move forward and review the email in detail.</value>
+  </data>
+  <data name="InputResponse_Undefined" xml:space="preserve">
+    <value>I'm afraid I can't perform that task at the moment.</value>
   </data>
 </root>
