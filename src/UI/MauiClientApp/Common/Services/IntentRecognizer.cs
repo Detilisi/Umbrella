@@ -1,11 +1,6 @@
 ﻿using MauiClientApp.Common.Enums;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MauiClientApp.Common.Services;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 internal class IntentRecognizer
 {
@@ -25,6 +20,12 @@ internal class IntentRecognizer
                 "Jot down", "Fire off"
             }
         },
+        { UserIntent.OpenEmail, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "Open", "View", "Access", "Display", "Show", "Reveal", "Expose", "Unveil", "Present",
+                "Uncover", "Look at", "Inspect", "Check", "See", "Examine", "Peruse", "Yes"
+            }
+        }
     };
 
     internal static UserIntent GetIntent(string text)
@@ -41,6 +42,6 @@ internal class IntentRecognizer
             }
         }
 
-        return UserIntent.CancelOperation;
+        return UserIntent.Undefined;
     }
 }
