@@ -8,4 +8,5 @@ internal enum UserIntent
     OpenEmail,
     WriteEmail,
     SendEmail,
+    Affirm
 }
