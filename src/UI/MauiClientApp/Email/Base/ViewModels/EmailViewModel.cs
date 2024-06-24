@@ -28,4 +28,33 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         base.OnViewModelClosing(cancellationToken);
         await SpeechService.StopListenAsync();
     }
+
+    //Helper method
+    protected async Task<UserIntent> ListenAndUserIntent()
+    {
+        var userInputFailCount = 0;
+
+    //Get user input
+    start: var userInput = await SpeechService.ListenAsync();
+        if (userInputFailCount == 4) OnViewModelClosing(); //Close app
+        if (userInput.IsFailure)
+        {
+            userInputFailCount++;
+            await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid);
+            goto start;
+        }
+
+        //Get intent
+        var userIntent = IntentRecognizer.GetIntent(userInput.Value);
+        if (userIntent == UserIntent.Undefined)
+        {
+            userInputFailCount++;
+            await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined);
+            await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities);
+            await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart);
+            goto start;
+        }
+
+        return userIntent;
+    }
 }
