@@ -1,5 +1,4 @@
-﻿using MauiClientApp.Common.ChatHistory.Models;
-using MauiClientApp.Common.ChatHistory.Triggers;
+﻿using MauiClientApp.Common.ChatHistory.Triggers;
 
 namespace MauiClientApp.Common.ChatHistory.Templates;
 
