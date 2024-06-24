@@ -55,7 +55,7 @@ internal class ChatTemplateIconTriggers
             new Setter()
             {
                 Property = Label.TextProperty,
-                Value = FontAwesomeIcons.Robot
+                Value = FontAwesomeIcons.UmbrellaBeach
             }
         }
     };
