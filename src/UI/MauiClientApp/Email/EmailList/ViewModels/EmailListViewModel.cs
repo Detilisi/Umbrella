@@ -64,6 +64,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
         else if (userIntent == UserIntent.ReadEmails)
         {
             await SpeechService.SpeakAsync(string.Format(UiStrings.InputReponse_ReadEmails, EmailMessageList.Count));
+
             //Skim through all message
             for (var i = 0; i < EmailMessageList.Count; i++)
             {
