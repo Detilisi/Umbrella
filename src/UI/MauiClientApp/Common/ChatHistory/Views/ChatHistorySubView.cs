@@ -30,7 +30,7 @@ internal class ChatHistorySubView : Frame
             ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView,
         };
 
-        var actionIcon = new IconLabel(FontAwesomeIcons.UmbrellaBeach)
+        var actionIcon = new IconLabel(FontAwesomeIcons.Microphone)
             .DynamicResource(View.StyleProperty, "ChatTemplateIcon");
 
         HistoryGrid = new Grid
