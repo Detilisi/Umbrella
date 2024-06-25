@@ -26,14 +26,30 @@ internal class IntentRecognizer
                 "Uncover", "Look at", "Inspect", "Check", "See", "Examine", "Peruse", "Browse"
             }
         },
-        { UserIntent.Affirm, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        { UserIntent.Cancel, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "Cancel", "Abort", "Stop", "Terminate", "Discontinue", "Halt", "Cease", "End", "Annul",
+                "Call off", "Scrap", "Drop", "Dismiss", "Nullify", "Revoke", "Rescind", "Abort mission",
+                "Scrap", "Cut short", "Put an end to", "Break off", "Give up"
+            }
+        },
+        { UserIntent.No, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "No", "Nope", "Nah", "Not at all", "No way", "Negative", "Absolutely not", "Never", "By no means",
+                "Not really", "Nuh-uh", "No thanks", "Not quite", "No sir", "Not interested", "Refuse",
+                "Decline", "Reject", "Disagree", "Not now"
+            }
+        },
+        { UserIntent.Yes, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
                 "Yes", "Yeah", "Yup", "Sure", "Absolutely", "Definitely", "Indeed", "Affirmative",
                 "Correct", "Right", "True", "Agreed", "Confirm", "I agree", "I confirm", "Of course",
-                "Certainly", "Okay", "Ok", "All right", "Alright", "Yep", "I do", "Exactly"
+                "Certainly", "Okay", "Ok", "All right", "Alright", "Yep", "I do", "Exactly", "For sure",
+                "Without a doubt", "Of course", "Sure thing", "By all means", "Naturally"
             }
         }
     };
+
 
     internal static UserIntent GetIntent(string text)
     {

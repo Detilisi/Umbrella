@@ -4,9 +4,14 @@ internal enum UserIntent
 {
     Undefined,
     CancelOperation,
+    
     ReadEmails,
     OpenEmail,
     WriteEmail,
     SendEmail,
-    Affirm
+
+    ReplyEmail,
+    ForwardEmail,
+
+    Ok, Cancel, Yes, No
 }
