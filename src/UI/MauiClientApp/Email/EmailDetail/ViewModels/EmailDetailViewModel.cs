@@ -6,10 +6,11 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
     public EmailModel CurrentEmail { get; set; } = null!;
 
     //Navigation
-    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         var selectedEmail = (EmailModel)query[nameof(EmailModel)];
         CurrentEmail = selectedEmail;
+        await StartVMConversationm();
     }
 
     //Commands
@@ -37,7 +38,9 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
         var userIntent = await ListenAndUserIntent();
         if (userIntent == UserIntent.Yes)
         {
-            read:  SpeechService.SpeakAsync($"Sure thing, the email body reads: {CurrentEmail.Body}").Wait();
+            
+
+            read: var result = Task.Run(async () => await SpeechService.SpeakAsync($"Sure thing, the email body reads: {CurrentEmail.Body}")).Result;
             await SpeechService.SpeakAsync("Do you want me to read it again?");
             
             var userIntent1 = await ListenAndUserIntent();
