@@ -74,7 +74,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
 
                 //Get intent
                 var userIntenti = await ListenAndUserIntent();
-                if (userIntenti == UserIntent.OpenEmail || userIntenti == UserIntent.Affirm)
+                if (userIntenti == UserIntent.OpenEmail || userIntenti == UserIntent.Yes)
                 {
                     await SpeechService.SpeakAsync(UiStrings.InputResponse_OpenEmail);
                     await OpenEmailCommand.ExecuteAsync(message);

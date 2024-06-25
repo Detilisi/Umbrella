@@ -13,5 +13,5 @@ internal enum UserIntent
     ReplyEmail,
     ForwardEmail,
 
-    Affirm
+    Ok, Cancel, Yes, No
 }
