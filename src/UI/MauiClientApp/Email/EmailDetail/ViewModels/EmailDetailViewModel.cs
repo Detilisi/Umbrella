@@ -12,6 +12,18 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
         CurrentEmail = selectedEmail;
     }
 
+    //Commands
+    [RelayCommand]
+    public async Task ReplyEmail()
+    {
+        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
+    }
+
+    [RelayCommand]
+    public async Task ForwardEmail()
+    {
+        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
+    }
     //VM conversationm
     private async Task StartVMConversationm()
     {
@@ -25,10 +37,18 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
         var userIntent = await ListenAndUserIntent();
         if (userIntent == UserIntent.Affirm)
         {
-            await SpeechService.SpeakAsync($"Sure thing, the email body reads: {CurrentEmail.Body}");
+            read:  await SpeechService.SpeakAsync($"Sure thing, the email body reads: {CurrentEmail.Body}");
             await SpeechService.SpeakAsync("Do you want me to read it again?");
-
+            
             var userIntent1 = await ListenAndUserIntent();
+            if(userIntent1 == UserIntent.Affirm) goto read;
+        }
+        else 
+        {
+            await SpeechService.SpeakAsync("Do you want to reply, forward, or delete this message?");
+            var userIntent2 = await ListenAndUserIntent();
+            if (userIntent2 == UserIntent.ReplyEmail) await ReplyEmailCommand.ExecuteAsync(null);
+            else if (userIntent2 == UserIntent.ForwardEmail) await ForwardEmailCommand.ExecuteAsync(null);
         }
     }
 }
