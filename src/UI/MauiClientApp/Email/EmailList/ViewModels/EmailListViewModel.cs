@@ -13,7 +13,6 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     {
         base.OnViewModelStarting(token);
         await LoadEmailsAsync(token);
-        await StartVMConversationm();
     }
 
     //Load methods
@@ -49,7 +48,8 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     }
 
     //VM conversationm
-    private async Task StartVMConversationm()
+    [RelayCommand]
+    public async Task StartVMConversation()
     {
         await SpeechService.SpeakAsync(UiStrings.AppInfo_Introduction);
         await SpeechService.SpeakAsync(UiStrings.AppQuery_Generic);
