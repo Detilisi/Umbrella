@@ -23,6 +23,11 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
     };
 
     //View component Initialization
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+        ViewModel.StartVMConversationCommand.Execute(null);
+    }
     private void InitializeViewComponents()
     {
         Title = "Inbox";
