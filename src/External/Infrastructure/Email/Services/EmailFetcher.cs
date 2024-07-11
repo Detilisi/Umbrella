@@ -67,6 +67,25 @@ public class EmailFetcher : IEmailFetcher, IDisposable
 
         return Result.Success(allMessages);
     }
+    public async Task<Result<List<EmailModel>>> LazyLoadEmailsAsync(int pageSize, int skip, CancellationToken token = default)
+    {
+        if (!IsConnected) return Result.Failure<List<EmailModel>>(Error.Cancelled); // No connection error
+
+        var allMessages = new List<EmailModel>();
+
+        await _imapClient.Inbox.OpenAsync(FolderAccess.ReadOnly, token);
+
+        var uids = await _imapClient.Inbox.SearchAsync(SearchQuery.All, token);
+        for (int i = uids.Count - 1 - skip; i >= Math.Max(0, uids.Count - skip - pageSize); i--)
+        {
+            var uid = uids[i];
+            var mimeMessage = await _imapClient.Inbox.GetMessageAsync(uid, token);
+            allMessages.Add(ConvertToEmailModel(mimeMessage));
+        }
+
+
+        return Result.Success(allMessages);
+    }
 
     //Helper methods
     private EmailModel ConvertToEmailModel(MimeMessage mimeMessage)
