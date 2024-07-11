@@ -7,5 +7,6 @@ public interface IEmailFetcher : IDisposable
     
     //Methods
     Task<Result<List<EmailModel>>> LoadEmailsAsync(CancellationToken token = default);
+    Task<Result<List<EmailModel>>> LazyLoadEmailsAsync(int pageSize, int skip, CancellationToken token = default);
     Task<Result> ConnectAsync(string emailAddress, string password, CancellationToken token = default);
 }
