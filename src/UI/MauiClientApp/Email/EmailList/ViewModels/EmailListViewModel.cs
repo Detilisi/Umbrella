@@ -33,6 +33,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     [RelayCommand]
     public async Task OpenEmail(EmailModel selectedEmail)
     {
+        ShouldStopConversation = true;
         var navigationParameter = new Dictionary<string, object>
         {
             [nameof(EmailModel)] = selectedEmail
@@ -44,6 +45,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     [RelayCommand]
     public async Task WriteEmail()
     {
+        ShouldStopConversation = true;
         await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
     }
 
