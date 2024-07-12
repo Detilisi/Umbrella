@@ -136,7 +136,7 @@
     <value>Do you want me to open this email?</value>
   </data>
   <data name="InputReponse_ReadEmails" xml:space="preserve">
-    <value>Certainly! You currently have {0} unread messages.</value>
+    <value>Certainly! You currently have {0} new messages.</value>
   </data>
   <data name="InputReponse_WriteEmail" xml:space="preserve">
     <value>Got it! Let's head over to the email drafting screen and begin</value>
