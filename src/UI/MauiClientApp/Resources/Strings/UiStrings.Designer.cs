@@ -115,7 +115,7 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Certainly! You currently have {0} unread messages..
+        ///   Looks up a localized string similar to Certainly! You currently have {0} new messages..
         /// </summary>
         internal static string InputReponse_ReadEmails {
             get {
