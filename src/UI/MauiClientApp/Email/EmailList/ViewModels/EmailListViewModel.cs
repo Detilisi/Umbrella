@@ -71,7 +71,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
             for (var i = 0; i < EmailMessageList.Count; i++)
             {
                 var message = EmailMessageList[i];
-                await SpeechService.SpeakAsync(string.Format(UiStrings.InboxInfo_EmailSummarry, i + 1, message.SenderName, message.Subject));
+                await SpeechService.SpeakAsync(string.Format(UiStrings.InboxInfo_EmailSummary, i + 1, message.SenderName, message.Subject));
                 await SpeechService.SpeakAsync(UiStrings.InboxQuery_OpenEmail);
 
                 //Get intent
