@@ -129,7 +129,7 @@
   <data name="AppQuery_Generic" xml:space="preserve">
     <value>How can I help you today?</value>
   </data>
-  <data name="InboxInfo_EmailSummarry" xml:space="preserve">
+  <data name="InboxInfo_EmailSummary" xml:space="preserve">
     <value>Message {0} is from {1}, subject {2}</value>
   </data>
   <data name="InboxQuery_OpenEmail" xml:space="preserve">
@@ -149,5 +149,26 @@
   </data>
   <data name="InputResponse_Undefined" xml:space="preserve">
     <value>I'm afraid I can't perform that task at the moment.</value>
+  </data>
+  <data name="ReadingInfo_EmailSummary" xml:space="preserve">
+    <value>This message was sent by {0} at {1}</value>
+  </data>
+  <data name="ReadingInfo_Introduction" xml:space="preserve">
+    <value>Welcome to the email reading page</value>
+  </data>
+  <data name="ReadingInfo_Subject" xml:space="preserve">
+    <value>Email subject line: {0}</value>
+  </data>
+  <data name="ReadingQuery_ReadEmail" xml:space="preserve">
+    <value>Should I proceed reading this message?</value>
+  </data>
+  <data name="ReadingQuery_RepeatDelete" xml:space="preserve">
+    <value>Do you want to reply or delete this message?</value>
+  </data>
+  <data name="ReadingQuery_RepeatRead" xml:space="preserve">
+    <value>Do you want me to read it again?</value>
+  </data>
+  <data name="ReadingReponse_ReadEmail" xml:space="preserve">
+    <value>Absolutely, the email reads as follows</value>
   </data>
 </root>
