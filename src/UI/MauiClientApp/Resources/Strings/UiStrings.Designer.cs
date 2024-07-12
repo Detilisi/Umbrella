@@ -99,9 +99,9 @@ namespace MauiClientApp.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Message {0} is from {1}, subject {2}.
         /// </summary>
-        internal static string InboxInfo_EmailSummarry {
+        internal static string InboxInfo_EmailSummary {
             get {
-                return ResourceManager.GetString("InboxInfo_EmailSummarry", resourceCulture);
+                return ResourceManager.GetString("InboxInfo_EmailSummary", resourceCulture);
             }
         }
         
@@ -156,6 +156,69 @@ namespace MauiClientApp.Resources.Strings {
         internal static string InputResponse_Undefined {
             get {
                 return ResourceManager.GetString("InputResponse_Undefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This message was sent by {0} at {1}.
+        /// </summary>
+        internal static string ReadingInfo_EmailSummary {
+            get {
+                return ResourceManager.GetString("ReadingInfo_EmailSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to the email reading page.
+        /// </summary>
+        internal static string ReadingInfo_Introduction {
+            get {
+                return ResourceManager.GetString("ReadingInfo_Introduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email subject line: {0}.
+        /// </summary>
+        internal static string ReadingInfo_Subject {
+            get {
+                return ResourceManager.GetString("ReadingInfo_Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Should I proceed reading this message?.
+        /// </summary>
+        internal static string ReadingQuery_ReadEmail {
+            get {
+                return ResourceManager.GetString("ReadingQuery_ReadEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to reply or delete this message?.
+        /// </summary>
+        internal static string ReadingQuery_RepeatDelete {
+            get {
+                return ResourceManager.GetString("ReadingQuery_RepeatDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want me to read it again?.
+        /// </summary>
+        internal static string ReadingQuery_RepeatRead {
+            get {
+                return ResourceManager.GetString("ReadingQuery_RepeatRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Absolutely, the email reads as follows.
+        /// </summary>
+        internal static string ReadingReponse_ReadEmail {
+            get {
+                return ResourceManager.GetString("ReadingReponse_ReadEmail", resourceCulture);
             }
         }
     }
