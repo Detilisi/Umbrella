@@ -4,8 +4,6 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
 {
     //Fields
     protected readonly IMediator _mediator = mediator;
-
-    protected bool ShouldStopConversation = false;
     protected CancellationTokenSource _cancellationTokenSource = new();
 
     //ViewModel lifecylce
@@ -28,6 +26,8 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
 
     public override void OnViewModelClosing(CancellationToken token = default)
     {
+        _cancellationTokenSource.Cancel();
+
         base.OnViewModelClosing(token);
         SpeechService.StopListenAsync(token).GetAwaiter().GetResult();
     }
@@ -40,9 +40,10 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     }
 
     //Helper method
-    protected async Task<UserIntent> ListenAndUserIntent(CancellationToken token)
+    protected async Task<UserIntent> ListenAndUserIntent()
     {
         var userInputFailCount = 0;
+        var token = _cancellationTokenSource.Token;
 
         while (!token.IsCancellationRequested)
         {
@@ -75,40 +76,6 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
                 await SpeechService.StopListenAsync(default);
             }
         }
-
-        return UserIntent.CancelOperation;
-    }
-
-    protected async Task<UserIntent> ListenAndUserIntent()
-    {
-        var userInputFailCount = 0;
-
-        //Get user input
-        start: if (!ShouldStopConversation) 
-        {
-            var userInput = await SpeechService.ListenAsync();
-            if (userInputFailCount == 4) OnViewModelClosing(); //Close app
-            if (userInput.IsFailure)
-            {
-                userInputFailCount++;
-                await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid);
-                goto start;
-            }
-
-            //Get intent
-            var userIntent = IntentRecognizer.GetIntent(userInput.Value);
-            if (userIntent == UserIntent.Undefined)
-            {
-                userInputFailCount++;
-                await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined);
-                await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities);
-                await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart);
-                goto start;
-            }
-
-            return userIntent;
-        }
-
         return UserIntent.CancelOperation;
     }
 }
