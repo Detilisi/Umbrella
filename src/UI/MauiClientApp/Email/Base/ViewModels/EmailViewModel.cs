@@ -4,7 +4,9 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
 {
     //Fields
     protected readonly IMediator _mediator = mediator;
+
     protected bool ShouldStopConversation = false;
+    protected CancellationTokenSource _cancellationTokenSource = new();
 
     //ViewModel lifecylce
     public override void OnViewModelStarting(CancellationToken token = default)
@@ -24,10 +26,10 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         });
     }
 
-    public override async void OnViewModelClosing(CancellationToken token = default)
+    public override void OnViewModelClosing(CancellationToken token = default)
     {
         base.OnViewModelClosing(token);
-        await SpeechService.StopListenAsync();
+        SpeechService.StopListenAsync(token).GetAwaiter().GetResult();
     }
 
     //Virtual method
@@ -38,6 +40,45 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     }
 
     //Helper method
+    protected async Task<UserIntent> ListenAndUserIntent(CancellationToken token)
+    {
+        var userInputFailCount = 0;
+
+        while (!token.IsCancellationRequested)
+        {
+            try
+            {
+                if (userInputFailCount == 4) OnViewModelClosing(token); //Close app
+
+                var userInput = await SpeechService.ListenAsync(token);
+                if (userInput.IsFailure)
+                {
+                    userInputFailCount++;
+                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid, token);
+                    continue;
+                }
+
+                //Get intent
+                var userIntent = IntentRecognizer.GetIntent(userInput.Value);
+                if (userIntent == UserIntent.Undefined)
+                {
+                    userInputFailCount++;
+                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, token);
+                    await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, token);
+                    await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, token);
+                    continue;
+                }
+                return userIntent;
+            }
+            catch (OperationCanceledException)
+            {
+                await SpeechService.StopListenAsync(default);
+            }
+        }
+
+        return UserIntent.CancelOperation;
+    }
+
     protected async Task<UserIntent> ListenAndUserIntent()
     {
         var userInputFailCount = 0;
