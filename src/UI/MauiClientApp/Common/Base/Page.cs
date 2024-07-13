@@ -32,6 +32,14 @@ internal abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel)
         ViewModel.OnViewModelClosing();
         Debug.WriteLine($"OnDisappearing: {Title}");
     }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        ViewModel.OnViewModelHasFocus();
+        Debug.WriteLine($"OnNavigatedTo: {Title}");
+    }
 }
 
 /// <summary>
