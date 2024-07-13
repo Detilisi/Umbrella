@@ -26,7 +26,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
     }
 
     //Handler methods
-    public override async Task HandleUserInteraction()
+    public override async Task HandleUserInteractionAsync()
     {
         var token = _cancellationTokenSource.Token;
 

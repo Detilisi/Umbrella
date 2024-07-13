@@ -37,13 +37,12 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         base.OnViewModelHasFocus(token);
 
         _cancellationTokenSource = new();
-        await HandleUserInteraction();
+        await HandleUserInteractionAsync();
 
     }
 
     //Virtual method
-    [RelayCommand]
-    public virtual Task HandleUserInteraction()
+    public virtual Task HandleUserInteractionAsync()
     {
         return Task.CompletedTask;
     }

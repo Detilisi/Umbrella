@@ -50,7 +50,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     }
 
     //Handler methods
-    public override async Task HandleUserInteraction()
+    public override async Task HandleUserInteractionAsync()
     {
         var token = _cancellationTokenSource.Token;
         await SpeechService.SpeakAsync(UiStrings.AppInfo_Introduction, token);
