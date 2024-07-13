@@ -53,26 +53,29 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     //Handler methods
     public override async Task HandleUserInteraction()
     {
-        await SpeechService.SpeakAsync(UiStrings.AppInfo_Introduction);
-        await SpeechService.SpeakAsync(UiStrings.AppQuery_Generic);
+        var token = _cancellationTokenSource.Token;
+        await SpeechService.SpeakAsync(UiStrings.AppInfo_Introduction, token);
+        await SpeechService.SpeakAsync(UiStrings.AppQuery_Generic, token);
 
         //Get intent
         var userIntent = await ListenAndUserIntent();
         if (userIntent == UserIntent.WriteEmail)
         {
-            await SpeechService.SpeakAsync(UiStrings.InputReponse_WriteEmail);
+            await SpeechService.SpeakAsync(UiStrings.InputReponse_WriteEmail, token);
             await WriteEmailCommand.ExecuteAsync(null);
         }
         else if (userIntent == UserIntent.ReadEmails)
         {
-            await SpeechService.SpeakAsync(string.Format(UiStrings.InputReponse_ReadEmails, EmailMessageList.Count));
+            await SpeechService.SpeakAsync(string.Format(UiStrings.InputReponse_ReadEmails, EmailMessageList.Count), token);
 
             //Skim through all message
             for (var i = 0; i < EmailMessageList.Count; i++)
             {
+                if(token.IsCancellationRequested) break;
+
                 var message = EmailMessageList[i];
-                await SpeechService.SpeakAsync(string.Format(UiStrings.InboxInfo_EmailSummary, i + 1, message.SenderName, message.Subject));
-                await SpeechService.SpeakAsync(UiStrings.InboxQuery_OpenEmail);
+                await SpeechService.SpeakAsync(string.Format(UiStrings.InboxInfo_EmailSummary, i + 1, message.SenderName, message.Subject), token);
+                await SpeechService.SpeakAsync(UiStrings.InboxQuery_OpenEmail, token);
 
                 //Get intent
                 var userIntenti = await ListenAndUserIntent();
