@@ -49,7 +49,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
         await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
     }
 
-    //VM conversationm
+    //Handler methods
     public override async Task HandleUserInteraction()
     {
         await SpeechService.SpeakAsync(UiStrings.AppInfo_Introduction);
