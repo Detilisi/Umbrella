@@ -15,9 +15,9 @@ internal partial class SignUpViewModel(IMediator mediator, IEncryptionService en
     public string UserPassword { set; get; } = null!;
 
     //Life cycle 
-    public override async void OnViewModelStarting(CancellationToken token = default)
+    public override async void OnViewModelStarting()
     {
-        base.OnViewModelStarting(token);
+        base.OnViewModelStarting();
 
         SpeechService.RequestPermissions();
         var autoLoginUserQuery = new AutoLoginUserQuery();

@@ -7,9 +7,9 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     protected CancellationTokenSource _cancellationTokenSource = new();
 
     //ViewModel lifecylce
-    public override void OnViewModelStarting(CancellationToken token = default)
+    public override void OnViewModelStarting()
     {
-        base.OnViewModelStarting(token);
+        base.OnViewModelStarting();
 
         if (SpeechService.OnSpeechAnounced != null && SpeechService.OnSpeechRecognized != null) return;
         SpeechService.OnSpeechAnounced = text => ChatHistory.Add(new ChatHistoryModel()
@@ -24,17 +24,17 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         });
     }
 
-    public override void OnViewModelClosing(CancellationToken token = default)
+    public override void OnViewModelClosing()
     {
         _cancellationTokenSource.Cancel();
 
-        base.OnViewModelClosing(token);
-        SpeechService.StopListenAsync(token).GetAwaiter().GetResult();
+        base.OnViewModelClosing();
+        SpeechService.StopListenAsync().GetAwaiter().GetResult();
     }
 
-    public override async void OnViewModelHasFocus(CancellationToken token = default)
+    public override async void OnViewModelHasFocus()
     {
-        base.OnViewModelHasFocus(token);
+        base.OnViewModelHasFocus();
 
         _cancellationTokenSource = new();
         await HandleUserInteractionAsync();
@@ -57,7 +57,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         {
             try
             {
-                if (userInputFailCount == 4) OnViewModelClosing(token); //Close app
+                if (userInputFailCount == 4) OnViewModelClosing(); //Close app
 
                 var userInput = await SpeechService.ListenAsync(token);
                 if (userInput.IsFailure)

@@ -9,17 +9,17 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     public ObservableCollection<EmailModel> EmailMessageList { get; set; } = [];
 
     //Life cycle 
-    public override async void OnViewModelStarting(CancellationToken token = default)
+    public override async void OnViewModelStarting()
     {
-        base.OnViewModelStarting(token);
-        await LoadEmailsAsync(token);
+        base.OnViewModelStarting();
+        await LoadEmailsAsync();
     }
 
     //Load methods
-    private async Task LoadEmailsAsync(CancellationToken token)
+    private async Task LoadEmailsAsync()
     {
         var loadEmailQuery = new GetEmailListQuery(1);
-        var emailList = await _mediator.Send(loadEmailQuery, token);
+        var emailList = await _mediator.Send(loadEmailQuery);
         if (emailList.IsFailure) return;
 
         EmailMessageList.Clear();
