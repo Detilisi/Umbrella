@@ -22,13 +22,6 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
         .Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
     };
 
-    //Initialize
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        base.OnNavigatedTo(args);
-        ViewModel.StartVMConversationCommand.Execute(null);
-    }
-
     //View component Initialization
     private void InitializeViewComponents()
     {

@@ -13,9 +13,9 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     public EmailModel emailDraft = null!;
 
     //Life cycle 
-    public override void OnViewModelStarting(CancellationToken token = default)
+    public override void OnViewModelStarting()
     {
-        base.OnViewModelStarting(token);
+        base.OnViewModelStarting();
 
         var currentUserResult = _userSessionService.GetCurrentSession();
         if (currentUserResult.IsFailure) return; //Handle error

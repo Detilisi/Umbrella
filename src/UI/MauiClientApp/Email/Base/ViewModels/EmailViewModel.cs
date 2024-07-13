@@ -4,12 +4,12 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
 {
     //Fields
     protected readonly IMediator _mediator = mediator;
-    protected bool ShouldStopConversation = false;
+    protected CancellationTokenSource _cancellationTokenSource = new();
 
     //ViewModel lifecylce
-    public override void OnViewModelStarting(CancellationToken token = default)
+    public override void OnViewModelStarting()
     {
-        base.OnViewModelStarting(token);
+        base.OnViewModelStarting();
 
         if (SpeechService.OnSpeechAnounced != null && SpeechService.OnSpeechRecognized != null) return;
         SpeechService.OnSpeechAnounced = text => ChatHistory.Add(new ChatHistoryModel()
@@ -24,43 +24,66 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         });
     }
 
-    public override async void OnViewModelClosing(CancellationToken cancellationToken = default)
+    public override void OnViewModelClosing()
     {
-        base.OnViewModelClosing(cancellationToken);
-        await SpeechService.StopListenAsync();
+        _cancellationTokenSource.Cancel();
+
+        base.OnViewModelClosing();
+        SpeechService.StopListenAsync().GetAwaiter().GetResult();
+    }
+
+    public override async void OnViewModelHasFocus()
+    {
+        base.OnViewModelHasFocus();
+
+        _cancellationTokenSource = new();
+        await HandleUserInteractionAsync();
+
+    }
+
+    //Virtual method
+    public virtual Task HandleUserInteractionAsync()
+    {
+        return Task.CompletedTask;
     }
 
     //Helper method
     protected async Task<UserIntent> ListenAndUserIntent()
     {
         var userInputFailCount = 0;
+        var token = _cancellationTokenSource.Token;
 
-        //Get user input
-        start: if (!ShouldStopConversation) 
+        while (!token.IsCancellationRequested)
         {
-            var userInput = await SpeechService.ListenAsync();
-            if (userInputFailCount == 4) OnViewModelClosing(); //Close app
-            if (userInput.IsFailure)
+            try
             {
-                userInputFailCount++;
-                await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid);
-                goto start;
-            }
+                if (userInputFailCount == 4) OnViewModelClosing(); //Close app
 
-            //Get intent
-            var userIntent = IntentRecognizer.GetIntent(userInput.Value);
-            if (userIntent == UserIntent.Undefined)
+                var userInput = await SpeechService.ListenAsync(token);
+                if (userInput.IsFailure)
+                {
+                    userInputFailCount++;
+                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid, token);
+                    continue;
+                }
+
+                //Get intent
+                var userIntent = IntentRecognizer.GetIntent(userInput.Value);
+                if (userIntent == UserIntent.Undefined)
+                {
+                    userInputFailCount++;
+                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, token);
+                    await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, token);
+                    await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, token);
+                    continue;
+                }
+                return userIntent;
+            }
+            catch (OperationCanceledException)
             {
-                userInputFailCount++;
-                await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined);
-                await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities);
-                await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart);
-                goto start;
+                await SpeechService.StopListenAsync(default);
             }
-
-            return userIntent;
         }
-
         return UserIntent.CancelOperation;
     }
 }
