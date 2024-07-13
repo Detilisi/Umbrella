@@ -25,8 +25,9 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
     {
         await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
     }
-    //VM conversationm
-    private async Task StartVMConversationm()
+
+    //Handler methods
+    public override async Task HandleUserInteraction()
     {
         //Introduction
         await SpeechService.SpeakAsync(UiStrings.ReadingInfo_Introduction);
