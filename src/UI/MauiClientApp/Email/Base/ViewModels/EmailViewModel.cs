@@ -30,6 +30,13 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         await SpeechService.StopListenAsync();
     }
 
+    //Virtual method
+    [RelayCommand]
+    public virtual Task HandleUserInteraction()
+    {
+        return Task.CompletedTask;
+    }
+
     //Helper method
     protected async Task<UserIntent> ListenAndUserIntent()
     {
