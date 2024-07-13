@@ -14,4 +14,9 @@ internal abstract partial class ViewModel : ObservableObject
     {
         Debug.WriteLine($"{GetType().Name} is closing");
     }
+
+    public virtual void OnViewModelHasFocus(CancellationToken token = default)
+    {
+        Debug.WriteLine($"{GetType().Name} has focus at {DateTime.Now}");
+    }
 }
