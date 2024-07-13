@@ -32,6 +32,15 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         SpeechService.StopListenAsync(token).GetAwaiter().GetResult();
     }
 
+    public override async void OnViewModelHasFocus(CancellationToken token = default)
+    {
+        base.OnViewModelHasFocus(token);
+
+        _cancellationTokenSource = new();
+        await HandleUserInteraction();
+
+    }
+
     //Virtual method
     [RelayCommand]
     public virtual Task HandleUserInteraction()
