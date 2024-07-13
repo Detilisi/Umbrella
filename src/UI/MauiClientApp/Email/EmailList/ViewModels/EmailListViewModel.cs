@@ -1,4 +1,5 @@
 using Application.Email.Features.Queries.GetEmailList;
+using System.Threading;
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
 
@@ -33,7 +34,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     [RelayCommand]
     public async Task OpenEmail(EmailModel selectedEmail)
     {
-        ShouldStopConversation = true;
+        _cancellationTokenSource.Cancel();
         var navigationParameter = new Dictionary<string, object>
         {
             [nameof(EmailModel)] = selectedEmail
@@ -45,7 +46,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     [RelayCommand]
     public async Task WriteEmail()
     {
-        ShouldStopConversation = true;
+        _cancellationTokenSource.Cancel();
         await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
     }
 
