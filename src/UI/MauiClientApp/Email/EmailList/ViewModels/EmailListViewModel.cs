@@ -50,12 +50,11 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     }
 
     //VM conversationm
-    [RelayCommand]
-    public async Task StartVMConversation()
+    public override async Task HandleUserInteraction()
     {
         await SpeechService.SpeakAsync(UiStrings.AppInfo_Introduction);
         await SpeechService.SpeakAsync(UiStrings.AppQuery_Generic);
-   
+
         //Get intent
         var userIntent = await ListenAndUserIntent();
         if (userIntent == UserIntent.WriteEmail)
