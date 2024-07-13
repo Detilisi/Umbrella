@@ -25,7 +25,7 @@ internal abstract partial class EmailPage<TViewModel>(TViewModel viewModel) :
     {
         base.OnNavigatedTo(args);
 
-        await ViewModel.HandleUserEmailInteractionCommand.ExecuteAsync(null);
+        await ViewModel.HandleUserInteractionCommand.ExecuteAsync(null);
     }
 
     protected virtual void InitializeEmailPage()
