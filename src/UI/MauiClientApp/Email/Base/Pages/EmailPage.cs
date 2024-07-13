@@ -21,6 +21,13 @@ internal abstract partial class EmailPage<TViewModel>(TViewModel viewModel) :
         base.OnAppearing();
     }
 
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        await ViewModel.HandleUserEmailInteractionCommand.ExecuteAsync(null);
+    }
+
     protected virtual void InitializeEmailPage()
     {
         InitializeMainGridLayout();
