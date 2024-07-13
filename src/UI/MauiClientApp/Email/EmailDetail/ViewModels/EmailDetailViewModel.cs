@@ -6,11 +6,10 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
     public EmailModel CurrentEmail { get; set; } = null!;
 
     //Navigation
-    public async void ApplyQueryAttributes(IDictionary<string, object> query)
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         var selectedEmail = (EmailModel)query[nameof(EmailModel)];
         CurrentEmail = selectedEmail;
-        await StartVMConversationm();
     }
 
     //Commands
