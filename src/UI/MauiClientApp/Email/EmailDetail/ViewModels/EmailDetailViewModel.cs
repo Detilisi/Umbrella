@@ -32,7 +32,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
         //Introduction
         await SpeechService.SpeakAsync(UiStrings.ReadingInfo_Introduction);
         await SpeechService.SpeakAsync(string.Format(UiStrings.ReadingInfo_EmailSummary, 
-            CurrentEmail.SenderName, CurrentEmail.CreatedAt.ToString("F")));
+            CurrentEmail.SenderName, CurrentEmail.CreatedAt));
         await SpeechService.SpeakAsync(string.Format(UiStrings.ReadingInfo_Subject, CurrentEmail.Subject));
 
         //Get user inpit 
