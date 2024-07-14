@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Media;
+﻿using CommunityToolkit.Maui.Media;
 using System.Globalization;
 
 namespace MauiClientApp.Common.Services;
@@ -41,8 +40,6 @@ internal static class SpeechService
             };
             await TextToSpeech.SpeakAsync(text, options, token);
             
-            //.WaitAsync(timeoutCancellationTokenSource.Token);
-
             return Result.Success();
         }
         catch (TaskCanceledException)
