@@ -20,7 +20,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
     }
 
     [RelayCommand]
-    public async Task ForwardEmail()
+    public async Task DeleteEmail()
     {
         await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
     }
@@ -53,7 +53,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
             await SpeechService.SpeakAsync(UiStrings.ReadingQuery_RepeatDelete, token);
             var userIntent2 = await ListenAndUserIntent();
             if (userIntent2 == UserIntent.ReplyEmail) await ReplyEmailCommand.ExecuteAsync(null);
-            else if (userIntent2 == UserIntent.ForwardEmail) await ForwardEmailCommand.ExecuteAsync(null);
+            else if (userIntent2 == UserIntent.DeleteEmail) await DeleteEmailCommand.ExecuteAsync(null);
         }
     }
 }
