@@ -8,8 +8,6 @@ internal static class SpeechService
 {
     //Fields
     const string defaultLanguage = "en-US";
-
-    //Fields
     private static bool CanListenExecute { get; set; }
     private static bool CanStartListenExecute { get; set; }
     private static ITextToSpeech TextToSpeech { get; } = Microsoft.Maui.Media.TextToSpeech.Default;
@@ -36,11 +34,14 @@ internal static class SpeechService
         {
             OnSpeechAnounced?.Invoke(text);
 
-            await TextToSpeech.SpeakAsync(text, new()
+            var options = new SpeechOptions()
             {
                 Pitch = 1,
-                Volume = 1
-            }, token).WaitAsync(timeoutCancellationTokenSource.Token);
+                Volume = 1,
+            };
+            await TextToSpeech.SpeakAsync(text, options, token);
+            
+            //.WaitAsync(timeoutCancellationTokenSource.Token);
 
             return Result.Success();
         }
