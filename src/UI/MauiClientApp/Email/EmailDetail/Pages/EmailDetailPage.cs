@@ -39,6 +39,7 @@ internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<Email
     //View component Initialization
     private void InitializeToolBar()
     {
+        Title = "Email";
         var replyToolbarItem = new ToolbarItem
         {
             IconImageSource = new FontImageSource
@@ -60,6 +61,7 @@ internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<Email
             Command = new Command(async () => await ViewModel.DeleteEmailCommand.ExecuteAsync(ViewModel.CurrentEmail))
         };
 
+        ToolbarItems.Add(deleteToolbarItem);
         ToolbarItems.Add(replyToolbarItem);
     }
     private void InitializeViewComponents()
