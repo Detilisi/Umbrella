@@ -31,11 +31,37 @@ internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<Email
         var currentEmail = ViewModel.CurrentEmail;
         EmailSenderView = new(currentEmail.SenderName??currentEmail.Sender, currentEmail.CreatedAt);
 
+        InitializeToolBar();
         InitializeViewComponents();
         InitializeEmailPage();
     }
 
     //View component Initialization
+    private void InitializeToolBar()
+    {
+        var replyToolbarItem = new ToolbarItem
+        {
+            IconImageSource = new FontImageSource
+            {
+                Size = 30,
+                FontFamily = "FontAwesomeSolid",
+                Glyph = FontAwesomeIcons.Reply
+            },
+            Command = new Command(async () => await ViewModel.ReplyEmailCommand.ExecuteAsync(ViewModel.CurrentEmail))
+        };
+        var deleteToolbarItem = new ToolbarItem
+        {
+            IconImageSource = new FontImageSource
+            {
+                Size = 30,
+                FontFamily = "FontAwesomeSolid",
+                Glyph = FontAwesomeIcons.TrashCan
+            },
+            Command = new Command(async () => await ViewModel.DeleteEmailCommand.ExecuteAsync(ViewModel.CurrentEmail))
+        };
+
+        ToolbarItems.Add(replyToolbarItem);
+    }
     private void InitializeViewComponents()
     {
         SeparatorBoxView = new();
