@@ -42,7 +42,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
         if (userIntent == UserIntent.Yes)
         {
             read:  await SpeechService.SpeakAsync(UiStrings.ReadingReponse_ReadEmail, token);
-            var result = Task.Run(async () => await SpeechService.SpeakAsync(CurrentEmail.Body, token)).Result;
+            await SpeechService.SpeakAsync(CurrentEmail.Body, token);
             await SpeechService.SpeakAsync(UiStrings.ReadingQuery_RepeatRead, token);
             
             var userIntent1 = await ListenAndUserIntent();
