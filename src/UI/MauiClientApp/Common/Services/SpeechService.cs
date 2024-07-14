@@ -27,8 +27,6 @@ internal static class SpeechService
     //Speak methods
     internal static async Task<Result> SpeakAsync(string text, CancellationToken token = default)
     {
-        var timeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-
         try
         {
             OnSpeechAnounced?.Invoke(text);
