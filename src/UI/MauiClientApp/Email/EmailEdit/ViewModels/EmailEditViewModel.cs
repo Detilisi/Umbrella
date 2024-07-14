@@ -25,8 +25,25 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
             Recipients = [],
             Body = string.Empty,
             Subject = string.Empty,
-            SenderName = string.Empty,
+            SenderName = currentUserResult.Value.UserName,
             Sender = currentUserResult.Value.EmailAddress,
+        };
+    }
+
+    //Navigation
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        var currentUserResult = _userSessionService.GetCurrentSession();
+        if (currentUserResult.IsFailure) return; //Handle error
+
+        var selectedEmail = (EmailModel)query[nameof(EmailModel)];
+        EmailDraft = new()
+        {
+            Body = string.Empty,
+            Subject = $"RE: {selectedEmail.Subject}",
+            SenderName = currentUserResult.Value.UserName,
+            Sender = currentUserResult.Value.EmailAddress,
+            Recipients = [selectedEmail.Recipients.FirstOrDefault()],
         };
     }
 
