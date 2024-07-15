@@ -38,20 +38,20 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
 
         //Get user inpit 
         await SpeechService.SpeakAsync(UiStrings.ReadingQuery_ReadEmail, token);
-        var userIntent = await ListenAndUserIntent();
+        var userIntent = await ListenForUserIntent();
         if (userIntent == UserIntent.Yes)
         {
             read:  await SpeechService.SpeakAsync(UiStrings.ReadingReponse_ReadEmail, token);
             await SpeechService.SpeakAsync(CurrentEmail.Body, token);
             await SpeechService.SpeakAsync(UiStrings.ReadingQuery_RepeatRead, token);
             
-            var userIntent1 = await ListenAndUserIntent();
+            var userIntent1 = await ListenForUserIntent();
             if(userIntent1 == UserIntent.Yes) goto read;
         }
         else 
         {
             await SpeechService.SpeakAsync(UiStrings.ReadingQuery_RepeatDelete, token);
-            var userIntent2 = await ListenAndUserIntent();
+            var userIntent2 = await ListenForUserIntent();
             if (userIntent2 == UserIntent.ReplyEmail) await ReplyEmailCommand.ExecuteAsync(null);
             else if (userIntent2 == UserIntent.DeleteEmail) await DeleteEmailCommand.ExecuteAsync(null);
         }

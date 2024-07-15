@@ -57,7 +57,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
         await SpeechService.SpeakAsync(UiStrings.AppQuery_Generic, token);
 
         //Get intent
-        var userIntent = await ListenAndUserIntent();
+        var userIntent = await ListenForUserIntent();
         if (userIntent == UserIntent.WriteEmail)
         {
             await SpeechService.SpeakAsync(UiStrings.InputReponse_WriteEmail, token);
@@ -77,7 +77,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
                 await SpeechService.SpeakAsync(UiStrings.InboxQuery_OpenEmail, token);
 
                 //Get intent
-                var userIntenti = await ListenAndUserIntent();
+                var userIntenti = await ListenForUserIntent();
                 if (userIntenti == UserIntent.OpenEmail || userIntenti == UserIntent.Yes)
                 {
                     await SpeechService.SpeakAsync(UiStrings.InputResponse_OpenEmail);
