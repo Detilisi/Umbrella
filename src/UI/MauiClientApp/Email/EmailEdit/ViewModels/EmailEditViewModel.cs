@@ -57,4 +57,18 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
         await NavigationService.NavigateToViewModelAsync<EmailListViewModel>();
     }
+
+    //Handler methods
+    public override async Task HandleUserInteractionAsync()
+    {
+        var token = _cancellationTokenSource.Token;
+
+        //Introduction
+        await SpeechService.SpeakAsync("Welcome to the email drafting page!", token);
+        await SpeechService.SpeakAsync("I'll guide you through writing and sending your email. Let's get started!", token);
+
+        //Get user inpit 
+        await SpeechService.SpeakAsync("First, who would you like to send this email to? Please say the recipient's email address.", token);
+        var userIntent = await ListenForUserIntent();
+    }
 }

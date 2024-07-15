@@ -48,7 +48,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     }
 
     //Helper method
-    protected async Task<UserIntent> ListenAndUserIntent()
+    protected async Task<UserIntent> ListenForUserIntent()
     {
         var userInputFailCount = 0;
         var token = _cancellationTokenSource.Token;
