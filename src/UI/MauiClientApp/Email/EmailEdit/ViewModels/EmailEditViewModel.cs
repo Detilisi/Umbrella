@@ -76,6 +76,18 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         //Get email subject line
         await SpeechService.SpeakAsync("Got it. Next, what is the subject of your email? Please state the subject line.", token);
         var emailSubjectLine = await ListenGetEmailSubjectLine(token);
+
+        //Get email body text
+        await SpeechService.SpeakAsync("Perfect. Now, let's compose the body of your email. Please dictate your message clearly.", token);
+        var emailBodyText = await ListenGetEmailSubjectLine(token); // Create DictateEmailBodyAsync
+
+        //Get email body text
+        await SpeechService.SpeakAsync("Thank you! Your email is ready to be sent. Do you need to make any changes, or shall I send it now?", token);
+        var userIntent = await ListenForUserIntent();
+        if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
+        {
+            await SendEmailCommand.ExecuteAsync(null);
+        }
     }
 
     //Helper methods
