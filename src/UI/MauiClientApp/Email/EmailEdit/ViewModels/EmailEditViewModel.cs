@@ -75,11 +75,11 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
         //Get email subject line
         await SpeechService.SpeakAsync("Got it. Next, what is the subject of your email? Please state the subject line.", token);
-        var emailSubjectLine = await ListenForUserIntent();
+        var emailSubjectLine = await ListenGetEmailSubjectLine(token);
     }
 
     //Helper methods
-    protected async Task<string> ListenGetEmailAddress(CancellationToken token)
+    protected async Task<string> ListenGetEmailAddress(CancellationToken token) // Move to an extension
     {
         var userInputFailCount = 0;
         while (!token.IsCancellationRequested)
@@ -120,6 +120,57 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     userInputFailCount++;
                     await SpeechService.SpeakAsync(string.Format("{0} is an invalid email address, please try again", userInput.Value), token);
                     continue;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                await SpeechService.StopListenAsync(default);
+                break;
+            }
+        }
+
+        return string.Empty;
+    }
+
+    protected async Task<string> ListenGetEmailSubjectLine(CancellationToken token)
+    {
+        var userInputFailCount = 0;
+
+        while (!token.IsCancellationRequested)
+        {
+            try
+            {
+                if (userInputFailCount == 4)
+                {
+                    OnViewModelClosing(); // Close app
+                    break;
+                }
+
+                var userInput = await SpeechService.ListenAsync(token);
+                if (userInput.IsFailure)
+                {
+                    userInputFailCount++;
+                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid, token);
+                    continue;
+                }
+
+                var subjectLine = userInput.Value.Trim();
+                if (!string.IsNullOrEmpty(subjectLine))
+                {
+                    await SpeechService.SpeakAsync($"You said: {subjectLine}. Is that correct?", token);
+
+                    var userIntent = await ListenForUserIntent();
+                    if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
+                    {
+                        return subjectLine;
+                    }
+
+                    await SpeechService.SpeakAsync("Ok, please dictate the subject line again.", token);
+                }
+                else
+                {
+                    userInputFailCount++;
+                    await SpeechService.SpeakAsync("The subject line cannot be empty. Please try again.", token);
                 }
             }
             catch (OperationCanceledException)
