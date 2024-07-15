@@ -1,5 +1,6 @@
 ﻿using Application.Email.Features.Commands.SendEmail;
 using Application.User.Abstractions.Services;
+using Domain.Common.ValueObjects;
 using System.Text.RegularExpressions;
 
 namespace MauiClientApp.Email.EmailEdit.ViewModels;
@@ -102,7 +103,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                 // Assuming we have a method to validate email addresses
                 string sanitizedString = Regex.Replace(userInput.Value, @"\s+", string.Empty);
                 var emailInput = sanitizedString.Replace("at", "@").Replace("dot", ".");
-                if (IsValidEmailAddress(emailInput))
+                if (EmailAddress.IsValidEmail(emailInput))
                 {
                     await SpeechService.SpeakAsync(string.Format("You said {0}, is that correct?", emailInput), token);
                     
@@ -130,19 +131,4 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
         return string.Empty;
     }
-
-    // Helper method to validate email addresses
-    private bool IsValidEmailAddress(string emailAddress)
-    {
-        try
-        {
-            var addr = new System.Net.Mail.MailAddress(emailAddress);
-            return addr.Address == emailAddress;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
 }
