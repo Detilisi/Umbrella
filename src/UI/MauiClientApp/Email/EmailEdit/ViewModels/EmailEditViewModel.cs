@@ -91,7 +91,6 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     break;
                 }
 
-                EmailModel.
                 var userInput = await SpeechService.ListenAsync(token);
                 if (userInput.IsFailure)
                 {
