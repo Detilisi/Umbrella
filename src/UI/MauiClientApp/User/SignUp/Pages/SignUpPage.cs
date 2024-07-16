@@ -1,4 +1,5 @@
-﻿using MauiClientApp.User.SignUp.Views;
+﻿using MauiClientApp.Common.Base;
+using MauiClientApp.User.SignUp.Views;
 
 namespace MauiClientApp.User.SignUp.Pages;
 
@@ -51,5 +52,25 @@ internal class SignUpPage : Page<SignUpViewModel>
             WidthRequest = 300,
             Command = ViewModel.RegisterUserCommand
         };
+
+        EmailEntry.SetBinding(Entry.IsEnabledProperty, new Binding(nameof(ViewModel.IsBusy), converter: new InverseBooleanConverter()));
+        PasswordEntry.SetBinding(Entry.IsEnabledProperty, new Binding(nameof(ViewModel.IsBusy), converter: new InverseBooleanConverter()));
+        SignUpButton.SetBinding(Button.IsEnabledProperty, new Binding(nameof(ViewModel.IsBusy), converter: new InverseBooleanConverter()));
+    }
+}
+
+// Converter to invert the boolean value
+public class InverseBooleanConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    {
+        if (value is bool boolValue) return !boolValue;
+        return value;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    {
+        if (value is bool boolValue) return !boolValue;
+        return value;
     }
 }
