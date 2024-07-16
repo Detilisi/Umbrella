@@ -15,7 +15,7 @@ internal abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel)
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
-
+        SetBinding(IsBusyProperty, new Binding(nameof(ViewModel.IsBusy)));
         ViewModel.OnViewModelStarting();
         Debug.WriteLine($"OnBindingContextChanged: {Title}");
     }
