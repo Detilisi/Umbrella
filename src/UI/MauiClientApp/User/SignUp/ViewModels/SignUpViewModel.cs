@@ -33,6 +33,7 @@ internal partial class SignUpViewModel(IMediator mediator, IEncryptionService en
     public async Task RegisterUser()
     {
         if(string.IsNullOrEmpty(UserEmail) || string.IsNullOrEmpty(UserPassword)) return;
+        FireViewModelBusy();
         var encryptedPasssword = _encryptionService.Encrypt(UserPassword);
         var registerUsercommand = new RegisterUserCommand()
         {
@@ -41,6 +42,7 @@ internal partial class SignUpViewModel(IMediator mediator, IEncryptionService en
             UserName = UserEmail
         };
         var registerUserResult = await _mediator.Send(registerUsercommand);
+        FireViewModelNotBusy();
         if (registerUserResult.IsFailure) return; // handle error
 
         await NavigationService.NavigateToViewModelAsync<EmailSyncViewModel>();
