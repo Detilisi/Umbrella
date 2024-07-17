@@ -10,9 +10,6 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     //Fields
     private readonly IUserSessionService _userSessionService = userSessionService;
 
-    //Properties
-    private EmailModel EmailDraft = null!;
-
     //View elements
     [ObservableProperty] private string sender = string.Empty;
     [ObservableProperty] private string recipient = string.Empty;
@@ -66,30 +63,33 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         var token = _cancellationTokenSource.Token;
 
         //Introduction
-        await SpeechService.SpeakAsync("Welcome to the email drafting page!", token);
-        await SpeechService.SpeakAsync("I'll guide you through writing and sending your email. Let's get started!", token);
+        await SpeechService.SpeakAsync(UiStrings.DraftingInfo_Introduction, token);
+        await SpeechService.SpeakAsync(UiStrings.DraftingInfo_Instructions, token);
 
         //Get reciepient email 
-        await SpeechService.SpeakAsync("First, who would you like to send this email to? Please say the recipient's email address.", token);
+        await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailRecipient, token);
         var recipientEmailAddress = await ListenGetEmailAddress(token);
         Recipient = recipientEmailAddress;
 
         //Get email subject line
-        await SpeechService.SpeakAsync("Got it. Next, what is the subject of your email? Please state the subject line.", token);
+        await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailSubject, token);
         var emailSubjectLine = await ListenGetEmailSubjectLine(token);
         Subject = emailSubjectLine;
 
         //Get email body text
-        await SpeechService.SpeakAsync("Perfect. Now, let's compose the body of your email. Please dictate your message clearly.", token);
-        var emailBodyText = await ListenGetEmailSubjectLine(token); // Create DictateEmailBodyAsync
+        await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailBody, token);
+        var emailBodyText = await ListenGetEmailSubjectLine(token); 
         Body = emailBodyText;
 
         //Get email body text
-        await SpeechService.SpeakAsync("Thank you! Your email is ready to be sent. Do you need to make any changes, or shall I send it now?", token);
+        await SpeechService.SpeakAsync(string.Format(UiStrings.DraftingInfo_EmailSummary, Recipient, Subject, Body), token);
+        await SpeechService.SpeakAsync(UiStrings.DraftQuery_SendEmail, token);
         var userIntent = await ListenForUserIntent();
         if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
         {
             await SendEmailCommand.ExecuteAsync(null);
+            await SpeechService.SpeakAsync(UiStrings.DraftResponse_SendEmail, token);
+            //Go back
         }
     }
 

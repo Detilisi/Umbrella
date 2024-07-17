@@ -97,6 +97,78 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thank you! Your message to {0}, subject: {1}, reads, {2}.
+        /// </summary>
+        internal static string DraftingInfo_EmailSummary {
+            get {
+                return ResourceManager.GetString("DraftingInfo_EmailSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I&apos;ll guide you through writing and sending your email. Let&apos;s get started!.
+        /// </summary>
+        internal static string DraftingInfo_Instructions {
+            get {
+                return ResourceManager.GetString("DraftingInfo_Instructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to the email drafting page!.
+        /// </summary>
+        internal static string DraftingInfo_Introduction {
+            get {
+                return ResourceManager.GetString("DraftingInfo_Introduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Perfect. Now, let&apos;s compose the body of your email. Please dictate your message clearly..
+        /// </summary>
+        internal static string DraftQuery_EmailBody {
+            get {
+                return ResourceManager.GetString("DraftQuery_EmailBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First, who would you like to send this email to? Please say the recipient&apos;s email address..
+        /// </summary>
+        internal static string DraftQuery_EmailRecipient {
+            get {
+                return ResourceManager.GetString("DraftQuery_EmailRecipient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got it. Next, what is the subject of your email? Please state the subject line..
+        /// </summary>
+        internal static string DraftQuery_EmailSubject {
+            get {
+                return ResourceManager.GetString("DraftQuery_EmailSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your email is ready to be sent. Do you need to make any changes, or shall I send it now?.
+        /// </summary>
+        internal static string DraftQuery_SendEmail {
+            get {
+                return ResourceManager.GetString("DraftQuery_SendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your email message to {0} has been sent!.
+        /// </summary>
+        internal static string DraftResponse_SendEmail {
+            get {
+                return ResourceManager.GetString("DraftResponse_SendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Message {0} is from {1}, subject {2}.
         /// </summary>
         internal static string InboxInfo_EmailSummary {
