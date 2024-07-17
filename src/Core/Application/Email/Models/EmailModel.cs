@@ -11,6 +11,7 @@ public class EmailModel : Model
 
     public required string Sender { get; set; }
     public required string SenderName { get; set; }
+    public required string Recipient { get; set; }
     public List<string> Recipients { get; set; } = [];
 
     //Methods
@@ -27,7 +28,7 @@ public class EmailModel : Model
             Subject = emailEntity.Subject.Value,
             Sender = emailEntity.Sender.Value,
             SenderName = emailEntity.SenderName,
-            Recipients = emailEntity.Recipients.Select(r => r.Value).ToList(),
+            Recipient = emailEntity.Recipient.Value,
         };
     }
 
@@ -35,7 +36,7 @@ public class EmailModel : Model
     {
         var emailEntity = EmailEntity.Create(
             EmailAddress.Create(Sender),
-            Recipients.Select(EmailAddress.Create).ToList(),
+            EmailAddress.Create(Recipient),
             EmailSubjectLine.Create(Subject),
             EmailBodyText.Create(Body)
         );
