@@ -63,8 +63,8 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         var token = _cancellationTokenSource.Token;
 
         //Introduction
-        await SpeechService.SpeakAsync(UiStrings.DraftingInfo_Introduction, token);
-        await SpeechService.SpeakAsync(UiStrings.DraftingInfo_Instructions, token);
+        await SpeechService.SpeakAsync(UiStrings.DraftInfo_Introduction, token);
+        await SpeechService.SpeakAsync(UiStrings.DraftInfo_Instructions, token);
 
         //Get reciepient email 
         await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailRecipient, token);
@@ -82,7 +82,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         Body = emailBodyText;
 
         //Get email body text
-        await SpeechService.SpeakAsync(string.Format(UiStrings.DraftingInfo_EmailSummary, Recipient, Subject, Body), token);
+        await SpeechService.SpeakAsync(string.Format(UiStrings.DraftInfo_EmailSummary, Recipient, Subject, Body), token);
         await SpeechService.SpeakAsync(UiStrings.DraftQuery_SendEmail, token);
         var userIntent = await ListenForUserIntent();
         if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
@@ -120,7 +120,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                 var emailInput = sanitizedString.Replace("at", "@").Replace("dot", ".");
                 if (EmailAddress.IsValidEmail(emailInput))
                 {
-                    await SpeechService.SpeakAsync(string.Format("You said {0}, is that correct?", emailInput), token);
+                    await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_RecipientConfirmation, emailInput), token);
                     
                     var userIntent = await ListenForUserIntent();
                     if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
@@ -128,12 +128,12 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                         return emailInput;
                     }
 
-                    await SpeechService.SpeakAsync("Ok, please try saying the email again.", token);
+                    await SpeechService.SpeakAsync(UiStrings.DraftResponse_EmailRecipient_Reject, token);
                 }
                 else
                 {
                     userInputFailCount++;
-                    await SpeechService.SpeakAsync(string.Format("{0} is an invalid email address, please try again", userInput.Value), token);
+                    await SpeechService.SpeakAsync(string.Format(UiStrings.DraftResponse_EmailRecipient_Invalid, userInput.Value), token);
                     continue;
                 }
             }

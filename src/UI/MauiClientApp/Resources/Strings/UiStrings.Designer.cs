@@ -99,27 +99,27 @@ namespace MauiClientApp.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Thank you! Your message to {0}, subject: {1}, reads, {2}.
         /// </summary>
-        internal static string DraftingInfo_EmailSummary {
+        internal static string DraftInfo_EmailSummary {
             get {
-                return ResourceManager.GetString("DraftingInfo_EmailSummary", resourceCulture);
+                return ResourceManager.GetString("DraftInfo_EmailSummary", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to I&apos;ll guide you through writing and sending your email. Let&apos;s get started!.
         /// </summary>
-        internal static string DraftingInfo_Instructions {
+        internal static string DraftInfo_Instructions {
             get {
-                return ResourceManager.GetString("DraftingInfo_Instructions", resourceCulture);
+                return ResourceManager.GetString("DraftInfo_Instructions", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Welcome to the email drafting page!.
         /// </summary>
-        internal static string DraftingInfo_Introduction {
+        internal static string DraftInfo_Introduction {
             get {
-                return ResourceManager.GetString("DraftingInfo_Introduction", resourceCulture);
+                return ResourceManager.GetString("DraftInfo_Introduction", resourceCulture);
             }
         }
         
@@ -151,11 +151,38 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to send your message to {0}? Is that correct?.
+        /// </summary>
+        internal static string DraftQuery_RecipientConfirmation {
+            get {
+                return ResourceManager.GetString("DraftQuery_RecipientConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your email is ready to be sent. Do you need to make any changes, or shall I send it now?.
         /// </summary>
         internal static string DraftQuery_SendEmail {
             get {
                 return ResourceManager.GetString("DraftQuery_SendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is an invalid email address, please try again.
+        /// </summary>
+        internal static string DraftResponse_EmailRecipient_Invalid {
+            get {
+                return ResourceManager.GetString("DraftResponse_EmailRecipient_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok, please try saying the email address again..
+        /// </summary>
+        internal static string DraftResponse_EmailRecipient_Reject {
+            get {
+                return ResourceManager.GetString("DraftResponse_EmailRecipient_Reject", resourceCulture);
             }
         }
         
