@@ -31,6 +31,7 @@ internal class SignUpPage : Page<SignUpViewModel>
 
     private void InitializeViewComponents()
     {
+        Title = "Let's get started!";
         EmailEntry = new Entry { Placeholder = "Email:" };
         EmailEntry.DynamicResource(StyleProperty, "SignUpEntry");
         EmailEntry.Bind(Entry.TextProperty, static (SignUpViewModel vm) => vm.UserEmail,

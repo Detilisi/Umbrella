@@ -10,9 +10,11 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     //Fields
     private readonly IUserSessionService _userSessionService = userSessionService;
 
-    //Properties
-    [ObservableProperty]
-    public EmailModel emailDraft = null!;
+    //View elements
+    [ObservableProperty] private string sender = string.Empty;
+    [ObservableProperty] private string recipient = string.Empty;
+    [ObservableProperty] private string subject = string.Empty;
+    [ObservableProperty] private string body = string.Empty;
 
     //Life cycle 
     public override void OnViewModelStarting()
@@ -22,14 +24,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         var currentUserResult = _userSessionService.GetCurrentSession();
         if (currentUserResult.IsFailure) return; //Handle error
 
-        EmailDraft = new() 
-        {
-            Recipients = [],
-            Body = string.Empty,
-            Subject = string.Empty,
-            SenderName = currentUserResult.Value.UserName,
-            Sender = currentUserResult.Value.EmailAddress,
-        };
+        Sender = currentUserResult.Value.EmailAddress;
     }
 
     //Navigation
@@ -37,23 +32,25 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     {
         var currentUserResult = _userSessionService.GetCurrentSession();
         if (currentUserResult.IsFailure) return; //Handle error
+        Sender = currentUserResult.Value.EmailAddress;
 
         var selectedEmail = (EmailModel)query[nameof(EmailModel)];
-        EmailDraft = new()
-        {
-            Body = string.Empty,
-            Subject = $"RE: {selectedEmail.Subject}",
-            SenderName = currentUserResult.Value.UserName,
-            Sender = currentUserResult.Value.EmailAddress,
-            Recipients = [selectedEmail.Recipients.FirstOrDefault()],
-        };
+        Recipient = selectedEmail.Recipient;
+        Subject = $"RE: {selectedEmail.Subject}";
     }
 
     //Commands
     [RelayCommand]
     public async Task SendEmail()
     {
-        var sendCommand = new SendEmailCommand(EmailDraft);
+        var emailDraft = new EmailModel(){
+            Sender = Sender,
+            SenderName = Sender,
+            Recipient = Recipient,
+            Subject = Subject,
+            Body = Body,
+        };
+        var sendCommand = new SendEmailCommand(emailDraft);
         var sendEmailResult = await _mediator.Send(sendCommand);
         if (sendEmailResult.IsFailure) return; // handle error
 
@@ -66,30 +63,33 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         var token = _cancellationTokenSource.Token;
 
         //Introduction
-        await SpeechService.SpeakAsync("Welcome to the email drafting page!", token);
-        await SpeechService.SpeakAsync("I'll guide you through writing and sending your email. Let's get started!", token);
+        await SpeechService.SpeakAsync(UiStrings.DraftInfo_Introduction, token);
+        await SpeechService.SpeakAsync(UiStrings.DraftInfo_Instructions, token);
 
         //Get reciepient email 
-        await SpeechService.SpeakAsync("First, who would you like to send this email to? Please say the recipient's email address.", token);
+        await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailRecipient, token);
         var recipientEmailAddress = await ListenGetEmailAddress(token);
-        EmailDraft.Recipients = [recipientEmailAddress];
+        Recipient = recipientEmailAddress;
 
         //Get email subject line
-        await SpeechService.SpeakAsync("Got it. Next, what is the subject of your email? Please state the subject line.", token);
-        var emailSubjectLine = await ListenGetEmailSubjectLine(token);
-        EmailDraft.Subject = emailSubjectLine;
+        await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailSubject, token);
+        var emailSubjectLine = await DictateEmailSubjectOrBody(isForEmailBody: false, token);
+        Subject = emailSubjectLine;
 
         //Get email body text
-        await SpeechService.SpeakAsync("Perfect. Now, let's compose the body of your email. Please dictate your message clearly.", token);
-        var emailBodyText = await ListenGetEmailSubjectLine(token); // Create DictateEmailBodyAsync
-        EmailDraft.Body = emailBodyText;
+        await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailBody, token);
+        var emailBodyText = await DictateEmailSubjectOrBody(isForEmailBody: true, token); 
+        Body = emailBodyText;
 
         //Get email body text
-        await SpeechService.SpeakAsync("Thank you! Your email is ready to be sent. Do you need to make any changes, or shall I send it now?", token);
+        await SpeechService.SpeakAsync(string.Format(UiStrings.DraftInfo_EmailSummary, Recipient, Subject, Body), token);
+        await SpeechService.SpeakAsync(UiStrings.DraftQuery_SendEmail, token);
         var userIntent = await ListenForUserIntent();
         if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
         {
             await SendEmailCommand.ExecuteAsync(null);
+            await SpeechService.SpeakAsync(string.Format(UiStrings.DraftResponse_SendEmail, Recipient), token);
+            //Go back
         }
     }
 
@@ -120,20 +120,20 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                 var emailInput = sanitizedString.Replace("at", "@").Replace("dot", ".");
                 if (EmailAddress.IsValidEmail(emailInput))
                 {
-                    await SpeechService.SpeakAsync(string.Format("You said {0}, is that correct?", emailInput), token);
+                    await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_EmailRecipient_Confirmation, emailInput), token);
                     
                     var userIntent = await ListenForUserIntent();
                     if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
                     {
-                        return userInput.Value;
+                        return emailInput;
                     }
 
-                    await SpeechService.SpeakAsync("Ok, please try saying the email again.", token);
+                    await SpeechService.SpeakAsync(UiStrings.DraftResponse_EmailRecipient_Reject, token);
                 }
                 else
                 {
                     userInputFailCount++;
-                    await SpeechService.SpeakAsync(string.Format("{0} is an invalid email address, please try again", userInput.Value), token);
+                    await SpeechService.SpeakAsync(string.Format(UiStrings.DraftResponse_EmailRecipient_Invalid, userInput.Value), token);
                     continue;
                 }
             }
@@ -147,7 +147,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         return string.Empty;
     }
 
-    protected async Task<string> ListenGetEmailSubjectLine(CancellationToken token)
+    protected async Task<string> DictateEmailSubjectOrBody(bool isForEmailBody, CancellationToken token)
     {
         var userInputFailCount = 0;
 
@@ -169,24 +169,13 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     continue;
                 }
 
-                var subjectLine = userInput.Value.Trim();
-                if (!string.IsNullOrEmpty(subjectLine))
-                {
-                    await SpeechService.SpeakAsync($"You said: {subjectLine}. Is that correct?", token);
+                var dictatedText = userInput.Value.Trim();
+                await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_EmailText_Confirmation, dictatedText), token);
 
-                    var userIntent = await ListenForUserIntent();
-                    if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
-                    {
-                        return subjectLine;
-                    }
+                var userIntent = await ListenForUserIntent();
+                if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok) return dictatedText;
 
-                    await SpeechService.SpeakAsync("Ok, please dictate the subject line again.", token);
-                }
-                else
-                {
-                    userInputFailCount++;
-                    await SpeechService.SpeakAsync("The subject line cannot be empty. Please try again.", token);
-                }
+                await SpeechService.SpeakAsync(isForEmailBody? UiStrings.DraftResponse_EmailBody_Reject : UiStrings.DraftResponse_EmailSubject_Reject, token);
             }
             catch (OperationCanceledException)
             {

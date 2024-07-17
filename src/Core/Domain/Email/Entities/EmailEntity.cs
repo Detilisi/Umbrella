@@ -13,7 +13,7 @@ public class EmailEntity : Entity
     public EmailSubjectLine Subject { get; }
     public EmailAddress Sender { get; }
     public string SenderName { get; set; }
-    public List<EmailAddress> Recipients { get; }
+    public EmailAddress Recipient { get; }
 
     //Construction
     private EmailEntity() { }
@@ -21,17 +21,17 @@ public class EmailEntity : Entity
     (
         int id,
         EmailAddress sender,
-        List<EmailAddress> recipients, 
+        EmailAddress recipient, 
         EmailSubjectLine subject, 
         EmailBodyText body
     ) : base(id)
     {
-        if (sender is null || recipients is null || subject is null || body is null) throw new ArgumentNullException();
+        if (sender is null || recipient is null || subject is null || body is null) throw new ArgumentNullException();
 
         Body = body;
         Subject = subject;
         Sender = sender;
-        Recipients = recipients;
+        Recipient = recipient;
         Type = EmailType.Email;
         EmailStatus = EmailStatus.UnRead;
         
@@ -43,11 +43,11 @@ public class EmailEntity : Entity
     public static EmailEntity Create
     (
         EmailAddress sender,
-        List<EmailAddress> recipients, 
+        EmailAddress recipient, 
         EmailSubjectLine subject, 
         EmailBodyText body
     )
     {
-        return new EmailEntity(0, sender, recipients, subject, body); ;
+        return new EmailEntity(0, sender, recipient, subject, body); ;
     }
 }

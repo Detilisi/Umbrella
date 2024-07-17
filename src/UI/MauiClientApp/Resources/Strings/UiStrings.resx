@@ -129,6 +129,48 @@
   <data name="AppQuery_Generic" xml:space="preserve">
     <value>How can I help you today?</value>
   </data>
+  <data name="DraftInfo_EmailSummary" xml:space="preserve">
+    <value>Thank you! Your message to {0}, subject: {1}, reads, {2}</value>
+  </data>
+  <data name="DraftInfo_Instructions" xml:space="preserve">
+    <value>I'll guide you through writing and sending your email. Let's get started!</value>
+  </data>
+  <data name="DraftInfo_Introduction" xml:space="preserve">
+    <value>Welcome to the email drafting page!</value>
+  </data>
+  <data name="DraftQuery_EmailBody" xml:space="preserve">
+    <value>Perfect. Now, let's compose the body of your email. Please dictate your message clearly.</value>
+  </data>
+  <data name="DraftQuery_EmailRecipient" xml:space="preserve">
+    <value>First, who would you like to send this email to? Please say the recipient's email address.</value>
+  </data>
+  <data name="DraftQuery_EmailRecipient_Confirmation" xml:space="preserve">
+    <value>Do you want to send your message to {0}? Is that correct?</value>
+  </data>
+  <data name="DraftQuery_EmailSubject" xml:space="preserve">
+    <value>Got it. Next, what is the subject of your email? Please state the subject line.</value>
+  </data>
+  <data name="DraftQuery_EmailText_Confirmation" xml:space="preserve">
+    <value>You said: {0}. Is that correct?</value>
+  </data>
+  <data name="DraftQuery_SendEmail" xml:space="preserve">
+    <value>Your email is ready to be sent. Do you need to make any changes, or shall I send it now?</value>
+  </data>
+  <data name="DraftResponse_EmailBody_Reject" xml:space="preserve">
+    <value>Ok, please dictate the email body text again.</value>
+  </data>
+  <data name="DraftResponse_EmailRecipient_Invalid" xml:space="preserve">
+    <value>{0} is an invalid email address, please try again</value>
+  </data>
+  <data name="DraftResponse_EmailRecipient_Reject" xml:space="preserve">
+    <value>Ok, please try saying the email address again.</value>
+  </data>
+  <data name="DraftResponse_EmailSubject_Reject" xml:space="preserve">
+    <value>Ok, please dictate the subject line again.</value>
+  </data>
+  <data name="DraftResponse_SendEmail" xml:space="preserve">
+    <value>Your email message to {0} has been sent!</value>
+  </data>
   <data name="InboxInfo_EmailSummary" xml:space="preserve">
     <value>Message {0} is from {1}, subject {2}</value>
   </data>

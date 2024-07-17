@@ -6,7 +6,7 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
     private Editor BodyTextEditor = null!;
     private Entry SubjectLineEntry = null!;
     private Entry SenderEmailEntry = null!;
-    private Entry RecipientsEmailsEntry = null!;
+    private Entry RecipientEmailsEntry = null!;
 
     //Construction
     public EmailEditPage(EmailEditViewModel viewModel) : base(viewModel)
@@ -20,7 +20,7 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
         Content = new VerticalStackLayout()
         {
             SenderEmailEntry,
-            RecipientsEmailsEntry,
+            RecipientEmailsEntry,
             SubjectLineEntry,
             BodyTextEditor
         }
@@ -47,18 +47,18 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
     {
         SenderEmailEntry = new Entry{ Placeholder = "From:" };
         SenderEmailEntry.DynamicResource(StyleProperty, "EmailEntry");
-        SenderEmailEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.Sender, 
-            static (EmailEditViewModel vm, string text) => vm.EmailDraft.Sender = text);
+        SenderEmailEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.Sender, 
+            static (EmailEditViewModel vm, string text) => vm.Sender = text);
 
         SubjectLineEntry = new Entry{ Placeholder = "Subject:" };
         SubjectLineEntry.DynamicResource(StyleProperty, "EmailEntry");
-        SubjectLineEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.Subject,
-            static (EmailEditViewModel vm, string text) => vm.EmailDraft.Subject = text);
+        SubjectLineEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.Subject,
+            static (EmailEditViewModel vm, string text) => vm.Subject = text);
 
-        RecipientsEmailsEntry = new Entry { Placeholder = "To:" };
-        RecipientsEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
-        RecipientsEmailsEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.SenderName,
-            static (EmailEditViewModel vm, string text) => vm.EmailDraft.Recipients = [text]);
+        RecipientEmailsEntry = new Entry { Placeholder = "To:" };
+        RecipientEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
+        RecipientEmailsEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.Recipient,
+            static (EmailEditViewModel vm, string text) => vm.Recipient = text);
 
         BodyTextEditor = new Editor
         {
@@ -66,7 +66,7 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
             AutoSize = EditorAutoSizeOption.TextChanges
         };
         BodyTextEditor.DynamicResource(StyleProperty, "EmailEditor");
-        BodyTextEditor.Bind(Editor.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.Body,
-            static (EmailEditViewModel vm, string text) => vm.EmailDraft.Body = text);
+        BodyTextEditor.Bind(Editor.TextProperty, static (EmailEditViewModel vm) => vm.Body,
+            static (EmailEditViewModel vm, string text) => vm.Body = text);
     }
 }

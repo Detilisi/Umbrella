@@ -23,16 +23,9 @@ public class EmailEntityConfiguration : IEntityTypeConfiguration<EmailEntity>
     private static void ConfigureValueObjects(EntityTypeBuilder<EmailEntity> builder)
     {
         builder
-            .OwnsOne(e => e.Sender, emailBuilder => { emailBuilder.Property(email => email.Value).HasColumnName(nameof(EmailEntity.Sender)); });
-        
-        var jsonOption = new JsonSerializerOptions();
-        builder.Property(e => e.Recipients).HasColumnName(nameof(EmailEntity.Recipients))
-            .HasConversion(v => JsonSerializer.Serialize(v, jsonOption), v => JsonSerializer.Deserialize<List<EmailAddress>>(v, jsonOption));
-
-        builder.OwnsOne(e => e.Body, bodyBuilder =>{bodyBuilder.Property(body => body.Value).HasColumnName(nameof(EmailEntity.Body))
-            .HasMaxLength(EmailBodyText.MAXBODYLENGTH);});
-        
-        builder.OwnsOne(e => e.Subject, subjectBuilder =>{subjectBuilder.Property(subject => subject.Value).HasColumnName(nameof(EmailEntity.Subject))
-            .HasMaxLength(EmailSubjectLine.MAXSUBJECTLINELENGTH);});
+            .OwnsOne(e => e.Sender, emailBuilder => { emailBuilder.Property(email => email.Value).HasColumnName(nameof(EmailEntity.Sender)); })
+            .OwnsOne(e => e.Recipient, emailBuilder => { emailBuilder.Property(email => email.Value).HasColumnName(nameof(EmailEntity.Recipient)); })
+            .OwnsOne(e => e.Body, bodyBuilder =>{bodyBuilder.Property(body => body.Value).HasColumnName(nameof(EmailEntity.Body)).HasMaxLength(EmailBodyText.MAXBODYLENGTH);})
+            .OwnsOne(e => e.Subject, subjectBuilder =>{subjectBuilder.Property(subject => subject.Value).HasColumnName(nameof(EmailEntity.Subject)).HasMaxLength(EmailSubjectLine.MAXSUBJECTLINELENGTH);});
     }
 }
