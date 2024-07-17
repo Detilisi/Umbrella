@@ -142,6 +142,15 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to send your message to {0}? Is that correct?.
+        /// </summary>
+        internal static string DraftQuery_EmailRecipient_Confirmation {
+            get {
+                return ResourceManager.GetString("DraftQuery_EmailRecipient_Confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Got it. Next, what is the subject of your email? Please state the subject line..
         /// </summary>
         internal static string DraftQuery_EmailSubject {
@@ -151,11 +160,11 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to send your message to {0}? Is that correct?.
+        ///   Looks up a localized string similar to You said: {0}. Is that correct?.
         /// </summary>
-        internal static string DraftQuery_RecipientConfirmation {
+        internal static string DraftQuery_EmailSubject_Confirmation {
             get {
-                return ResourceManager.GetString("DraftQuery_RecipientConfirmation", resourceCulture);
+                return ResourceManager.GetString("DraftQuery_EmailSubject_Confirmation", resourceCulture);
             }
         }
         
@@ -183,6 +192,15 @@ namespace MauiClientApp.Resources.Strings {
         internal static string DraftResponse_EmailRecipient_Reject {
             get {
                 return ResourceManager.GetString("DraftResponse_EmailRecipient_Reject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok, please dictate the subject line again..
+        /// </summary>
+        internal static string DraftResponse_EmailSubject_Reject {
+            get {
+                return ResourceManager.GetString("DraftResponse_EmailSubject_Reject", resourceCulture);
             }
         }
         

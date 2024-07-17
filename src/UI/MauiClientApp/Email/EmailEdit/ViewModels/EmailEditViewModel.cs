@@ -120,7 +120,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                 var emailInput = sanitizedString.Replace("at", "@").Replace("dot", ".");
                 if (EmailAddress.IsValidEmail(emailInput))
                 {
-                    await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_RecipientConfirmation, emailInput), token);
+                    await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_EmailRecipient_Confirmation, emailInput), token);
                     
                     var userIntent = await ListenForUserIntent();
                     if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
@@ -170,23 +170,12 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                 }
 
                 var subjectLine = userInput.Value.Trim();
-                if (!string.IsNullOrEmpty(subjectLine))
-                {
-                    await SpeechService.SpeakAsync($"You said: {subjectLine}. Is that correct?", token);
+                await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_EmailSubject_Confirmation, subjectLine), token);
 
-                    var userIntent = await ListenForUserIntent();
-                    if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
-                    {
-                        return subjectLine;
-                    }
+                var userIntent = await ListenForUserIntent();
+                if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok) return subjectLine;
 
-                    await SpeechService.SpeakAsync("Ok, please dictate the subject line again.", token);
-                }
-                else
-                {
-                    userInputFailCount++;
-                    await SpeechService.SpeakAsync("The subject line cannot be empty. Please try again.", token);
-                }
+                await SpeechService.SpeakAsync(UiStrings.DraftResponse_EmailSubject_Reject, token);
             }
             catch (OperationCanceledException)
             {
