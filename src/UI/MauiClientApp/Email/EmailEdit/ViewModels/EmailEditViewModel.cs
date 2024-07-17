@@ -125,7 +125,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     var userIntent = await ListenForUserIntent();
                     if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
                     {
-                        return userInput.Value;
+                        return emailInput;
                     }
 
                     await SpeechService.SpeakAsync("Ok, please try saying the email again.", token);
