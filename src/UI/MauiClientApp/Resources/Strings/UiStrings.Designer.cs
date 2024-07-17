@@ -124,6 +124,15 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You said: {0}. Is that correct?.
+        /// </summary>
+        internal static string DraftQuery_Confirmation {
+            get {
+                return ResourceManager.GetString("DraftQuery_Confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Perfect. Now, let&apos;s compose the body of your email. Please dictate your message clearly..
         /// </summary>
         internal static string DraftQuery_EmailBody {
@@ -142,29 +151,11 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to send your message to {0}? Is that correct?.
-        /// </summary>
-        internal static string DraftQuery_EmailRecipient_Confirmation {
-            get {
-                return ResourceManager.GetString("DraftQuery_EmailRecipient_Confirmation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Got it. Next, what is the subject of your email? Please state the subject line..
         /// </summary>
         internal static string DraftQuery_EmailSubject {
             get {
                 return ResourceManager.GetString("DraftQuery_EmailSubject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You said: {0}. Is that correct?.
-        /// </summary>
-        internal static string DraftQuery_EmailText_Confirmation {
-            get {
-                return ResourceManager.GetString("DraftQuery_EmailText_Confirmation", resourceCulture);
             }
         }
         

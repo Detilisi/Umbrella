@@ -120,7 +120,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                 var emailInput = sanitizedString.Replace("at", "@").Replace("dot", ".");
                 if (EmailAddress.IsValidEmail(emailInput))
                 {
-                    await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_EmailRecipient_Confirmation, emailInput), token);
+                    await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_Confirmation, emailInput), token);
                     
                     var userIntent = await ListenForUserIntent();
                     if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
@@ -170,7 +170,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                 }
 
                 var dictatedText = userInput.Value.Trim();
-                await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_EmailText_Confirmation, dictatedText), token);
+                await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_Confirmation, dictatedText), token);
 
                 var userIntent = await ListenForUserIntent();
                 if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok) return dictatedText;
