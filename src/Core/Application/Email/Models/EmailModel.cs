@@ -12,7 +12,6 @@ public class EmailModel : Model
     public required string Sender { get; set; }
     public required string SenderName { get; set; }
     public required string Recipient { get; set; }
-    public List<string> Recipients { get; set; } = [];
 
     //Methods
     internal static EmailModel CreateFromEntity(EmailEntity emailEntity)
