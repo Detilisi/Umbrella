@@ -6,7 +6,7 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
     private Editor BodyTextEditor = null!;
     private Entry SubjectLineEntry = null!;
     private Entry SenderEmailEntry = null!;
-    private Entry RecipientsEmailsEntry = null!;
+    private Entry RecipientEmailsEntry = null!;
 
     //Construction
     public EmailEditPage(EmailEditViewModel viewModel) : base(viewModel)
@@ -20,7 +20,7 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
         Content = new VerticalStackLayout()
         {
             SenderEmailEntry,
-            RecipientsEmailsEntry,
+            RecipientEmailsEntry,
             SubjectLineEntry,
             BodyTextEditor
         }
@@ -55,10 +55,10 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
         SubjectLineEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.Subject,
             static (EmailEditViewModel vm, string text) => vm.EmailDraft.Subject = text);
 
-        RecipientsEmailsEntry = new Entry { Placeholder = "To:" };
-        RecipientsEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
-        RecipientsEmailsEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.SenderName,
-            static (EmailEditViewModel vm, string text) => vm.EmailDraft.Recipients = [text]);
+        RecipientEmailsEntry = new Entry { Placeholder = "To:" };
+        RecipientEmailsEntry.DynamicResource(StyleProperty, "EmailEntry");
+        RecipientEmailsEntry.Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.EmailDraft.Recipient,
+            static (EmailEditViewModel vm, string text) => vm.EmailDraft.Recipient = text);
 
         BodyTextEditor = new Editor
         {
