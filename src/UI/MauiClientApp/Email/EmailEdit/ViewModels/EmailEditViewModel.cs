@@ -11,8 +11,13 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     private readonly IUserSessionService _userSessionService = userSessionService;
 
     //Properties
-    [ObservableProperty]
-    public EmailModel emailDraft = null!;
+    private EmailModel EmailDraft = null!;
+
+    //View elements
+    [ObservableProperty] private string sender = string.Empty;
+    [ObservableProperty] private string recipient = string.Empty;
+    [ObservableProperty] private string subject = string.Empty;
+    [ObservableProperty] private string body = string.Empty;
 
     //Life cycle 
     public override void OnViewModelStarting()
@@ -22,14 +27,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         var currentUserResult = _userSessionService.GetCurrentSession();
         if (currentUserResult.IsFailure) return; //Handle error
 
-        EmailDraft = new() 
-        {
-            Recipient = string.Empty,
-            Body = string.Empty,
-            Subject = string.Empty,
-            SenderName = currentUserResult.Value.UserName,
-            Sender = currentUserResult.Value.EmailAddress,
-        };
+        Sender = currentUserResult.Value.EmailAddress;
     }
 
     //Navigation
@@ -37,23 +35,25 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     {
         var currentUserResult = _userSessionService.GetCurrentSession();
         if (currentUserResult.IsFailure) return; //Handle error
+        Sender = currentUserResult.Value.EmailAddress;
 
         var selectedEmail = (EmailModel)query[nameof(EmailModel)];
-        EmailDraft = new()
-        {
-            Body = string.Empty,
-            Subject = $"RE: {selectedEmail.Subject}",
-            SenderName = currentUserResult.Value.UserName,
-            Sender = currentUserResult.Value.EmailAddress,
-            Recipient = selectedEmail.Recipient,
-        };
+        Recipient = selectedEmail.Recipient;
+        Subject = $"RE: {selectedEmail.Subject}";
     }
 
     //Commands
     [RelayCommand]
     public async Task SendEmail()
     {
-        var sendCommand = new SendEmailCommand(EmailDraft);
+        var emailDraft = new EmailModel(){
+            Sender = Sender,
+            SenderName = Sender,
+            Recipient = Recipient,
+            Subject = Subject,
+            Body = Body,
+        };
+        var sendCommand = new SendEmailCommand(emailDraft);
         var sendEmailResult = await _mediator.Send(sendCommand);
         if (sendEmailResult.IsFailure) return; // handle error
 
@@ -72,17 +72,17 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         //Get reciepient email 
         await SpeechService.SpeakAsync("First, who would you like to send this email to? Please say the recipient's email address.", token);
         var recipientEmailAddress = await ListenGetEmailAddress(token);
-        EmailDraft.Recipient = recipientEmailAddress;
+        Recipient = recipientEmailAddress;
 
         //Get email subject line
         await SpeechService.SpeakAsync("Got it. Next, what is the subject of your email? Please state the subject line.", token);
         var emailSubjectLine = await ListenGetEmailSubjectLine(token);
-        EmailDraft.Subject = emailSubjectLine;
+        Subject = emailSubjectLine;
 
         //Get email body text
         await SpeechService.SpeakAsync("Perfect. Now, let's compose the body of your email. Please dictate your message clearly.", token);
         var emailBodyText = await ListenGetEmailSubjectLine(token); // Create DictateEmailBodyAsync
-        EmailDraft.Body = emailBodyText;
+        Body = emailBodyText;
 
         //Get email body text
         await SpeechService.SpeakAsync("Thank you! Your email is ready to be sent. Do you need to make any changes, or shall I send it now?", token);
