@@ -24,7 +24,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
         EmailDraft = new() 
         {
-            Recipients = [],
+            Recipient = string.Empty,
             Body = string.Empty,
             Subject = string.Empty,
             SenderName = currentUserResult.Value.UserName,
@@ -45,7 +45,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
             Subject = $"RE: {selectedEmail.Subject}",
             SenderName = currentUserResult.Value.UserName,
             Sender = currentUserResult.Value.EmailAddress,
-            Recipients = [selectedEmail.Recipients.FirstOrDefault()],
+            Recipient = selectedEmail.Recipient,
         };
     }
 
@@ -72,7 +72,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         //Get reciepient email 
         await SpeechService.SpeakAsync("First, who would you like to send this email to? Please say the recipient's email address.", token);
         var recipientEmailAddress = await ListenGetEmailAddress(token);
-        EmailDraft.Recipients = [recipientEmailAddress];
+        EmailDraft.Recipient = recipientEmailAddress;
 
         //Get email subject line
         await SpeechService.SpeakAsync("Got it. Next, what is the subject of your email? Please state the subject line.", token);
