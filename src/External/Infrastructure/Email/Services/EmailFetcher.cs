@@ -98,7 +98,7 @@ public class EmailFetcher : IEmailFetcher, IDisposable
         {
             EmailType = EmailType.Email,
             EmailStatus = EmailStatus.UnRead,
-            Recipients = [EmailAddress],
+            Recipient = EmailAddress,
             CreatedAt = mimeMessage.Date.DateTime,
             Sender = senderAddress,
             SenderName = senderName,
