@@ -49,7 +49,7 @@ public class EmailSender : IEmailSender, IDisposable
     {
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(emailModel.Sender, emailModel.Sender)); 
-        message.To.AddRange(emailModel.Recipients.Select(recipient => new MailboxAddress(recipient, recipient))); 
+        message.To.Add(new MailboxAddress(emailModel.Recipient, emailModel.Recipient)); 
         message.Subject = emailModel.Subject;
         message.Body = new TextPart("plain") { Text = emailModel.Body };
         return message;
