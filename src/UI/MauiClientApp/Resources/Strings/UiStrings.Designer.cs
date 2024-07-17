@@ -162,9 +162,9 @@ namespace MauiClientApp.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to You said: {0}. Is that correct?.
         /// </summary>
-        internal static string DraftQuery_EmailSubject_Confirmation {
+        internal static string DraftQuery_EmailText_Confirmation {
             get {
-                return ResourceManager.GetString("DraftQuery_EmailSubject_Confirmation", resourceCulture);
+                return ResourceManager.GetString("DraftQuery_EmailText_Confirmation", resourceCulture);
             }
         }
         
@@ -174,6 +174,15 @@ namespace MauiClientApp.Resources.Strings {
         internal static string DraftQuery_SendEmail {
             get {
                 return ResourceManager.GetString("DraftQuery_SendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok, please dictate the email body text again..
+        /// </summary>
+        internal static string DraftResponse_EmailBody_Reject {
+            get {
+                return ResourceManager.GetString("DraftResponse_EmailBody_Reject", resourceCulture);
             }
         }
         

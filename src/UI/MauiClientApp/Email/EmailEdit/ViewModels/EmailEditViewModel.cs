@@ -73,12 +73,12 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
         //Get email subject line
         await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailSubject, token);
-        var emailSubjectLine = await ListenGetEmailSubjectLine(token);
+        var emailSubjectLine = await DictateEmailSubjectOrBody(isForEmailBody: false, token);
         Subject = emailSubjectLine;
 
         //Get email body text
         await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailBody, token);
-        var emailBodyText = await ListenGetEmailSubjectLine(token); 
+        var emailBodyText = await DictateEmailSubjectOrBody(isForEmailBody: true, token); 
         Body = emailBodyText;
 
         //Get email body text
@@ -147,7 +147,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         return string.Empty;
     }
 
-    protected async Task<string> ListenGetEmailSubjectLine(CancellationToken token)
+    protected async Task<string> DictateEmailSubjectOrBody(bool isForEmailBody, CancellationToken token)
     {
         var userInputFailCount = 0;
 
@@ -169,13 +169,13 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     continue;
                 }
 
-                var subjectLine = userInput.Value.Trim();
-                await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_EmailSubject_Confirmation, subjectLine), token);
+                var dictatedText = userInput.Value.Trim();
+                await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_EmailText_Confirmation, dictatedText), token);
 
                 var userIntent = await ListenForUserIntent();
-                if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok) return subjectLine;
+                if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok) return dictatedText;
 
-                await SpeechService.SpeakAsync(UiStrings.DraftResponse_EmailSubject_Reject, token);
+                await SpeechService.SpeakAsync(isForEmailBody? UiStrings.DraftResponse_EmailBody_Reject : UiStrings.DraftResponse_EmailSubject_Reject, token);
             }
             catch (OperationCanceledException)
             {
