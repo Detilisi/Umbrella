@@ -88,7 +88,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
         {
             await SendEmailCommand.ExecuteAsync(null);
-            await SpeechService.SpeakAsync(UiStrings.DraftResponse_SendEmail, token);
+            await SpeechService.SpeakAsync(string.Format(UiStrings.DraftResponse_SendEmail, Recipient), token);
             //Go back
         }
     }
