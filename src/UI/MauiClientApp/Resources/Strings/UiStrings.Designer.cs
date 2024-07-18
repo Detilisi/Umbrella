@@ -160,7 +160,7 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your email is ready to be sent. Do you need to make any changes, or shall I send it now?.
+        ///   Looks up a localized string similar to Your email is ready; should I send it now?.
         /// </summary>
         internal static string DraftQuery_SendEmail {
             get {
