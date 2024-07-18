@@ -1,6 +1,4 @@
-﻿using MauiClientApp.Common.Enums;
-
-namespace MauiClientApp.Common.Services;
+﻿namespace MauiClientApp.Common.Services;
 
 internal class IntentRecognizer
 {
@@ -46,6 +44,12 @@ internal class IntentRecognizer
                 "Correct", "Right", "True", "Agreed", "Confirm", "I agree", "I confirm", "Of course",
                 "Certainly", "Okay", "Ok", "All right", "Alright", "Yep", "I do", "Exactly", "For sure",
                 "Without a doubt", "Of course", "Sure thing", "By all means", "Naturally"
+            }
+        },
+        { UserIntent.SendEmail, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "Send", "Dispatch", "Mail", "Transmit", "Forward", "Shoot off", "Post", "Deliver",
+                "Drop a line", "Ship", "Submit", "Fire off", "Send out", "Send off"
             }
         }
     };
