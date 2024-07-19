@@ -23,6 +23,12 @@ internal static class NavigationService
         return Result.Success();
     }
 
+    internal static async Task<Result> NavigateToPreviousViewModelAsync()
+    {
+        await Shell.Current.GoToAsync("..");
+        return Result.Success();
+    }
+
     //Helpers
     private static IReadOnlyDictionary<Type, Type> ViewModelMappings => new Dictionary<Type, Type> //Create mapping viewmodel to page
     ([
