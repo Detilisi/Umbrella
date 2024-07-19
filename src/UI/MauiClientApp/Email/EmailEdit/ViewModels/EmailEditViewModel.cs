@@ -2,7 +2,6 @@
 using Application.User.Abstractions.Services;
 using Domain.Common.ValueObjects;
 using System.Text.RegularExpressions;
-using static UIKit.UIGestureRecognizer;
 
 namespace MauiClientApp.Email.EmailEdit.ViewModels;
 
@@ -57,7 +56,12 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         {
             await SpeechService.SpeakAsync("Failed to send your email message");
         }
-        await SpeechService.SpeakAsync(string.Format(UiStrings.DraftResponse_SendEmail, Recipient));
+        else
+        {
+            await SpeechService.SpeakAsync(string.Format(UiStrings.DraftResponse_SendEmail, Recipient));
+        }
+        
+        
         await NavigationService.NavigateToPreviousViewModelAsync();
     }
 
