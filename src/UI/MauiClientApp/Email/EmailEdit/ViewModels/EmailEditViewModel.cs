@@ -89,7 +89,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         {
             await SendEmailCommand.ExecuteAsync(null);
             await SpeechService.SpeakAsync(string.Format(UiStrings.DraftResponse_SendEmail, Recipient), token);
-            //Go back
+            await NavigationService.NavigateToPreviousViewModelAsync();
         }
     }
 
