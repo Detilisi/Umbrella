@@ -5,7 +5,6 @@ namespace MauiClientApp.Common.Base;
 internal abstract partial class ViewModel : ObservableObject
 {
     [ObservableProperty] internal bool isBusy;
-    internal static ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
 
     public virtual void OnViewModelStarting()
     {

@@ -26,7 +26,7 @@ internal class ChatHistorySubView : Frame
         {
             SelectionMode = SelectionMode.None,
             ItemTemplate = new ChatDataTemplate(),
-            ItemsSource = ViewModel.ChatHistory,
+            ItemsSource = EmailViewModel.ChatHistory,
             ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView,
         };
 

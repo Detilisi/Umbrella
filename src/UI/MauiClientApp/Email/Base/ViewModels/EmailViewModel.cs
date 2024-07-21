@@ -6,6 +6,9 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     protected readonly IMediator _mediator = mediator;
     protected CancellationTokenSource _cancellationTokenSource = new();
 
+    //Properties
+    internal static ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
+
     //ViewModel lifecylce
     public override void OnViewModelStarting()
     {
