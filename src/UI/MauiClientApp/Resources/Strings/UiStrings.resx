@@ -129,6 +129,9 @@
   <data name="AppQuery_Generic" xml:space="preserve">
     <value>How can I help you today?</value>
   </data>
+  <data name="DraftInfo_EmailNotSend" xml:space="preserve">
+    <value>You chose not to send this email. I'll discard the draft and proceed.</value>
+  </data>
   <data name="DraftInfo_EmailSummary" xml:space="preserve">
     <value>Thank you! Your message to {0}, subject: {1}, reads, {2}</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="DraftResponse_SendEmail" xml:space="preserve">
     <value>Your email message to {0} has been sent!</value>
+  </data>
+  <data name="DraftResponse_SendEmail_Failed" xml:space="preserve">
+    <value>Email didn't go through. We're canceling the operation. Feel free to try again later.</value>
   </data>
   <data name="InboxInfo_EmailSummary" xml:space="preserve">
     <value>Message {0} is from {1}, subject {2}</value>

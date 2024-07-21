@@ -97,6 +97,15 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You chose not to send this email. I&apos;ll discard the draft and proceed..
+        /// </summary>
+        internal static string DraftInfo_EmailNotSend {
+            get {
+                return ResourceManager.GetString("DraftInfo_EmailNotSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thank you! Your message to {0}, subject: {1}, reads, {2}.
         /// </summary>
         internal static string DraftInfo_EmailSummary {
@@ -210,6 +219,15 @@ namespace MauiClientApp.Resources.Strings {
         internal static string DraftResponse_SendEmail {
             get {
                 return ResourceManager.GetString("DraftResponse_SendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email didn&apos;t go through. We&apos;re canceling the operation. Feel free to try again later..
+        /// </summary>
+        internal static string DraftResponse_SendEmail_Failed {
+            get {
+                return ResourceManager.GetString("DraftResponse_SendEmail_Failed", resourceCulture);
             }
         }
         
