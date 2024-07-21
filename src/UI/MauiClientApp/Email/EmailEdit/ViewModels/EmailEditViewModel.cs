@@ -1,6 +1,7 @@
 ﻿using Application.Email.Features.Commands.SendEmail;
 using Application.User.Abstractions.Services;
 using Domain.Common.ValueObjects;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace MauiClientApp.Email.EmailEdit.ViewModels;
@@ -177,6 +178,9 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
                 var dictatedText = userInput.Value.Trim();
                 await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_Confirmation, dictatedText), token);
+
+                var textInfo = new CultureInfo("en-US", false).TextInfo;
+                dictatedText = isForEmailBody ? char.ToUpper(dictatedText[0]) + dictatedText[1..] : textInfo.ToTitleCase(dictatedText);
 
                 var userIntent = await ListenForUserIntent();
                 if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok) return dictatedText;
