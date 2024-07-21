@@ -26,12 +26,13 @@ internal class ChatHistorySubView : Frame
         {
             SelectionMode = SelectionMode.None,
             ItemTemplate = new ChatDataTemplate(),
-            ItemsSource = ViewModel.ChatHistory,
+            ItemsSource = EmailViewModel.ChatHistory,
             ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView,
         };
 
         var actionIcon = new IconLabel(FontAwesomeIcons.Microphone)
             .DynamicResource(View.StyleProperty, "ChatTemplateIcon");
+        actionIcon.SetBinding(Label.IsVisibleProperty, new Binding(nameof(EmailViewModel.IsListening)));
 
         HistoryGrid = new Grid
         {

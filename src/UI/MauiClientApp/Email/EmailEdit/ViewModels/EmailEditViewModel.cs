@@ -1,6 +1,7 @@
 ﻿using Application.Email.Features.Commands.SendEmail;
 using Application.User.Abstractions.Services;
 using Domain.Common.ValueObjects;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace MauiClientApp.Email.EmailEdit.ViewModels;
@@ -54,7 +55,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         var sendEmailResult = await _mediator.Send(sendCommand);
         if (sendEmailResult.IsFailure)
         {
-            await SpeechService.SpeakAsync("Failed to send your email message");
+            await SpeechService.SpeakAsync(UiStrings.DraftResponse_SendEmail_Failed);
         }
         else
         {
@@ -97,6 +98,11 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         {
             await SendEmailCommand.ExecuteAsync(null);
         }
+        else
+        {
+            await SpeechService.SpeakAsync(UiStrings.DraftInfo_EmailNotSend, token);
+            await NavigationService.NavigateToPreviousViewModelAsync();
+        }
     }
 
     //Helper methods
@@ -113,7 +119,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     break;
                 }
 
-                var userInput = await SpeechService.ListenAsync(token);
+                var userInput = await ListenAsync(token);
                 if (userInput.IsFailure)
                 {
                     userInputFailCount++;
@@ -129,11 +135,8 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_Confirmation, emailInput), token);
                     
                     var userIntent = await ListenForUserIntent();
-                    if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
-                    {
-                        return emailInput;
-                    }
-
+                    if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok) return emailInput.ToLower();
+                    
                     await SpeechService.SpeakAsync(UiStrings.DraftResponse_EmailRecipient_Reject, token);
                 }
                 else
@@ -167,7 +170,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     break;
                 }
 
-                var userInput = await SpeechService.ListenAsync(token);
+                var userInput = await ListenAsync(token);
                 if (userInput.IsFailure)
                 {
                     userInputFailCount++;
@@ -177,6 +180,9 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
                 var dictatedText = userInput.Value.Trim();
                 await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_Confirmation, dictatedText), token);
+
+                var textInfo = new CultureInfo("en-US", false).TextInfo;
+                dictatedText = isForEmailBody ? char.ToUpper(dictatedText[0]) + dictatedText[1..] : textInfo.ToTitleCase(dictatedText);
 
                 var userIntent = await ListenForUserIntent();
                 if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok) return dictatedText;

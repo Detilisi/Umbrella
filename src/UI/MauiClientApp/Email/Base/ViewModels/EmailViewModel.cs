@@ -6,9 +6,14 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     protected readonly IMediator _mediator = mediator;
     protected CancellationTokenSource _cancellationTokenSource = new();
 
+    //Properties
+    [ObservableProperty] internal static bool isListening;
+    internal static ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
+
     //ViewModel lifecylce
     public override void OnViewModelStarting()
     {
+        IsListening = false;
         base.OnViewModelStarting();
 
         if (SpeechService.OnSpeechAnounced != null && SpeechService.OnSpeechRecognized != null) return;
@@ -48,6 +53,13 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     }
 
     //Helper method
+    protected async Task<Result<string>> ListenAsync(CancellationToken token = default)
+    {
+        IsListening = true;
+        var result = await SpeechService.ListenAsync(token);
+        IsListening = false;
+        return result;
+    }
     protected async Task<UserIntent> ListenForUserIntent()
     {
         var userInputFailCount = 0;
@@ -59,7 +71,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
             {
                 if (userInputFailCount == 4) OnViewModelClosing(); //Close app
 
-                var userInput = await SpeechService.ListenAsync(token);
+                var userInput = await ListenAsync(token);
                 if (userInput.IsFailure)
                 {
                     userInputFailCount++;
@@ -84,6 +96,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
                 await SpeechService.StopListenAsync(default);
             }
         }
+        IsListening = false;
         return UserIntent.CancelOperation;
     }
 }
