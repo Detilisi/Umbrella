@@ -13,6 +13,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     //ViewModel lifecylce
     public override void OnViewModelStarting()
     {
+        IsListening = false;
         base.OnViewModelStarting();
 
         if (SpeechService.OnSpeechAnounced != null && SpeechService.OnSpeechRecognized != null) return;
@@ -92,10 +93,10 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
             }
             catch (OperationCanceledException)
             {
-                IsListening = false;
                 await SpeechService.StopListenAsync(default);
             }
         }
+        IsListening = false;
         return UserIntent.CancelOperation;
     }
 }
