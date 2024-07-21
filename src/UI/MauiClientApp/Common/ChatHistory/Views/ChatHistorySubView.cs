@@ -32,6 +32,7 @@ internal class ChatHistorySubView : Frame
 
         var actionIcon = new IconLabel(FontAwesomeIcons.Microphone)
             .DynamicResource(View.StyleProperty, "ChatTemplateIcon");
+        actionIcon.SetBinding(Label.IsVisibleProperty, new Binding(nameof(EmailViewModel.IsListening)));
 
         HistoryGrid = new Grid
         {
