@@ -113,7 +113,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     break;
                 }
 
-                var userInput = await SpeechService.ListenAsync(token);
+                var userInput = await ListenAsync(token);
                 if (userInput.IsFailure)
                 {
                     userInputFailCount++;
@@ -167,7 +167,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     break;
                 }
 
-                var userInput = await SpeechService.ListenAsync(token);
+                var userInput = await ListenAsync(token);
                 if (userInput.IsFailure)
                 {
                     userInputFailCount++;
