@@ -55,7 +55,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         var sendEmailResult = await _mediator.Send(sendCommand);
         if (sendEmailResult.IsFailure)
         {
-            await SpeechService.SpeakAsync("Failed to send your email message");
+            await SpeechService.SpeakAsync("Email didn't go through. We're canceling the operation. Feel free to try again later.");
         }
         else
         {
@@ -98,6 +98,11 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         {
             await SendEmailCommand.ExecuteAsync(null);
         }
+        else
+        {
+            await SpeechService.SpeakAsync("You chose not to send this email. I'll discard the draft and proceed.", token);
+            await NavigationService.NavigateToPreviousViewModelAsync();
+        }
     }
 
     //Helper methods
@@ -130,11 +135,8 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_Confirmation, emailInput), token);
                     
                     var userIntent = await ListenForUserIntent();
-                    if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
-                    {
-                        return emailInput;
-                    }
-
+                    if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok) return emailInput.ToLower();
+                    
                     await SpeechService.SpeakAsync(UiStrings.DraftResponse_EmailRecipient_Reject, token);
                 }
                 else
