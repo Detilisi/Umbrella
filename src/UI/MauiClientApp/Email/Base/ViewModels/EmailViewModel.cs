@@ -1,4 +1,6 @@
-﻿namespace Application.Email.Base;
+﻿using Android.Media;
+
+namespace Application.Email.Base;
 
 internal partial class EmailViewModel(IMediator mediator) : ViewModel
 {
@@ -89,6 +91,12 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
                     await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, token);
                     continue;
                 }
+                else if (userIntent == UserIntent.GoBack || userIntent == UserIntent.Cancel) 
+                {
+                    await SpeechService.SpeakAsync("Current operation terminated.", token);
+                    await NavigationService.NavigateToPreviousViewModelAsync();
+                }
+
                 return userIntent;
             }
             catch (OperationCanceledException)
