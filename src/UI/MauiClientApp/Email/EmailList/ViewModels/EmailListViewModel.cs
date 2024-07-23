@@ -52,7 +52,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     }
 
     //Handler methods
-    public override async Task HandleUserInteractionAsync()
+    protected override async Task HandleUserInteractionAsync()
     {
         var token = _cancellationTokenSource.Token;
         await SpeechService.SpeakAsync(UiStrings.AppInfo_Introduction, token);
@@ -76,8 +76,8 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
                     await SpeechService.SpeakAsync(string.Format(UiStrings.InboxInfo_EmailSummary, EmailMessageList.IndexOf(message) + 1, message.SenderName, message.Subject), token);
                     await SpeechService.SpeakAsync(UiStrings.InboxQuery_OpenEmail, token);
 
-                    var subCaptureResult = await CaptureUserInputAndIntentAsync();
-                    if (subCaptureResult.Item2 == UserIntent.OpenEmail || subCaptureResult.Item2 == UserIntent.Yes)
+                    captureResult = await CaptureUserInputAndIntentAsync();
+                    if (captureResult.Item2 == UserIntent.OpenEmail || captureResult.Item2 == UserIntent.Yes)
                     {
                         await SpeechService.SpeakAsync(UiStrings.InputResponse_OpenEmail);
                         await OpenEmailCommand.ExecuteAsync(message);

@@ -47,13 +47,13 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     }
 
     //Virtual method
-    public virtual Task HandleUserInteractionAsync()
+    protected virtual Task HandleUserInteractionAsync()
     {
         return Task.CompletedTask;
     }
 
     //Helper method
-    protected async Task<Tuple<string, UserIntent>> CaptureUserInputAndIntentAsync()
+    protected async Task<Tuple<string, UserIntent>> CaptureUserInputAndIntentAsync(bool ignoreUndefinedIntent = false)
     {
         while (!_cancellationTokenSource.Token.IsCancellationRequested)
         {
@@ -76,6 +76,8 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
                 switch (userIntent)
                 {
                     case UserIntent.Undefined:
+                        if (ignoreUndefinedIntent) return Tuple.Create(userText, userIntent);
+                        
                         await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, _cancellationTokenSource.Token);
                         await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, _cancellationTokenSource.Token);
                         await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, _cancellationTokenSource.Token);
