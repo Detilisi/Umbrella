@@ -72,22 +72,25 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
                 //Get intent
                 var userText = userInputResult.Value;
                 var userIntent = IntentRecognizer.GetIntent(userText);
-                if (userIntent == UserIntent.Undefined)
-                {
-                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, _cancellationTokenSource.Token);
-                    await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, _cancellationTokenSource.Token);
-                    await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, _cancellationTokenSource.Token);
-                    continue;
-                }
-                else if (userIntent == UserIntent.GoBack || userIntent == UserIntent.Cancel)
-                {
-                    await SpeechService.SpeakAsync(UiStrings.AppResponse_Cancel, _cancellationTokenSource.Token);
-                    OnViewModelClosing();
 
-                    if (HasPreviousViewModel) await NavigationService.NavigateToPreviousViewModelAsync();
-                }
+                switch (userIntent)
+                {
+                    case UserIntent.Undefined:
+                        await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, _cancellationTokenSource.Token);
+                        await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, _cancellationTokenSource.Token);
+                        await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, _cancellationTokenSource.Token);
+                        break;
 
-                return Tuple.Create(userText, userIntent);
+                    case UserIntent.GoBack or UserIntent.Cancel:
+                        await SpeechService.SpeakAsync(UiStrings.AppResponse_Cancel, _cancellationTokenSource.Token);
+                        OnViewModelClosing();
+
+                        if (HasPreviousViewModel) await NavigationService.NavigateToPreviousViewModelAsync();
+                        return Tuple.Create(userText, userIntent); // Early return
+
+                    default:
+                        return Tuple.Create(userText, userIntent);
+                }
             }
             catch 
             {
