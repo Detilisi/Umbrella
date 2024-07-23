@@ -34,7 +34,8 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         _cancellationTokenSource.Cancel();
 
         base.OnViewModelClosing();
-        SpeechService.StopListenAsync().GetAwaiter().GetResult();
+
+        if (HasPreviousViewModel) NavigationService.NavigateToPreviousViewModelAsync().GetAwaiter();
     }
 
     public override async void OnViewModelHasFocus()
@@ -85,9 +86,8 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
 
                     case UserIntent.GoBack or UserIntent.Cancel:
                         await SpeechService.SpeakAsync(UiStrings.AppResponse_Cancel, _cancellationTokenSource.Token);
+                        
                         OnViewModelClosing();
-
-                        if (HasPreviousViewModel) await NavigationService.NavigateToPreviousViewModelAsync();
                         return Tuple.Create(userText, userIntent); // Early return
 
                     default:
