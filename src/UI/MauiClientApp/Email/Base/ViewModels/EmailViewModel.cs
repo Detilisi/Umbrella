@@ -35,6 +35,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
 
         base.OnViewModelClosing();
 
+        SpeechService.StopListenAsync().GetAwaiter();
         if (HasPreviousViewModel) NavigationService.NavigateToPreviousViewModelAsync().GetAwaiter();
     }
 
