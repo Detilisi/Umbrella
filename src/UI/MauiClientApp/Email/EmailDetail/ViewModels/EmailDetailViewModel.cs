@@ -28,15 +28,14 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
     //Handler methods
     protected override async Task HandleUserInteractionAsync()
     {
-        var token = _cancellationTokenSource.Token;
-
         // Introduction
-        await SpeechService.SpeakAsync(UiStrings.ReadingInfo_Introduction, token);
-        await SpeechService.SpeakAsync(string.Format(UiStrings.ReadingInfo_EmailSummary, CurrentEmail.SenderName, CurrentEmail.CreatedAt), token);
-        await SpeechService.SpeakAsync(string.Format(UiStrings.ReadingInfo_Subject, CurrentEmail.Subject), token);
+        await SpeechService.SpeakAsync(UiStrings.ReadingInfo_Introduction, _cancellationTokenSource.Token);
+        await SpeechService.SpeakAsync(string.Format(UiStrings.ReadingInfo_EmailSummary, CurrentEmail.SenderName, CurrentEmail.CreatedAt), 
+            _cancellationTokenSource.Token);
+        await SpeechService.SpeakAsync(string.Format(UiStrings.ReadingInfo_Subject, CurrentEmail.Subject), _cancellationTokenSource.Token);
 
         // Get user input
-        await SpeechService.SpeakAsync(UiStrings.ReadingQuery_ReadEmail, token);
+        await SpeechService.SpeakAsync(UiStrings.ReadingQuery_ReadEmail, _cancellationTokenSource.Token);
         var captureResult = await CaptureUserInputAndIntentAsync();
 
         if (captureResult.Item2 == UserIntent.Yes)
@@ -44,9 +43,9 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
             bool readAgain = true;
             while (readAgain)
             {
-                await SpeechService.SpeakAsync(UiStrings.ReadingReponse_ReadEmail, token);
-                await SpeechService.SpeakAsync(CurrentEmail.Body, token);
-                await SpeechService.SpeakAsync(UiStrings.ReadingQuery_RepeatRead, token);
+                await SpeechService.SpeakAsync(UiStrings.ReadingReponse_ReadEmail, _cancellationTokenSource.Token);
+                await SpeechService.SpeakAsync(CurrentEmail.Body, _cancellationTokenSource.Token);
+                await SpeechService.SpeakAsync(UiStrings.ReadingQuery_RepeatRead, _cancellationTokenSource.Token);
 
                 captureResult = await CaptureUserInputAndIntentAsync();
                 readAgain = captureResult.Item2 == UserIntent.Yes;
@@ -54,7 +53,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
         }
         else
         {
-            await SpeechService.SpeakAsync(UiStrings.ReadingQuery_RepeatDelete, token);
+            await SpeechService.SpeakAsync(UiStrings.ReadingQuery_RepeatDelete, _cancellationTokenSource.Token);
             captureResult = await CaptureUserInputAndIntentAsync();
             if (captureResult.Item2 == UserIntent.ReplyEmail)
             {
