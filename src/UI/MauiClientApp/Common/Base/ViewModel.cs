@@ -5,7 +5,7 @@ namespace MauiClientApp.Common.Base;
 internal abstract partial class ViewModel : ObservableObject
 {
     [ObservableProperty] internal bool isBusy;
-
+    internal bool HasPreviousViewModel { get; set; } = true;
     public virtual void OnViewModelStarting()
     {
         Debug.WriteLine($"{GetType().Name} is closing");

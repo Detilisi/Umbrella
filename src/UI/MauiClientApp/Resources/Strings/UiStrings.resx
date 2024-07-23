@@ -123,11 +123,17 @@
   <data name="AppInfo_Capabilities" xml:space="preserve">
     <value>My capabilities are only limited to reading or writing email messages.</value>
   </data>
+  <data name="AppInfo_GenericError" xml:space="preserve">
+    <value>Something went wrong, let's try again</value>
+  </data>
   <data name="AppInfo_Introduction" xml:space="preserve">
     <value>Hi there! I’m Umbrella, your friendly voice-operated email assistant.</value>
   </data>
   <data name="AppQuery_Generic" xml:space="preserve">
     <value>How can I help you today?</value>
+  </data>
+  <data name="AppResponse_Cancel" xml:space="preserve">
+    <value>Current operation terminated.</value>
   </data>
   <data name="DraftInfo_EmailNotSend" xml:space="preserve">
     <value>You chose not to send this email. I'll discard the draft and proceed.</value>

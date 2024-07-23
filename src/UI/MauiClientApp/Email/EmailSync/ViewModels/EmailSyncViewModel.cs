@@ -7,6 +7,7 @@ internal class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator)
     //Life cycle 
     public override async void OnViewModelStarting()
     {
+        HasPreviousViewModel = false;
         base.OnViewModelStarting();
 
         //Synx emails

@@ -14,7 +14,7 @@ internal class IntentRecognizer
         { UserIntent.WriteEmail, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
                 "Compose", "Draft", "Write", "Send", "Type", "Create", "Prepare", "Pen down", "Construct",
-                "Craft", "Formulate", "Produce", "Develop", "Email", "Message", "Shoot off", "Scribble",
+                "Craft", "Formulate", "Produce", "Develop", "Message", "Shoot off", "Scribble",
                 "Jot down", "Fire off"
             }
         },
@@ -51,7 +51,13 @@ internal class IntentRecognizer
                 "Send", "Dispatch", "Mail", "Transmit", "Forward", "Shoot off", "Post", "Deliver",
                 "Drop a line", "Ship", "Submit", "Fire off", "Send out", "Send off"
             }
-        }
+        },
+        { UserIntent.GoBack, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "Go back", "Back", "Return", "Previous", "Backtrack", "Reverse", "Revert", "Go to previous",
+                "Step back", "Turn back", "Move back", "Head back"
+            }
+        },
     };
 
 
