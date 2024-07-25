@@ -29,20 +29,23 @@ internal static class SpeechService
     {
         try
         {
-            OnSpeechAnounced?.Invoke(text);
+            if (token.IsCancellationRequested)
+            {
+                return Result.Failure(new Error("SpeecToText.SpeakAsync.Cancelled", ""));
+            }
 
-            var options = new SpeechOptions()
+            OnSpeechAnounced?.Invoke(text);
+            await TextToSpeech.SpeakAsync(text, new SpeechOptions()
             {
                 Pitch = 1,
                 Volume = 1,
-            };
-            await TextToSpeech.SpeakAsync(text, options, token);
+            }, token);
             
             return Result.Success();
         }
-        catch (TaskCanceledException)
+        catch (Exception ex)
         {
-            return Result.Failure(new Error("SpeecToText.Speak Failed", ""));
+            return Result.Failure(new Error("SpeecToText.SpeakAsync.Failed", ex.Message));
         }
     }
 
@@ -57,6 +60,11 @@ internal static class SpeechService
     }
     internal static async Task<Result<string>> ListenAsync(CancellationToken token = default)
     {
+        if (token.IsCancellationRequested)
+        {
+            return Result.Failure<string>(new Error("SpeecToText.ListenAsync.Cancelled", ""));
+        }
+
         RequestPermissions(token);
         CanListenExecute = false;
         var recognitionText = string.Empty;
@@ -77,11 +85,14 @@ internal static class SpeechService
             else
             {
                 recognitionText = "Error";
-                return Result.Failure<string>(new Error("SpeecToText.Listen Failed", ""));
+                return Result.Failure<string>(new Error("SpeecToText.ListenAsync.Failed", ""));
             }
 
-
             return Result.Success(recognitionText); 
+        }
+        catch (Exception ex)
+        {
+            return Result.Failure<string>(new Error("SpeecToText.ListenAsync.Failed", ex.Message));
         }
         finally
         {
