@@ -1,16 +1,16 @@
-﻿namespace Application.Email.Base;
+﻿namespace MauiClientApp.Email.Base.ViewModels;
 
 internal partial class EmailViewModel(IMediator mediator) : ViewModel
 {
     //Fields
-    protected readonly IMediator _mediator = mediator;
-    protected CancellationTokenSource _cancellationTokenSource = new();
+    protected readonly IMediator Mediator = mediator;
+    protected CancellationTokenSource CancellationTokenSource = new();
 
     //Properties
     [ObservableProperty] internal static bool isListening;
     internal static ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
 
-    //ViewModel lifecylce
+    //ViewModel lifecycle
     public override void OnViewModelStarting()
     {
         IsListening = false;
@@ -31,7 +31,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
 
     public override void OnViewModelClosing()
     {
-        _cancellationTokenSource.Cancel();
+        CancellationTokenSource.Cancel();
 
         base.OnViewModelClosing();
         SpeechService.StopListenAsync().GetAwaiter().GetResult();
@@ -41,7 +41,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     {
         base.OnViewModelHasFocus();
 
-        _cancellationTokenSource = new();
+        CancellationTokenSource = new();
         await HandleUserInteractionAsync();
 
     }
@@ -63,7 +63,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     protected async Task<UserIntent> ListenForUserIntent()
     {
         var userInputFailCount = 0;
-        var token = _cancellationTokenSource.Token;
+        var token = CancellationTokenSource.Token;
 
         while (!token.IsCancellationRequested)
         {
@@ -81,15 +81,13 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
 
                 //Get intent
                 var userIntent = IntentRecognizer.GetIntent(userInput.Value);
-                if (userIntent == UserIntent.Undefined)
-                {
-                    userInputFailCount++;
-                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, token);
-                    await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, token);
-                    await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, token);
-                    continue;
-                }
-                return userIntent;
+                if (userIntent != UserIntent.Undefined) return userIntent;
+
+                userInputFailCount++;
+                await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, token);
+                await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, token);
+                await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, token);
+                continue;
             }
             catch (OperationCanceledException)
             {

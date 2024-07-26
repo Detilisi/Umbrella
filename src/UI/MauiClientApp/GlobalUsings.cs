@@ -1,5 +1,4 @@
-﻿global using Application.Email.Base;
-global using Application.Email.Models;
+﻿global using Application.Email.Models;
 global using CommunityToolkit.Maui;
 global using CommunityToolkit.Maui.Markup;
 global using CommunityToolkit.Mvvm.ComponentModel;

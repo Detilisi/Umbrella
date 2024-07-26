@@ -1,4 +1,5 @@
 ﻿using MauiClientApp.Common.ChatHistory.Templates;
+using EmailViewModel = MauiClientApp.Email.Base.ViewModels.EmailViewModel;
 
 namespace MauiClientApp.Common.ChatHistory.Views;
 

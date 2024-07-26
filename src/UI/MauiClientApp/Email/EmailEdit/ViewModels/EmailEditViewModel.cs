@@ -3,6 +3,7 @@ using Application.User.Abstractions.Services;
 using Domain.Common.ValueObjects;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using EmailViewModel = MauiClientApp.Email.Base.ViewModels.EmailViewModel;
 
 namespace MauiClientApp.Email.EmailEdit.ViewModels;
 
@@ -52,7 +53,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
             Body = Body,
         };
         var sendCommand = new SendEmailCommand(emailDraft);
-        var sendEmailResult = await _mediator.Send(sendCommand);
+        var sendEmailResult = await Mediator.Send(sendCommand);
         if (sendEmailResult.IsFailure)
         {
             await SpeechService.SpeakAsync(UiStrings.DraftResponse_SendEmail_Failed);
@@ -69,7 +70,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     //Handler methods
     public override async Task HandleUserInteractionAsync()
     {
-        var token = _cancellationTokenSource.Token;
+        var token = CancellationTokenSource.Token;
 
         //Introduction
         await SpeechService.SpeakAsync(UiStrings.DraftInfo_Introduction, token);

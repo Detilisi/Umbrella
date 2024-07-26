@@ -1,4 +1,6 @@
-﻿namespace MauiClientApp.Email.EmailDetail.ViewModels;
+﻿using EmailViewModel = MauiClientApp.Email.Base.ViewModels.EmailViewModel;
+
+namespace MauiClientApp.Email.EmailDetail.ViewModels;
 
 internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator), IQueryAttributable
 {
@@ -28,7 +30,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
     //Handler methods
     public override async Task HandleUserInteractionAsync()
     {
-        var token = _cancellationTokenSource.Token;
+        var token = CancellationTokenSource.Token;
 
         //Introduction
         await SpeechService.SpeakAsync(UiStrings.ReadingInfo_Introduction, token);
@@ -36,7 +38,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
             CurrentEmail.SenderName, CurrentEmail.CreatedAt), token);
         await SpeechService.SpeakAsync(string.Format(UiStrings.ReadingInfo_Subject, CurrentEmail.Subject), token);
 
-        //Get user inpit 
+        //Get user input 
         await SpeechService.SpeakAsync(UiStrings.ReadingQuery_ReadEmail, token);
         var userIntent = await ListenForUserIntent();
         if (userIntent == UserIntent.Yes)

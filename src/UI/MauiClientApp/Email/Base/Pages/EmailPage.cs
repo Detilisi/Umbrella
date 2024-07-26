@@ -1,4 +1,5 @@
 ﻿using MauiClientApp.Common.ChatHistory.Views;
+using EmailViewModel = MauiClientApp.Email.Base.ViewModels.EmailViewModel;
 
 namespace Umbrella.Maui.Email.Base.Pages;
 
