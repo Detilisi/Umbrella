@@ -15,9 +15,9 @@ internal partial class SignUpViewModel(IMediator mediator, IEncryptionService en
     public string UserPassword { set; get; } = null!;
 
     //Life cycle 
-    public override async void OnViewModelStarting()
+    protected override async void ViewAppearing()
     {
-        base.OnViewModelStarting();
+        base.ViewAppearing();
 
         SpeechService.RequestPermissions();
         var autoLoginUserQuery = new AutoLoginUserQuery();

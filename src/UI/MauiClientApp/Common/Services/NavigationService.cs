@@ -3,7 +3,7 @@
 internal static class NavigationService
 {
     //Navigate
-    internal static async Task<Result> NavigateToViewModelAsync<TViewModel>(Dictionary<string, object> navigationParameters = default) where TViewModel : ViewModel
+    internal static async Task<Result> NavigateToViewModelAsync<TViewModel>(Dictionary<string, object>? navigationParameters = default) where TViewModel : ViewModel
     {
         var pageRouteResult = GetPageRoute<TViewModel>();
         if (pageRouteResult.IsFailure)

@@ -5,10 +5,9 @@ namespace MauiClientApp.Email.EmailSync.ViewModels;
 internal class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator)
 {
     //Life cycle 
-    public override async void OnViewModelStarting()
+    protected override async void ViewAppearing()
     {
-        HasPreviousViewModel = false;
-        base.OnViewModelStarting();
+        base.ViewAppearing();
 
         //Synx emails
         await SyncEmailInboxAsync();
@@ -20,7 +19,7 @@ internal class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator)
     {
         var syncCommand = new SyncInboxCommand();
 
-        var syncResult = await _mediator.Send(syncCommand);
+        var syncResult = await Mediator.Send(syncCommand);
         if (syncResult.IsFailure) return; // handle error
     }
 }
