@@ -31,7 +31,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
 
     protected override void ViewDisappearing()
     {
-        //CancellationTokenSource.Cancel();
+        CancellationTokenSource.Cancel();
 
         base.ViewDisappearing();
     }
@@ -41,7 +41,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         base.ViewNavigatedTo();
 
         CancellationTokenSource = new();
-        //await ExecuteBackgroundOperation();
+        await ExecuteBackgroundOperation();
 
     }
 

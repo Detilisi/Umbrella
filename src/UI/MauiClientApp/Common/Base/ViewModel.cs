@@ -14,7 +14,7 @@ internal abstract partial class ViewModel : ObservableObject
     [RelayCommand] protected virtual void ViewDisappearing() => ViewActiveToken.Cancel();
     
     [RelayCommand] protected virtual void ViewNavigatedTo() { }
-    [RelayCommand]protected virtual void ViewBackButtonPressed() { }
+    [RelayCommand] protected virtual void ViewBackButtonPressed() { }
 
     //State changers
     protected void FireViewModelBusy() => IsBusy = true;
@@ -24,5 +24,4 @@ internal abstract partial class ViewModel : ObservableObject
     protected static async Task NavigateBackAsync() => await NavigationService.NavigateToPreviousViewModelAsync();
     protected static async Task NavigateToAsync<TNextViewModel>(Dictionary<string, object>? navigationParameters = default) where TNextViewModel : ViewModel
         => await NavigationService.NavigateToViewModelAsync<TNextViewModel>(navigationParameters);
-
 }
