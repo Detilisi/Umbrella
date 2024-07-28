@@ -15,21 +15,21 @@ internal abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel)
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
-        Debug.WriteLine($"OnBindingContextChanged: {Title}");
+        LogOperation(nameof(this.OnBindingContextChanged));
 
         SetBinding(IsBusyProperty, new Binding(nameof(ViewModel.IsBusy)));
     }
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Debug.WriteLine($"OnAppearing: {Title}");
-        
+        LogOperation(nameof(this.OnAppearing));
+
         ViewModel.ViewAppearingCommand.Execute(this);
     }
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        Debug.WriteLine($"OnDisappearing: {Title}");
+        LogOperation(nameof(this.OnDisappearing));
 
         ViewModel.ViewDisappearingCommand.Execute(this);
     }
@@ -37,7 +37,7 @@ internal abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel)
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
-        Debug.WriteLine($"OnNavigatedTo: {Title}");
+        LogOperation(nameof(this.OnNavigatedTo));
 
         ViewModel.ViewNavigatedToCommand.Execute(this);
     }
@@ -47,10 +47,14 @@ internal abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel)
         if(ViewModel.IsRootViewModel) return false;
 
         var result = base.OnBackButtonPressed();
-        Debug.WriteLine($"OnBackButtonPressed: {Title}");
+        LogOperation(nameof(this.OnNavigatedTo));
 
         return result;
     }
+
+    //Helper
+    private void LogOperation(string functionName) => 
+        Debug.WriteLine($"APP-INFO: {GetType().Name}.{functionName} at {DateTime.Now}");
 }
 
 /// <summary>

@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace MauiClientApp.Common.Base;
 
 internal abstract partial class ViewModel : ObservableObject
@@ -12,31 +10,11 @@ internal abstract partial class ViewModel : ObservableObject
     internal bool IsRootViewModel { get; set; } = false;
 
     //Commands
-    [RelayCommand]
-    protected virtual void ViewAppearing()
-    {
-        ViewActiveToken = new();
-        Debug.WriteLine($"{GetType().Name} is closing");
-    }
-
-    [RelayCommand]
-    protected virtual void ViewDisappearing()
-    {
-        ViewActiveToken.Cancel();
-        Debug.WriteLine($"{GetType().Name} is closing");
-    }
-
-    [RelayCommand]
-    protected virtual void ViewNavigatedTo()
-    {
-        Debug.WriteLine($"{GetType().Name} has focus at {DateTime.Now}");
-    }
-
-    [RelayCommand]
-    protected virtual void ViewBackButtonPressed()
-    {
-        Debug.WriteLine($"{GetType().Name} back button pressed at {DateTime.Now}");
-    }
+    [RelayCommand] protected virtual void ViewAppearing() => ViewActiveToken = new();
+    [RelayCommand] protected virtual void ViewDisappearing() => ViewActiveToken.Cancel();
+    
+    [RelayCommand] protected virtual void ViewNavigatedTo() { }
+    [RelayCommand]protected virtual void ViewBackButtonPressed() { }
 
     //State changers
     protected void FireViewModelBusy() => IsBusy = true;
