@@ -30,6 +30,24 @@ internal abstract partial class EmailPage<TViewModel>(TViewModel viewModel) :
     }
 
     //View component initialization
+    private Grid CreateView
+    {
+        get
+        {
+            const double contentRowHeight = 0.72;
+            const double chatBoxRowHeight = 0.28;
+
+            var contentRowDefinition = new RowDefinition { Height = new GridLength(contentRowHeight, GridUnitType.Star) };
+            var chatBoxRowDefinition = new RowDefinition { Height = new GridLength(chatBoxRowHeight, GridUnitType.Star) };
+
+            return new Grid
+            {
+                RowDefinitions = [ contentRowDefinition, chatBoxRowDefinition ],
+                Children = { PageContent.Row(Row.Content), new ChatHistorySubView().Row(Row.ChatBox) }
+            };
+        }
+    }
+
     private void InitializeMainGridLayout()
     {
         var contentRowSize = 0.72;
