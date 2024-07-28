@@ -4,7 +4,6 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
 {
     //Fields
     protected readonly IMediator Mediator = mediator;
-    protected CancellationTokenSource CancellationTokenSource = new();
 
     //Properties
     [ObservableProperty] internal static bool isListening;
@@ -29,19 +28,10 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         });
     }
 
-    protected override void ViewDisappearing()
-    {
-        CancellationTokenSource.Cancel();
-
-        base.ViewDisappearing();
-    }
-
     protected override async void ViewNavigatedTo()
     {
         base.ViewNavigatedTo();
-
-        CancellationTokenSource = new();
-        await ExecuteBackgroundOperation();
+        //await ExecuteBackgroundOperation();
 
     }
 
@@ -54,17 +44,17 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     //Helper method
     protected async Task<Tuple<string, UserIntent>> CaptureUserInputAndIntentAsync(bool ignoreUndefinedIntent = false)
     {
-        while (!CancellationTokenSource.Token.IsCancellationRequested)
+        while (!ActivityToken.Token.IsCancellationRequested)
         {
             try
             {
                 IsListening = true;
-                var userInputResult = await SpeechService.ListenAsync(CancellationTokenSource.Token);
+                var userInputResult = await SpeechService.ListenAsync(ActivityToken.Token);
                 IsListening = false;
 
                 if (userInputResult.IsFailure)
                 {
-                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid, CancellationTokenSource.Token);
+                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid, ActivityToken.Token);
                     continue;
                 }
 
@@ -77,13 +67,13 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
                     case UserIntent.Undefined:
                         if (ignoreUndefinedIntent) return Tuple.Create(userText, userIntent);
                         
-                        await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, CancellationTokenSource.Token);
-                        await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, CancellationTokenSource.Token);
-                        await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, CancellationTokenSource.Token);
+                        await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, ActivityToken.Token);
+                        await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, ActivityToken.Token);
+                        await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, ActivityToken.Token);
                         break;
 
                     case UserIntent.GoBack or UserIntent.Cancel:
-                        await SpeechService.SpeakAsync(UiStrings.AppResponse_Cancel, CancellationTokenSource.Token);
+                        await SpeechService.SpeakAsync(UiStrings.AppResponse_Cancel, ActivityToken.Token);
                         
                         ViewDisappearing();
                         return Tuple.Create(userText, userIntent); // Early return
@@ -94,7 +84,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
             }
             catch 
             {
-                await SpeechService.SpeakAsync(UiStrings.AppInfo_GenericError, CancellationTokenSource.Token);
+                await SpeechService.SpeakAsync(UiStrings.AppInfo_GenericError, ActivityToken.Token);
                 continue;
             }
             finally

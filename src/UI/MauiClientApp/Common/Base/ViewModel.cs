@@ -3,15 +3,15 @@ namespace MauiClientApp.Common.Base;
 internal abstract partial class ViewModel : ObservableObject
 {
     //Fields
-    internal CancellationTokenSource ViewActiveToken { get; set; } = new();
+    internal CancellationTokenSource ActivityToken { get; set; } = new();
 
     //Properties
     [ObservableProperty] internal bool isBusy;
     internal bool IsRootViewModel { get; set; } = false;
 
     //Commands
-    [RelayCommand] protected virtual void ViewAppearing() => ViewActiveToken = new();
-    [RelayCommand] protected virtual void ViewDisappearing() => ViewActiveToken.Cancel();
+    [RelayCommand] protected virtual void ViewAppearing() => ActivityToken = new();
+    [RelayCommand] protected virtual void ViewDisappearing() => ActivityToken?.Cancel();
     
     [RelayCommand] protected virtual void ViewNavigatedTo() { }
     [RelayCommand] protected virtual void ViewBackButtonPressed() { }

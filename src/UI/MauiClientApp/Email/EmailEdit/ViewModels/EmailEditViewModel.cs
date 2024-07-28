@@ -69,7 +69,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     //Handler methods
     protected override async Task ExecuteBackgroundOperation()
     {
-        var token = CancellationTokenSource.Token;
+        var token = ActivityToken.Token;
 
         //Introduction
         await SpeechService.SpeakAsync(UiStrings.DraftInfo_Introduction, token);

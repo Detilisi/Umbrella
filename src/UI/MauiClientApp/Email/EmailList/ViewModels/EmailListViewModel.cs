@@ -34,7 +34,6 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     [RelayCommand]
     public async Task OpenEmail(EmailModel selectedEmail)
     {
-        CancellationTokenSource.Cancel();
         var navigationParameter = new Dictionary<string, object>
         {
             [nameof(EmailModel)] = selectedEmail
@@ -46,14 +45,13 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     [RelayCommand]
     public async Task WriteEmail()
     {
-        CancellationTokenSource.Cancel();
         await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
     }
 
     //Handler methods
     protected override async Task ExecuteBackgroundOperation()
     {
-        var token = CancellationTokenSource.Token;
+        var token = ActivityToken.Token;
         await SpeechService.SpeakAsync(UiStrings.AppInfo_Introduction, token);
         await SpeechService.SpeakAsync(UiStrings.AppQuery_Generic, token);
 
