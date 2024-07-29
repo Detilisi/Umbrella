@@ -16,15 +16,15 @@ internal class EmailEditPage(EmailEditViewModel viewModel) : EmailPage<EmailEdit
 
         base.InitializeEmailPage();
     }
-    protected override ScrollView PageContent => new()
+    protected override VerticalStackLayout PageContent => new()
     {
-        Padding = 10,
-        Content = new VerticalStackLayout()
+        Padding= 10,
+        Children = 
         {
             SenderEmailEntry,
             RecipientEmailsEntry,
             SubjectLineEntry,
-            BodyTextEditor
+            BodyTextEditor 
         }
     };
 

@@ -8,7 +8,7 @@ internal abstract partial class EmailPage<TViewModel> : Page<TViewModel> where T
     private enum Row { Content = 0, ChatBox = 1 }
 
     //View components
-    protected abstract ScrollView PageContent { get; }
+    protected abstract View PageContent { get; }
 
     //Construction
     protected EmailPage(TViewModel viewModel) : base(viewModel) => InitializeEmailPage();

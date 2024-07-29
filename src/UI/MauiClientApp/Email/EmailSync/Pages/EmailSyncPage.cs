@@ -13,10 +13,7 @@ internal class EmailSyncPage: EmailPage<EmailSyncViewModel>
         InitializeViewComponents();
     }
 
-    protected override ScrollView PageContent => new()
-    {
-        Content = new EmailSyncIndicatorView()
-    };
+    protected override EmailSyncIndicatorView PageContent => new();
 
     //View component Initialization
     private void InitializeViewComponents()

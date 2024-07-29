@@ -11,10 +11,10 @@ internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<Email
     private EmailSenderView EmailSenderView = null!;
 
     //Construction
-    protected override ScrollView PageContent => new()
+    protected override VerticalStackLayout PageContent => new()
     {
         Padding = 10,
-        Content = new VerticalStackLayout()
+        Children =
         {
             SubjectLabel,
             EmailSenderView,
@@ -22,7 +22,7 @@ internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<Email
             BodyTextLabel
         }
     };
-
+    
     //Initialization
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
