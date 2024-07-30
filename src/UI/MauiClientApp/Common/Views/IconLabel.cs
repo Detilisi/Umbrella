@@ -6,6 +6,6 @@ public class IconLabel : Label
     public IconLabel(string fontIcon)
     {
         Text = fontIcon;
-        this.DynamicResource(StyleProperty, "IconLabelStyle");
+        this.DynamicResource(StyleProperty, nameof(IconLabel));
     }
 }

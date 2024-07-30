@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <!--Generic Styles-->
-    <Style TargetType="Label" x:Key="IconLabelStyle">
+    <Style TargetType="Label" x:Key="IconLabel">
         <Setter Property="FontSize" Value="42"/>
         <Setter Property="FontFamily" Value="FontAwesomeSolid"/>
         <Setter Property="HorizontalOptions" Value="Center"/>
