@@ -3,18 +3,17 @@
 internal partial class EmailViewModel(IMediator mediator) : ViewModel
 {
     //Fields
-    protected readonly IMediator _mediator = mediator;
-    protected CancellationTokenSource _cancellationTokenSource = new();
+    protected readonly IMediator Mediator = mediator;
 
     //Properties
     [ObservableProperty] internal static bool isListening;
     internal static ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
 
     //ViewModel lifecylce
-    public override void OnViewModelStarting()
+    protected override void ViewAppearing()
     {
         IsListening = false;
-        base.OnViewModelStarting();
+        base.ViewAppearing();
 
         if (SpeechService.OnSpeechAnounced != null && SpeechService.OnSpeechRecognized != null) return;
         SpeechService.OnSpeechAnounced = text => ChatHistory.Add(new ChatHistoryModel()
@@ -29,27 +28,15 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
         });
     }
 
-    public override void OnViewModelClosing()
+    protected override async void ViewNavigatedTo()
     {
-        _cancellationTokenSource.Cancel();
-
-        base.OnViewModelClosing();
-
-        SpeechService.StopListenAsync().GetAwaiter();
-        if (HasPreviousViewModel) NavigationService.NavigateToPreviousViewModelAsync().GetAwaiter();
-    }
-
-    public override async void OnViewModelHasFocus()
-    {
-        base.OnViewModelHasFocus();
-
-        _cancellationTokenSource = new();
-        await HandleUserInteractionAsync();
+        base.ViewNavigatedTo();
+        //await ExecuteBackgroundOperation();
 
     }
 
     //Virtual method
-    protected virtual Task HandleUserInteractionAsync()
+    protected virtual Task ExecuteBackgroundOperation()
     {
         return Task.CompletedTask;
     }
@@ -57,17 +44,17 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     //Helper method
     protected async Task<Tuple<string, UserIntent>> CaptureUserInputAndIntentAsync(bool ignoreUndefinedIntent = false)
     {
-        while (!_cancellationTokenSource.Token.IsCancellationRequested)
+        while (!ActivityToken.Token.IsCancellationRequested)
         {
             try
             {
                 IsListening = true;
-                var userInputResult = await SpeechService.ListenAsync(_cancellationTokenSource.Token);
+                var userInputResult = await SpeechService.ListenAsync(ActivityToken.Token);
                 IsListening = false;
 
                 if (userInputResult.IsFailure)
                 {
-                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid, _cancellationTokenSource.Token);
+                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid, ActivityToken.Token);
                     continue;
                 }
 
@@ -80,15 +67,15 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
                     case UserIntent.Undefined:
                         if (ignoreUndefinedIntent) return Tuple.Create(userText, userIntent);
                         
-                        await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, _cancellationTokenSource.Token);
-                        await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, _cancellationTokenSource.Token);
-                        await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, _cancellationTokenSource.Token);
+                        await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, ActivityToken.Token);
+                        await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, ActivityToken.Token);
+                        await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, ActivityToken.Token);
                         break;
 
                     case UserIntent.GoBack or UserIntent.Cancel:
-                        await SpeechService.SpeakAsync(UiStrings.AppResponse_Cancel, _cancellationTokenSource.Token);
+                        await SpeechService.SpeakAsync(UiStrings.AppResponse_Cancel, ActivityToken.Token);
                         
-                        OnViewModelClosing();
+                        ViewDisappearing();
                         return Tuple.Create(userText, userIntent); // Early return
 
                     default:
@@ -97,7 +84,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
             }
             catch 
             {
-                await SpeechService.SpeakAsync(UiStrings.AppInfo_GenericError, _cancellationTokenSource.Token);
+                await SpeechService.SpeakAsync(UiStrings.AppInfo_GenericError, ActivityToken.Token);
                 continue;
             }
             finally

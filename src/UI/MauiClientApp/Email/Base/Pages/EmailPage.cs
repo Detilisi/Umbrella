@@ -2,52 +2,38 @@
 
 namespace Umbrella.Maui.Email.Base.Pages;
 
-internal abstract partial class EmailPage<TViewModel>(TViewModel viewModel) : 
-    Page<TViewModel>(viewModel) where TViewModel : EmailViewModel 
+internal abstract partial class EmailPage<TViewModel> : Page<TViewModel> where TViewModel : EmailViewModel 
 {
     //Fields
     private enum Row { Content = 0, ChatBox = 1 }
 
     //View components
-    protected abstract ScrollView PageContent { get; }
-    protected Grid MainGridLayout { get; set; } = null!;
-    protected ChatHistorySubView ChatHistory { get; set; } = null!;
+    protected abstract View PageContent { get; }
 
-    //Initialization
-    protected override void OnAppearing()
-    {
-        InitializeEmailPage();
+    //Construction
+    protected EmailPage(TViewModel viewModel) : base(viewModel) => InitializeEmailPage();
 
-        base.OnAppearing();
-    }
-
+    //View initialization
     protected virtual void InitializeEmailPage()
     {
-        InitializeMainGridLayout();
-
         Padding = 0;
-        Content = MainGridLayout;
+        Content = CreateMainView;
     }
-
-    //View component initialization
-    private void InitializeMainGridLayout()
+    private Grid CreateMainView
     {
-        var contentRowSize = 0.72;
-        var chatBoxRowSize = 0.28;
-
-        ChatHistory = new();
-        MainGridLayout = new Grid
+        get
         {
-            RowDefinitions =
-            [
-                new RowDefinition { Height = new GridLength(contentRowSize, GridUnitType.Star) },
-                new RowDefinition { Height = new GridLength(chatBoxRowSize, GridUnitType.Star) }
-            ],
-            Children =
+            const double contentRowHeight = 0.72;
+            const double chatBoxRowHeight = 0.28;
+
+            var contentRowDefinition = new RowDefinition { Height = new GridLength(contentRowHeight, GridUnitType.Star) };
+            var chatBoxRowDefinition = new RowDefinition { Height = new GridLength(chatBoxRowHeight, GridUnitType.Star) };
+
+            return new Grid
             {
-                PageContent.Row(Row.Content), 
-                ChatHistory.Row(Row.ChatBox),
-            }
-        };
+                RowDefinitions = [ contentRowDefinition, chatBoxRowDefinition ],
+                Children = { PageContent.Row(Row.Content), new ChatHistorySubView().Row(Row.ChatBox) }
+            };
+        }
     }
 }

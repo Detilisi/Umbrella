@@ -9,11 +9,10 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     public ObservableCollection<EmailModel> EmailMessageList { get; set; } = [];
 
     //Life cycle 
-    public override async void OnViewModelStarting()
+    protected override async void ViewAppearing()
     {
-        HasPreviousViewModel = false;
 
-        base.OnViewModelStarting();
+        base.ViewAppearing();
         await LoadEmailsAsync();
     }
 
@@ -21,7 +20,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     private async Task LoadEmailsAsync()
     {
         var loadEmailQuery = new GetEmailListQuery(1);
-        var emailList = await _mediator.Send(loadEmailQuery);
+        var emailList = await Mediator.Send(loadEmailQuery);
         if (emailList.IsFailure) return;
 
         EmailMessageList.Clear();
@@ -35,7 +34,6 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     [RelayCommand]
     public async Task OpenEmail(EmailModel selectedEmail)
     {
-        _cancellationTokenSource.Cancel();
         var navigationParameter = new Dictionary<string, object>
         {
             [nameof(EmailModel)] = selectedEmail
@@ -47,14 +45,13 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     [RelayCommand]
     public async Task WriteEmail()
     {
-        _cancellationTokenSource.Cancel();
         await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
     }
 
     //Handler methods
-    protected override async Task HandleUserInteractionAsync()
+    protected override async Task ExecuteBackgroundOperation()
     {
-        var token = _cancellationTokenSource.Token;
+        var token = ActivityToken.Token;
         await SpeechService.SpeakAsync(UiStrings.AppInfo_Introduction, token);
         await SpeechService.SpeakAsync(UiStrings.AppQuery_Generic, token);
 

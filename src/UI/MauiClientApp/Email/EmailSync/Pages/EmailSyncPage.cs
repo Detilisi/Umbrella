@@ -13,18 +13,7 @@ internal class EmailSyncPage: EmailPage<EmailSyncViewModel>
         InitializeViewComponents();
     }
 
-    protected override ScrollView PageContent => new()
-    {
-        Content = new EmailSyncIndicatorView()
-    };
-
-    //View life-cycle
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        ChatHistory.IsVisible = false;
-    }
+    protected override EmailSyncIndicatorView PageContent => new();
 
     //View component Initialization
     private void InitializeViewComponents()

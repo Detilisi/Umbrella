@@ -18,9 +18,9 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     [ObservableProperty] private string body = string.Empty;
 
     //Life cycle 
-    public override void OnViewModelStarting()
+    protected override void ViewAppearing()
     {
-        base.OnViewModelStarting();
+        base.ViewAppearing();
 
         var currentUserResult = _userSessionService.GetCurrentSession();
         if (currentUserResult.IsFailure) return; //Handle error
@@ -52,7 +52,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
             Body = Body,
         };
         var sendCommand = new SendEmailCommand(emailDraft);
-        var sendEmailResult = await _mediator.Send(sendCommand);
+        var sendEmailResult = await Mediator.Send(sendCommand);
         if (sendEmailResult.IsFailure)
         {
             await SpeechService.SpeakAsync(UiStrings.DraftResponse_SendEmail_Failed);
@@ -67,9 +67,9 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     }
 
     //Handler methods
-    protected override async Task HandleUserInteractionAsync()
+    protected override async Task ExecuteBackgroundOperation()
     {
-        var token = _cancellationTokenSource.Token;
+        var token = ActivityToken.Token;
 
         //Introduction
         await SpeechService.SpeakAsync(UiStrings.DraftInfo_Introduction, token);

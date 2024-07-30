@@ -1,6 +1,6 @@
 ﻿namespace MauiClientApp.Email.EmailEdit.Pages;
 
-internal class EmailEditPage : EmailPage<EmailEditViewModel>
+internal class EmailEditPage(EmailEditViewModel viewModel) : EmailPage<EmailEditViewModel>(viewModel)
 {
     //View components
     private Editor BodyTextEditor = null!;
@@ -9,20 +9,22 @@ internal class EmailEditPage : EmailPage<EmailEditViewModel>
     private Entry RecipientEmailsEntry = null!;
 
     //Construction
-    public EmailEditPage(EmailEditViewModel viewModel) : base(viewModel)
+    protected override void InitializeEmailPage()
     {
         InitializeShell();
         InitializeViewComponents();
+
+        base.InitializeEmailPage();
     }
-    protected override ScrollView PageContent => new()
+    protected override VerticalStackLayout PageContent => new()
     {
-        Padding = 10,
-        Content = new VerticalStackLayout()
+        Padding= 10,
+        Children = 
         {
             SenderEmailEntry,
             RecipientEmailsEntry,
             SubjectLineEntry,
-            BodyTextEditor
+            BodyTextEditor 
         }
     };
 
