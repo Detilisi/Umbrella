@@ -19,9 +19,9 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     [ObservableProperty] private string body = string.Empty;
 
     //Life cycle 
-    public override void OnViewModelStarting()
+    protected override void ViewAppearing()
     {
-        base.OnViewModelStarting();
+        base.ViewAppearing();
 
         var currentUserResult = _userSessionService.GetCurrentSession();
         if (currentUserResult.IsFailure) return; //Handle error
@@ -68,9 +68,9 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     }
 
     //Handler methods
-    public override async Task HandleUserInteractionAsync()
+    protected override async Task ExecuteBackgroundOperation()
     {
-        var token = CancellationTokenSource.Token;
+        var token = ActivityToken.Token;
 
         //Introduction
         await SpeechService.SpeakAsync(UiStrings.DraftInfo_Introduction, token);
@@ -94,8 +94,8 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         //Get email body text
         await SpeechService.SpeakAsync(string.Format(UiStrings.DraftInfo_EmailSummary, Recipient, Subject, Body), token);
         await SpeechService.SpeakAsync(UiStrings.DraftQuery_SendEmail, token);
-        var userIntent = await ListenForUserIntent();
-        if (userIntent == UserIntent.SendEmail || userIntent == UserIntent.Yes || userIntent == UserIntent.Ok)
+        var captureResult = await CaptureUserInputAndIntentAsync();
+        if (captureResult.Item2 == UserIntent.SendEmail || captureResult.Item2 == UserIntent.Yes || captureResult.Item2 == UserIntent.Ok)
         {
             await SendEmailCommand.ExecuteAsync(null);
         }
@@ -109,45 +109,34 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     //Helper methods
     protected async Task<string> ListenGetEmailAddress(CancellationToken token) // Move to an extension
     {
-        var userInputFailCount = 0;
-        while (!token.IsCancellationRequested)
+        bool capturedEmailAddress = false;
+        while (!capturedEmailAddress)
         {
             try
             {
-                if (userInputFailCount == 4)
-                {
-                    OnViewModelClosing(); // Close app
-                    break;
-                }
-
-                var userInput = await ListenAsync(token);
-                if (userInput.IsFailure)
-                {
-                    userInputFailCount++;
-                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid, token);
-                    continue;
-                }
-
-                // Assuming we have a method to validate email addresses
-                string sanitizedString = Regex.Replace(userInput.Value, @"\s+", string.Empty);
+                var captureResult = await CaptureUserInputAndIntentAsync(ignoreUndefinedIntent: true);
+                var sanitizedString = Regex.Replace(captureResult.Item1, @"\s+", string.Empty);
                 var emailInput = sanitizedString.Replace("at", "@").Replace("dot", ".");
+
                 if (EmailAddress.IsValidEmail(emailInput))
                 {
                     await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_Confirmation, emailInput), token);
-                    
-                    var userIntent = await ListenForUserIntent();
-                    if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok) return emailInput.ToLower();
-                    
+
+                    captureResult = await CaptureUserInputAndIntentAsync();
+                    if (captureResult.Item2 == UserIntent.Yes || captureResult.Item2 == UserIntent.Ok)
+                    {
+                        capturedEmailAddress = true;
+                        return emailInput.ToLower();
+                    }
                     await SpeechService.SpeakAsync(UiStrings.DraftResponse_EmailRecipient_Reject, token);
                 }
                 else
                 {
-                    userInputFailCount++;
-                    await SpeechService.SpeakAsync(string.Format(UiStrings.DraftResponse_EmailRecipient_Invalid, userInput.Value), token);
+                    await SpeechService.SpeakAsync(string.Format(UiStrings.DraftResponse_EmailRecipient_Invalid, captureResult.Item1), token);
                     continue;
                 }
             }
-            catch (OperationCanceledException)
+            catch
             {
                 await SpeechService.StopListenAsync(default);
                 break;
@@ -159,34 +148,19 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
     protected async Task<string> DictateEmailSubjectOrBody(bool isForEmailBody, CancellationToken token)
     {
-        var userInputFailCount = 0;
-
         while (!token.IsCancellationRequested)
         {
             try
             {
-                if (userInputFailCount == 4)
-                {
-                    OnViewModelClosing(); // Close app
-                    break;
-                }
-
-                var userInput = await ListenAsync(token);
-                if (userInput.IsFailure)
-                {
-                    userInputFailCount++;
-                    await SpeechService.SpeakAsync(UiStrings.InputResponse_Invalid, token);
-                    continue;
-                }
-
-                var dictatedText = userInput.Value.Trim();
-                await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_Confirmation, dictatedText), token);
+                var captureResult = await CaptureUserInputAndIntentAsync(ignoreUndefinedIntent: true);
+                var dictatedText = captureResult.Item1.Trim();
 
                 var textInfo = new CultureInfo("en-US", false).TextInfo;
                 dictatedText = isForEmailBody ? char.ToUpper(dictatedText[0]) + dictatedText[1..] : textInfo.ToTitleCase(dictatedText);
+                await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_Confirmation, dictatedText), token);
 
-                var userIntent = await ListenForUserIntent();
-                if (userIntent == UserIntent.Yes || userIntent == UserIntent.Ok) return dictatedText;
+                captureResult = await CaptureUserInputAndIntentAsync();
+                if (captureResult.Item2 == UserIntent.Yes || captureResult.Item2 == UserIntent.Ok) return dictatedText;
 
                 await SpeechService.SpeakAsync(isForEmailBody? UiStrings.DraftResponse_EmailBody_Reject : UiStrings.DraftResponse_EmailSubject_Reject, token);
             }

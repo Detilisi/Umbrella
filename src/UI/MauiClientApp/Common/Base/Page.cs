@@ -9,43 +9,58 @@ namespace MauiClientApp.Common.Base;
 internal abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel) where TViewModel : ViewModel
 {
     //Properties
-    public new TViewModel ViewModel => (TViewModel)base.BindingContext;
+    protected TViewModel ViewModel => (TViewModel)base.BindingContext;
 
     //Life-cylce
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
+        LogOperation(nameof(this.OnBindingContextChanged));
+
         SetBinding(IsBusyProperty, new Binding(nameof(ViewModel.IsBusy)));
-        ViewModel.OnViewModelStarting();
-        Debug.WriteLine($"OnBindingContextChanged: {Title}");
     }
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        LogOperation(nameof(this.OnAppearing));
 
-        Debug.WriteLine($"OnAppearing: {Title}");
+        ViewModel.ViewAppearingCommand.Execute(this);
     }
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
+        LogOperation(nameof(this.OnDisappearing));
 
-        ViewModel.OnViewModelClosing();
-        Debug.WriteLine($"OnDisappearing: {Title}");
+        ViewModel.ViewDisappearingCommand.Execute(this);
     }
 
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
+        LogOperation(nameof(this.OnNavigatedTo));
 
-        ViewModel.OnViewModelHasFocus();
-        Debug.WriteLine($"OnNavigatedTo: {Title}");
+        ViewModel.ViewNavigatedToCommand.Execute(this);
     }
+
+    protected override bool OnBackButtonPressed()
+    {
+        if(ViewModel.IsRootViewModel) return false;
+
+        var result = base.OnBackButtonPressed();
+        LogOperation(nameof(this.OnNavigatedTo));
+
+        return result;
+    }
+
+    //Helper
+    private void LogOperation(string functionName) => 
+        Debug.WriteLine($"APP-INFO: {GetType().Name}.{functionName} at {DateTime.Now}");
 }
 
 /// <summary>
 /// BasePage Content Type
 /// </summary>
-public abstract class Page : ContentPage
+internal abstract class Page : ContentPage
 {
     //Construction
     protected Page(object? viewModel = null)

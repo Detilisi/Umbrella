@@ -79,6 +79,15 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Something went wrong, let&apos;s try again.
+        /// </summary>
+        internal static string AppInfo_GenericError {
+            get {
+                return ResourceManager.GetString("AppInfo_GenericError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hi there! I’m Umbrella, your friendly voice-operated email assistant..
         /// </summary>
         internal static string AppInfo_Introduction {
@@ -93,6 +102,15 @@ namespace MauiClientApp.Resources.Strings {
         internal static string AppQuery_Generic {
             get {
                 return ResourceManager.GetString("AppQuery_Generic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current operation terminated..
+        /// </summary>
+        internal static string AppResponse_Cancel {
+            get {
+                return ResourceManager.GetString("AppResponse_Cancel", resourceCulture);
             }
         }
         

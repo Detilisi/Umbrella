@@ -1,33 +1,27 @@
-using System.Diagnostics;
-
 namespace MauiClientApp.Common.Base;
 
 internal abstract partial class ViewModel : ObservableObject
 {
+    //Fields
+    internal CancellationTokenSource ActivityToken { get; set; } = new();
+
+    //Properties
     [ObservableProperty] internal bool isBusy;
+    internal bool IsRootViewModel { get; set; } = false;
 
-    public virtual void OnViewModelStarting()
-    {
-        Debug.WriteLine($"{GetType().Name} is closing");
-    }
+    //Commands
+    [RelayCommand] protected virtual void ViewAppearing() => ActivityToken = new();
+    [RelayCommand] protected virtual void ViewDisappearing() => ActivityToken?.Cancel();
+    
+    [RelayCommand] protected virtual void ViewNavigatedTo() { }
+    [RelayCommand] protected virtual void ViewBackButtonPressed() { }
 
-    public virtual void OnViewModelClosing()
-    {
-        Debug.WriteLine($"{GetType().Name} is closing");
-    }
+    //State changers
+    protected void FireViewModelBusy() => IsBusy = true;
+    protected void FireViewModelNotBusy() => IsBusy = false;
 
-    public virtual void OnViewModelHasFocus()
-    {
-        Debug.WriteLine($"{GetType().Name} has focus at {DateTime.Now}");
-    }
-
-    //Helper methods
-    public void FireViewModelBusy()
-    {
-        IsBusy = true;
-    }
-    public void FireViewModelNotBusy()
-    {
-        IsBusy = false;
-    }
+    //Navigation
+    protected static async Task NavigateBackAsync() => await NavigationService.NavigateToPreviousViewModelAsync();
+    protected static async Task NavigateToAsync<TNextViewModel>(Dictionary<string, object>? navigationParameters = default) where TNextViewModel : ViewModel
+        => await NavigationService.NavigateToViewModelAsync<TNextViewModel>(navigationParameters);
 }

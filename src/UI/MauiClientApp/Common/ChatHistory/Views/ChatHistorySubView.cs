@@ -8,9 +8,6 @@ internal class ChatHistorySubView : Frame
     //Fields
     private enum Row { Top = 0, Bottom = 1 }
 
-    //View components
-    private Grid HistoryGrid = null!;
-
     //Construction
     public ChatHistorySubView()
     {
@@ -31,11 +28,11 @@ internal class ChatHistorySubView : Frame
             ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView,
         };
 
-        var actionIcon = new IconLabel(FontAwesomeIcons.Microphone)
+        var micIconLable = new IconLabel(FontAwesomeIcons.Microphone)
             .DynamicResource(View.StyleProperty, "ChatTemplateIcon");
-        actionIcon.SetBinding(Label.IsVisibleProperty, new Binding(nameof(EmailViewModel.IsListening)));
+        micIconLable.SetBinding(Label.IsVisibleProperty, new Binding(nameof(EmailViewModel.IsListening)));
 
-        HistoryGrid = new Grid
+        Content = new Grid
         {
             RowDefinitions =
             [
@@ -45,11 +42,10 @@ internal class ChatHistorySubView : Frame
             Children =
             {
                 historyCollection.Row(Row.Top),
-                actionIcon.Row(Row.Bottom),
+                micIconLable.Row(Row.Bottom),
             }
         };
 
-        Content = HistoryGrid;
         this.DynamicResource(View.StyleProperty, "ChatHistoryFrame");
     }
 }

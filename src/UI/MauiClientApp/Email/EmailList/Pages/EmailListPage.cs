@@ -10,17 +10,12 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
         InitializeViewComponents();
     }
 
-    protected override ScrollView PageContent => new()
+    protected override CollectionView PageContent => new CollectionView()
     {
-        Content = new CollectionView
-        {
-            SelectionMode = SelectionMode.Single,
-            ItemTemplate = new EmailDataTemplate(),
-            ItemsSource = ViewModel.EmailMessageList,
-
-        }
-        .Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged)
-    };
+        SelectionMode = SelectionMode.Single,
+        ItemTemplate = new EmailDataTemplate(),
+        ItemsSource = ViewModel.EmailMessageList
+    }.Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged);
 
     //View component Initialization
     private void InitializeViewComponents()

@@ -10,9 +10,10 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     public ObservableCollection<EmailModel> EmailMessageList { get; set; } = [];
 
     //Life cycle 
-    public override async void OnViewModelStarting()
+    protected override async void ViewAppearing()
     {
-        base.OnViewModelStarting();
+
+        base.ViewAppearing();
         await LoadEmailsAsync();
     }
 
@@ -34,7 +35,6 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     [RelayCommand]
     public async Task OpenEmail(EmailModel selectedEmail)
     {
-        CancellationTokenSource.Cancel();
         var navigationParameter = new Dictionary<string, object>
         {
             [nameof(EmailModel)] = selectedEmail
@@ -46,47 +46,48 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     [RelayCommand]
     public async Task WriteEmail()
     {
-        CancellationTokenSource.Cancel();
         await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
     }
 
     //Handler methods
-    public override async Task HandleUserInteractionAsync()
+    protected override async Task ExecuteBackgroundOperation()
     {
-        var token = CancellationTokenSource.Token;
+        var token = ActivityToken.Token;
         await SpeechService.SpeakAsync(UiStrings.AppInfo_Introduction, token);
         await SpeechService.SpeakAsync(UiStrings.AppQuery_Generic, token);
 
         //Get intent
-        var userIntent = await ListenForUserIntent();
-        if (userIntent == UserIntent.WriteEmail)
+        var captureResult = await CaptureUserInputAndIntentAsync();
+        switch (captureResult.Item2)
         {
-            await SpeechService.SpeakAsync(UiStrings.InputReponse_WriteEmail, token);
-            await WriteEmailCommand.ExecuteAsync(null);
-        }
-        else if (userIntent == UserIntent.ReadEmails)
-        {
-            await SpeechService.SpeakAsync(string.Format(UiStrings.InputReponse_ReadEmails, EmailMessageList.Count), token);
+            case UserIntent.WriteEmail:
+                await SpeechService.SpeakAsync(UiStrings.InputReponse_WriteEmail, token);
+                await WriteEmailCommand.ExecuteAsync(null);
+                break;
+            case UserIntent.ReadEmails:
+                await SpeechService.SpeakAsync(string.Format(UiStrings.InputReponse_ReadEmails, EmailMessageList.Count), token);
 
-            //Skim through all message
-            for (var i = 0; i < EmailMessageList.Count; i++)
-            {
-                if(token.IsCancellationRequested) break;
-
-                var message = EmailMessageList[i];
-                await SpeechService.SpeakAsync(string.Format(UiStrings.InboxInfo_EmailSummary, i + 1, message.SenderName, message.Subject), token);
-                await SpeechService.SpeakAsync(UiStrings.InboxQuery_OpenEmail, token);
-
-                //Get intent
-                var userIntenti = await ListenForUserIntent();
-                if (userIntenti == UserIntent.OpenEmail || userIntenti == UserIntent.Yes)
+                foreach (var message in EmailMessageList)
                 {
-                    await SpeechService.SpeakAsync(UiStrings.InputResponse_OpenEmail);
-                    await OpenEmailCommand.ExecuteAsync(message);
-                    break;
+                    if (token.IsCancellationRequested) break;
+
+                    await SpeechService.SpeakAsync(string.Format(UiStrings.InboxInfo_EmailSummary, EmailMessageList.IndexOf(message) + 1, message.SenderName, message.Subject), token);
+                    await SpeechService.SpeakAsync(UiStrings.InboxQuery_OpenEmail, token);
+
+                    captureResult = await CaptureUserInputAndIntentAsync();
+                    if (captureResult.Item2 == UserIntent.OpenEmail || captureResult.Item2 == UserIntent.Yes)
+                    {
+                        await SpeechService.SpeakAsync(UiStrings.InputResponse_OpenEmail);
+                        await OpenEmailCommand.ExecuteAsync(message);
+                        break;
+                    }
                 }
-            }
+                break;
+            default:
+                //TO DO: Handle unexpected intents
+                break;
         }
+
     }
 }
 
