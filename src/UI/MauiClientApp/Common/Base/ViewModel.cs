@@ -1,13 +1,12 @@
 namespace MauiClientApp.Common.Base;
 
-internal abstract partial class ViewModel : ObservableObject
+internal abstract partial class ViewModel(IMediator mediator, bool isRootViewModel) : ObservableObject
 {
-    //Fields
-    internal CancellationTokenSource ActivityToken { get; set; } = new();
-
     //Properties
     [ObservableProperty] internal bool isBusy;
-    internal bool IsRootViewModel { get; set; } = false;
+    protected IMediator Mediator { get; } = mediator;
+    internal bool IsRootViewModel { get; set; } = isRootViewModel;
+    internal CancellationTokenSource ActivityToken { get; set; } = new();
 
     //Commands
     [RelayCommand] protected virtual void ViewAppearing() => ActivityToken = new();

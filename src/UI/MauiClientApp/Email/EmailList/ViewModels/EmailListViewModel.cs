@@ -2,7 +2,7 @@ using Application.Email.Features.Queries.GetEmailList;
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
 
-internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(mediator)
+internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(mediator, isRootViewModel: true)
 {
     //Properties
     private bool ShouldKeepConversation { get; set; }

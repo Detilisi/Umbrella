@@ -1,10 +1,7 @@
 ﻿namespace Application.Email.Base;
 
-internal partial class EmailViewModel(IMediator mediator) : ViewModel
+internal partial class EmailViewModel(IMediator mediator, bool isRootViewModel = false) : ViewModel(mediator, isRootViewModel)
 {
-    //Fields
-    protected readonly IMediator Mediator = mediator;
-
     //Properties
     [ObservableProperty] internal static bool isListening;
     internal static ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
@@ -32,7 +29,6 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     {
         base.ViewNavigatedTo();
         //await ExecuteBackgroundOperation();
-
     }
 
     //Virtual method
