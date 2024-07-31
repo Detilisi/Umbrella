@@ -4,35 +4,35 @@ namespace MauiClientApp.Email.EmailDetail.Pages;
 
 internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<EmailDetailViewModel>(viewModel)
 {
-    //View components
-    private Label SubjectLabel = null!;
-    private Label BodyTextLabel = null!;
-    private BoxView SeparatorBoxView = null!;
-    private EmailSenderView EmailSenderView = null!;
-
     //Construction
-    protected override VerticalStackLayout PageContent => new()
+    protected override VerticalStackLayout PageContent
     {
-        Padding = 10,
-        Children =
+        get
         {
-            SubjectLabel,
-            EmailSenderView,
-            SeparatorBoxView,
-            BodyTextLabel
+            var test = ViewModel.CurrentEmail;
+            return new VerticalStackLayout()
+            {
+                Padding = 10,
+                Children =
+                {
+                    new Label(){ Text = ViewModel.CurrentEmail.Subject}.DynamicResource(View.StyleProperty, "EmailSubjectLabel"),
+                    new EmailSenderView(ViewModel.CurrentEmail.SenderName ?? ViewModel.CurrentEmail.Sender, ViewModel.CurrentEmail.CreatedAt),
+                    new SeparatorLine(),
+                    new Label(){ Text = ViewModel.CurrentEmail.Body }.DynamicResource(View.StyleProperty, "EmailBodyTextLabel")
+                }
+            };
         }
-    };
-    
+    }
+
     //Initialization
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
 
         var currentEmail = ViewModel.CurrentEmail;
-        EmailSenderView = new(currentEmail.SenderName??currentEmail.Sender, currentEmail.CreatedAt);
+        //EmailSenderView = new(currentEmail.SenderName??currentEmail.Sender, currentEmail.CreatedAt);
 
         InitializeToolBar();
-        InitializeViewComponents();
         InitializeEmailPage();
     }
 
@@ -63,21 +63,5 @@ internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<Email
 
         ToolbarItems.Add(deleteToolbarItem);
         ToolbarItems.Add(replyToolbarItem);
-    }
-    private void InitializeViewComponents()
-    {
-        SeparatorBoxView = new();
-        SubjectLabel = new()
-        {
-            Text = ViewModel.CurrentEmail.Subject
-        };
-        BodyTextLabel = new()
-        {
-            Text = ViewModel.CurrentEmail.Body
-        };
-        
-        SubjectLabel.DynamicResource(View.StyleProperty, "EmailSubjectLabel");
-        BodyTextLabel.DynamicResource(View.StyleProperty, "EmailBodyTextLabel");
-        SeparatorBoxView.DynamicResource(View.StyleProperty, "SeparatorLine");
     }
 }
