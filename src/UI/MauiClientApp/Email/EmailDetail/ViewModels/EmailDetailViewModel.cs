@@ -5,26 +5,27 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
     //Properties
     public EmailModel CurrentEmail { get; set; } = null!;
 
+    //View elements
+    [ObservableProperty] private string sender = string.Empty;
+    [ObservableProperty] private string recipient = string.Empty;
+    [ObservableProperty] private string subject = string.Empty;
+    [ObservableProperty] private string body = string.Empty;
+    [ObservableProperty] private DateTime sentAtDate = DateTime.MinValue;
+
     //Navigation
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        var selectedEmail = (EmailModel)query[nameof(EmailModel)];
-        CurrentEmail = selectedEmail;
+        CurrentEmail = (EmailModel)query[nameof(EmailModel)];
+        Sender = CurrentEmail.SenderName ?? CurrentEmail.Sender;
+        Recipient = CurrentEmail.Recipient;
+        Subject = CurrentEmail.Subject;
+        Body = CurrentEmail.Body;
+        SentAtDate = CurrentEmail.CreatedAt;
     }
-
+    
     //Commands
-    [RelayCommand]
-    public static async Task ReplyEmail()
-    {
-        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
-    }
-
-    [RelayCommand]
-    public static async Task DeleteEmail()
-    {
-        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
-    }
-
+    [RelayCommand] public static async Task ReplyEmail() => await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
+    
     //Handler methods
     protected override async Task ExecuteBackgroundOperation()
     {
@@ -61,7 +62,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
             }
             else if (captureResult.Item2 == UserIntent.DeleteEmail)
             {
-                await DeleteEmailCommand.ExecuteAsync(null);
+                //await DeleteEmailCommand.ExecuteAsync(null);
             }
         }
     }
