@@ -1,12 +1,36 @@
 ﻿namespace MauiClientApp.Email.EmailDetail.Views;
 
+using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.Controls;
+using System;
+
 public class EmailSenderView : ContentView
 {
-    //Fields
+    // Enum for column indices
     private enum Column { Left = 0, Center = 1, Right = 2 }
 
-    //Construction
-    public EmailSenderView(string emailSender, DateTime emailSentDate)
+    // Bindable properties
+    public static readonly BindableProperty EmailSenderProperty =
+        BindableProperty.Create(nameof(EmailSender), typeof(string), typeof(EmailSenderView), default(string));
+
+    public static readonly BindableProperty EmailSentDateProperty =
+        BindableProperty.Create(nameof(EmailSentDate), typeof(DateTime), typeof(EmailSenderView), default(DateTime));
+
+    // Properties
+    public string EmailSender
+    {
+        get => (string)GetValue(EmailSenderProperty);
+        set => SetValue(EmailSenderProperty, value);
+    }
+
+    public DateTime EmailSentDate
+    {
+        get => (DateTime)GetValue(EmailSentDateProperty);
+        set => SetValue(EmailSentDateProperty, value);
+    }
+
+    // Constructor
+    public EmailSenderView()
     {
         const int fontSize = 30;
         const double leftColumn = 0.2;
@@ -16,33 +40,52 @@ public class EmailSenderView : ContentView
         Content = new Grid()
         {
             ColumnSpacing = 5,
-            ColumnDefinitions =
-            [
+            ColumnDefinitions = new ColumnDefinitionCollection
+            {
                 new() { Width = new GridLength(leftColumn, GridUnitType.Star) },
                 new() { Width = new GridLength(centerColumn, GridUnitType.Star) },
                 new() { Width = new GridLength(rightColumn, GridUnitType.Star) },
-            ],
+            },
             Children =
             {
-                new IconLabel(FontAwesomeIcons.CircleUser).Column(Column.Left),
-                new HorizontalStackLayout(){ Spacing = 10,
-                    Children = 
+                new IconLabel(FontAwesomeIcons.CircleUser)
+                    .Column((int)Column.Left),
+
+                new HorizontalStackLayout()
+                {
+                    Spacing = 10,
+                    Children =
                     {
                         new IconLabel(FontAwesomeIcons.Repeat) { FontSize = fontSize },
-                        new IconLabel(FontAwesomeIcons.Headphones) { FontSize = fontSize}
+                        new IconLabel(FontAwesomeIcons.Headphones) { FontSize = fontSize }
                     }
-                }.Column(Column.Right),
+                }.Column((int)Column.Right),
 
                 new VerticalStackLayout()
                 {
                     Spacing = 5,
                     Children =
                     {
-                        new Label(){ MaxLines = 1, FontSize = 16, Text = emailSender, FontAttributes = FontAttributes.Bold, LineBreakMode = LineBreakMode.TailTruncation},
-                        new Label(){ MaxLines = 1, FontSize = 14, Text = emailSentDate.ToString("M"), FontAttributes = FontAttributes.Bold }
+                        new Label()
+                        {
+                            MaxLines = 1,
+                            FontSize = 16,
+                            FontAttributes = FontAttributes.Bold,
+                            LineBreakMode = LineBreakMode.TailTruncation
+                        }.Bind(Label.TextProperty, nameof(EmailSender)),
+
+                        new Label()
+                        {
+                            MaxLines = 1,
+                            FontSize = 14,
+                            FontAttributes = FontAttributes.Bold
+                        }.Bind(Label.TextProperty, nameof(EmailSentDate), stringFormat : "{0:M}")
                     }
-                }.Column(Column.Center)
+                }.Column((int)Column.Center)
             }
         };
+
+        // Setting the binding context to the view itself
+        BindingContext = this;
     }
 }
