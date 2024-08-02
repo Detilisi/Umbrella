@@ -4,6 +4,8 @@ namespace MauiClientApp.Email.EmailDetail.Pages;
 
 internal class EmailDetailPage : EmailPage<EmailDetailViewModel>
 {
+    private EmailSenderView SenderView = null!;
+
     //Construction
     public EmailDetailPage(EmailDetailViewModel viewModel) : base(viewModel)
     {
@@ -20,31 +22,29 @@ internal class EmailDetailPage : EmailPage<EmailDetailViewModel>
         };
         ToolbarItems.Add(replyToolbarItem);
     }
-    
-    protected override VerticalStackLayout PageContent
+
+    protected override VerticalStackLayout PageContent => new()
     {
-        get
+        Padding = 10,
+        Children =
         {
-            return new VerticalStackLayout()
-            {
-                Padding = 10,
-                Children =
-                {
-                    new Label()
-                        .DynamicResource(View.StyleProperty, "EmailSubjectLabel")
-                        .Bind(Label.TextProperty, static (EmailDetailViewModel vm) => vm.Subject, mode: BindingMode.OneWay),
+            new Label()
+                .DynamicResource(View.StyleProperty, "EmailSubjectLabel")
+                .Bind(Label.TextProperty, static (EmailDetailViewModel vm) => vm.Subject, mode: BindingMode.OneWay),
 
-                    new EmailSenderView()
-                        .Bind(EmailSenderView.EmailSenderProperty, static (EmailDetailViewModel vm) => vm.Sender, mode: BindingMode.OneWay)
-                        .Bind(EmailSenderView.EmailSentDateProperty, static (EmailDetailViewModel vm) => vm.SentAtDate, mode: BindingMode.OneWay),
+            new EmailSenderView(ViewModel.Sender, ViewModel.SentAtDate),
+            new SeparatorLine(),
 
-                    new SeparatorLine(),
-
-                    new Editor(){ IsReadOnly = true }
-                        .DynamicResource(StyleProperty, "EmailEditor")
-                        .Bind(Editor.TextProperty, static (EmailDetailViewModel vm) => vm.Body, mode: BindingMode.OneWay)
-                }
-            };
+            new Editor(){ IsReadOnly = true }
+                .DynamicResource(StyleProperty, "EmailEditor")
+                .Bind(Editor.TextProperty, static (EmailDetailViewModel vm) => vm.Body, mode: BindingMode.OneWay)
         }
+    };
+    //Initialization
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        InitializeEmailPage();
     }
 }
