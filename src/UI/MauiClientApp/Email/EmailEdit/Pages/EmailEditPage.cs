@@ -20,37 +20,23 @@ internal class EmailEditPage(EmailEditViewModel viewModel) : EmailPage<EmailEdit
         base.InitializeEmailPage();
     }
 
-    protected override VerticalStackLayout PageContent
+    protected override VerticalStackLayout PageContent=> new()
     {
-        get
+        Padding = 10,
+        Children =
         {
-            var senderEmailEntry = new Entry { Placeholder = "From:" }
+            new Entry { Placeholder = "From:" }
                 .DynamicResource(StyleProperty, "EmailEntry")
-                .Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.Sender, static (EmailEditViewModel vm, string text) => vm.Sender = text);
-
-            var subjectLineEntry = new Entry { Placeholder = "Subject:" }
+                .Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.Sender, static (EmailEditViewModel vm, string text) => vm.Sender = text),
+            new Entry { Placeholder = "To:" }
                 .DynamicResource(StyleProperty, "EmailEntry")
-                .Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.Subject, static (EmailEditViewModel vm, string text) => vm.Subject = text);
-
-            var recipientEmailsEntry = new Entry { Placeholder = "To:" }
+                .Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.Recipient, static (EmailEditViewModel vm, string text) => vm.Recipient = text),
+            new Entry { Placeholder = "Subject:" }
                 .DynamicResource(StyleProperty, "EmailEntry")
-                .Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.Recipient,static (EmailEditViewModel vm, string text) => vm.Recipient = text);
-
-            var bodyTextEditor = new Editor{ Placeholder = "Body:", AutoSize = EditorAutoSizeOption.TextChanges}
+                .Bind(Entry.TextProperty, static (EmailEditViewModel vm) => vm.Subject, static (EmailEditViewModel vm, string text) => vm.Subject = text),
+            new Editor { Placeholder = "Body:", AutoSize = EditorAutoSizeOption.TextChanges }
                 .DynamicResource(StyleProperty, "EmailEditor")
-                .Bind(Editor.TextProperty, static (EmailEditViewModel vm) => vm.Body, static (EmailEditViewModel vm, string text) => vm.Body = text);
-
-            return new VerticalStackLayout()
-            {
-                Padding = 10,
-                Children =
-                {
-                    senderEmailEntry,
-                    recipientEmailsEntry,
-                    subjectLineEntry,
-                    bodyTextEditor
-                }
-            };
+                .Bind(Editor.TextProperty, static (EmailEditViewModel vm) => vm.Body, static (EmailEditViewModel vm, string text) => vm.Body = text)
         }
-    }
+    };
 }
