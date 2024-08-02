@@ -36,7 +36,7 @@ internal class EmailDetailPage : EmailPage<EmailDetailViewModel>
             
             new SeparatorLine(),
             new Editor(){ IsReadOnly = true }
-                .DynamicResource(StyleProperty, "EmailEditor")
+                .DynamicResource(View.StyleProperty, "EmailDetailEditor")
                 .Bind(Editor.TextProperty, static (EmailDetailViewModel vm) => vm.Body, mode: BindingMode.OneWay)
         }
     };
