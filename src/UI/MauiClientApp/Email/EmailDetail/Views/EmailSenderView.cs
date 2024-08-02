@@ -1,21 +1,43 @@
 ﻿namespace MauiClientApp.Email.EmailDetail.Views;
 
-using CommunityToolkit.Maui.Markup;
-using Microsoft.Maui.Controls;
-using System;
-
 public class EmailSenderView : ContentView
 {
     // Enum for column indices
     private enum Column { Left = 0, Center = 1, Right = 2 }
 
+    // Bindable properties
+    public static readonly BindableProperty EmailSenderProperty =
+        BindableProperty.Create(nameof(EmailSender), typeof(string), typeof(EmailSenderView), default(string));
+
+    public static readonly BindableProperty EmailSentDateProperty =
+        BindableProperty.Create(nameof(EmailSentDate), typeof(DateTime), typeof(EmailSenderView), default(DateTime));
+
+    // Properties
+    public string EmailSender
+    {
+        get => (string)GetValue(EmailSenderProperty);
+        set => SetValue(EmailSenderProperty, value);
+    }
+
+    public DateTime EmailSentDate
+    {
+        get => (DateTime)GetValue(EmailSentDateProperty);
+        set => SetValue(EmailSentDateProperty, value);
+    }
+
     // Constructor
-    public EmailSenderView(string emailSender, DateTime emailSentDate)
+    public EmailSenderView()
     {
         const int fontSize = 30;
         const double leftColumn = 0.2;
         const double rightColumn = 0.25;
         const double centerColumn = 0.55;
+
+        var sentDateLabel = new Label() { MaxLines = 1, FontSize = 14, FontAttributes = FontAttributes.Bold };
+        var senderLabel = new Label() { MaxLines = 1, FontSize = 16, FontAttributes = FontAttributes.Bold, LineBreakMode = LineBreakMode.TailTruncation };
+        
+        senderLabel.SetBinding(Label.TextProperty, new Binding(nameof(EmailSender), source: this));
+        sentDateLabel.SetBinding(Label.TextProperty, new Binding(nameof(EmailSentDate), source: this, stringFormat: "{0:M}"));
 
         Content = new Grid()
         {
@@ -28,8 +50,7 @@ public class EmailSenderView : ContentView
             ],
             Children =
             {
-                new IconLabel(FontAwesomeIcons.CircleUser)
-                    .Column((int)Column.Left),
+                new IconLabel(FontAwesomeIcons.CircleUser).Column((int)Column.Left),
 
                 new HorizontalStackLayout()
                 {
@@ -41,29 +62,8 @@ public class EmailSenderView : ContentView
                     }
                 }.Column((int)Column.Right),
 
-                new VerticalStackLayout()
-                {
-                    Spacing = 5,
-                    Children =
-                    {
-                        new Label()
-                        {
-                            MaxLines = 1,
-                            FontSize = 16,
-                            Text = emailSender,
-                            FontAttributes = FontAttributes.Bold,
-                            LineBreakMode = LineBreakMode.TailTruncation
-                        },
-
-                        new Label()
-                        {
-                            MaxLines = 1,
-                            FontSize = 14,
-                            Text = emailSentDate.ToString("M"),
-                            FontAttributes = FontAttributes.Bold
-                        }
-                    }
-                }.Column((int)Column.Center)
+                new VerticalStackLayout() { Spacing = 5, Children = { senderLabel, sentDateLabel }}
+                .Column((int)Column.Center)
             }
         };
     }
