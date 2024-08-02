@@ -21,23 +21,30 @@ internal class EmailDetailPage : EmailPage<EmailDetailViewModel>
         ToolbarItems.Add(replyToolbarItem);
     }
 
-    protected override VerticalStackLayout PageContent => new()
+    protected override ScrollView PageContent => new()
     {
         Padding = 10,
-        Children =
+        Content = new VerticalStackLayout()
         {
-            new Label()
-                .DynamicResource(View.StyleProperty, "EmailSubjectLabel")
-                .Bind(Label.TextProperty, static (EmailDetailViewModel vm) => vm.Subject, mode: BindingMode.OneWay),
+            //Padding = 10,
+            Children =
+            {
+                new Label()
+                    .DynamicResource(View.StyleProperty, "EmailSubjectLabel")
+                    .Bind(Label.TextProperty, static (EmailDetailViewModel vm) => vm.Subject, mode: BindingMode.OneWay),
 
-            new EmailSenderView()
-                .Bind(EmailSenderView.EmailSenderProperty, static (EmailDetailViewModel vm) => vm.Sender, mode: BindingMode.OneWay)
-                .Bind(EmailSenderView.EmailSentDateProperty, static (EmailDetailViewModel vm) => vm.SentAtDate, mode: BindingMode.OneWay),
-            
-            new SeparatorLine(),
-            new Editor(){ IsReadOnly = true }
-                .DynamicResource(View.StyleProperty, "EmailDetailEditor")
-                .Bind(Editor.TextProperty, static (EmailDetailViewModel vm) => vm.Body, mode: BindingMode.OneWay)
+                new EmailSenderView()
+                    .Bind(EmailSenderView.EmailSenderProperty, static (EmailDetailViewModel vm) => vm.Sender, mode: BindingMode.OneWay)
+                    .Bind(EmailSenderView.EmailSentDateProperty, static (EmailDetailViewModel vm) => vm.SentAtDate, mode: BindingMode.OneWay),
+
+                new SeparatorLine(),
+                new ScrollView()
+                {
+                    Content = new Label()
+                        .DynamicResource(View.StyleProperty, "EmailBodyLabel")
+                        .Bind(Label.TextProperty, static (EmailDetailViewModel vm) => vm.Body, mode: BindingMode.OneWay)
+                }
+            }
         }
     };
 }
