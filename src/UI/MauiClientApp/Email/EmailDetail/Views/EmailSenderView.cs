@@ -9,28 +9,8 @@ public class EmailSenderView : ContentView
     // Enum for column indices
     private enum Column { Left = 0, Center = 1, Right = 2 }
 
-    // Bindable properties
-    public static readonly BindableProperty EmailSenderProperty =
-        BindableProperty.Create(nameof(EmailSender), typeof(string), typeof(EmailSenderView), default(string));
-
-    public static readonly BindableProperty EmailSentDateProperty =
-        BindableProperty.Create(nameof(EmailSentDate), typeof(DateTime), typeof(EmailSenderView), default(DateTime));
-
-    // Properties
-    public string EmailSender
-    {
-        get => (string)GetValue(EmailSenderProperty);
-        set => SetValue(EmailSenderProperty, value);
-    }
-
-    public DateTime EmailSentDate
-    {
-        get => (DateTime)GetValue(EmailSentDateProperty);
-        set => SetValue(EmailSentDateProperty, value);
-    }
-
     // Constructor
-    public EmailSenderView()
+    public EmailSenderView(string emailSender, DateTime emailSentDate)
     {
         const int fontSize = 30;
         const double leftColumn = 0.2;
@@ -70,22 +50,21 @@ public class EmailSenderView : ContentView
                         {
                             MaxLines = 1,
                             FontSize = 16,
+                            Text = emailSender,
                             FontAttributes = FontAttributes.Bold,
                             LineBreakMode = LineBreakMode.TailTruncation
-                        }.Bind(Label.TextProperty, nameof(EmailSender)),
+                        },
 
                         new Label()
                         {
                             MaxLines = 1,
                             FontSize = 14,
+                            Text = emailSentDate.ToString("M"),
                             FontAttributes = FontAttributes.Bold
-                        }.Bind(Label.TextProperty, nameof(EmailSentDate), stringFormat : "{0:M}")
+                        }
                     }
                 }.Column((int)Column.Center)
             }
         };
-
-        // Setting the binding context to the view itself
-        BindingContext = this;
     }
 }
