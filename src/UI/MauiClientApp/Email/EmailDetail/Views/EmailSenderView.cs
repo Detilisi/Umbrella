@@ -20,12 +20,12 @@ public class EmailSenderView : ContentView
         Content = new Grid()
         {
             ColumnSpacing = 5,
-            ColumnDefinitions = new ColumnDefinitionCollection
-            {
+            ColumnDefinitions =
+            [
                 new() { Width = new GridLength(leftColumn, GridUnitType.Star) },
                 new() { Width = new GridLength(centerColumn, GridUnitType.Star) },
                 new() { Width = new GridLength(rightColumn, GridUnitType.Star) },
-            },
+            ],
             Children =
             {
                 new IconLabel(FontAwesomeIcons.CircleUser)
