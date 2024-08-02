@@ -78,8 +78,8 @@
         Value="{AppThemeBinding Light={StaticResource AppTitleColor}, Dark={StaticResource AppTitleDarkColor}}"/>
     </Style>
 
-    <Style x:Key="EmailBodyTextLabel" TargetType="Label">
-        <Setter Property="Margin" Value="5, 18, 5, 0" />
+    <Style x:Key="EmailBodyLabel" TargetType="Label">
+        <Setter Property="Margin" Value="5, 10, 5, 20" />
         <Setter Property="FontSize" Value="20" />
         <Setter Property="MaxLines" Value="50" />
         <Setter Property="LineBreakMode" Value="WordWrap" />
