@@ -76,6 +76,12 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
                         await OpenEmailCommand.ExecuteAsync(message);
                         break;
                     }
+                    else if (captureResult.Item2 == UserIntent.WriteEmail)
+                    {
+                        await SpeechService.SpeakAsync(UiStrings.InputReponse_WriteEmail, token);
+                        await WriteEmailCommand.ExecuteAsync(null);
+                        break;
+                    }
                 }
                 break;
             default:
