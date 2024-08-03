@@ -11,7 +11,6 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     //Life cycle 
     protected override async void ViewAppearing()
     {
-
         base.ViewAppearing();
         await LoadEmailsAsync();
     }
@@ -19,12 +18,12 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     //Load methods
     private async Task LoadEmailsAsync()
     {
-        var loadEmailQuery = new GetEmailListQuery(1);
-        var emailList = await Mediator.Send(loadEmailQuery);
-        if (emailList.IsFailure) return;
+        if (EmailMessageList.Any()) return;
 
-        EmailMessageList.Clear();
-        foreach (var emailModel in emailList.Value)
+        var emailListResult = await Mediator.Send(new GetEmailListQuery());
+        if (emailListResult.IsFailure) return;
+
+        foreach (var emailModel in emailListResult.Value)
         {
             EmailMessageList.Add(emailModel);
         }
@@ -43,10 +42,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     }
 
     [RelayCommand]
-    public async Task WriteEmail()
-    {
-        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
-    }
+    public static async Task WriteEmail() => await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
 
     //Handler methods
     protected override async Task ExecuteBackgroundOperation()
