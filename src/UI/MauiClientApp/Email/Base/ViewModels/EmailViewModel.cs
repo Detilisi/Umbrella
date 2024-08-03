@@ -10,6 +10,7 @@ internal partial class EmailViewModel(IMediator mediator, bool isRootViewModel =
     protected override void ViewAppearing()
     {
         IsListening = false;
+        ChatHistory.Clear();
         base.ViewAppearing();
 
         if (SpeechService.OnSpeechAnounced != null && SpeechService.OnSpeechRecognized != null) return;
@@ -28,7 +29,7 @@ internal partial class EmailViewModel(IMediator mediator, bool isRootViewModel =
     protected override async void ViewNavigatedTo()
     {
         base.ViewNavigatedTo();
-        //await ExecuteBackgroundOperation();
+        await ExecuteBackgroundOperation();
     }
 
     //Virtual method
