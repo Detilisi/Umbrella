@@ -109,7 +109,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     protected async Task<string> ListenGetEmailAddress(CancellationToken token) // Move to an extension
     {
         bool capturedEmailAddress = false;
-        while (!capturedEmailAddress)
+        while (!capturedEmailAddress && !token.IsCancellationRequested)
         {
             try
             {
