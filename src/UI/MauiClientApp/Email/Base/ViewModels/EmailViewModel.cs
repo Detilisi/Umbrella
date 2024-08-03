@@ -72,7 +72,7 @@ internal partial class EmailViewModel(IMediator mediator, bool isRootViewModel =
                         await SpeechService.SpeakAsync(UiStrings.AppResponse_Cancel, ActivityToken.Token);
                         
                         ViewDisappearing();
-                        return Tuple.Create(userText, userIntent); // Early return
+                        return Tuple.Create(userText, userIntent);
 
                     default:
                         return Tuple.Create(userText, userIntent);
