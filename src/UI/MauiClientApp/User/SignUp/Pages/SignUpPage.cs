@@ -1,5 +1,4 @@
-﻿using MauiClientApp.Common.Base;
-using MauiClientApp.User.SignUp.Views;
+﻿using MauiClientApp.User.SignUp.Views;
 
 namespace MauiClientApp.User.SignUp.Pages;
 
