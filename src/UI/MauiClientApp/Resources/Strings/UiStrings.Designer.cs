@@ -349,20 +349,20 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to reply or delete this message?.
-        /// </summary>
-        internal static string ReadingQuery_RepeatDelete {
-            get {
-                return ResourceManager.GetString("ReadingQuery_RepeatDelete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Do you want me to read it again?.
         /// </summary>
         internal static string ReadingQuery_RepeatRead {
             get {
                 return ResourceManager.GetString("ReadingQuery_RepeatRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to reply to this message?.
+        /// </summary>
+        internal static string ReadingQuery_Reply {
+            get {
+                return ResourceManager.GetString("ReadingQuery_Reply", resourceCulture);
             }
         }
         

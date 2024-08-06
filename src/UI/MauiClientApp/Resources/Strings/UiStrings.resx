@@ -213,11 +213,11 @@
   <data name="ReadingQuery_ReadEmail" xml:space="preserve">
     <value>Should I proceed reading this message?</value>
   </data>
-  <data name="ReadingQuery_RepeatDelete" xml:space="preserve">
-    <value>Do you want to reply or delete this message?</value>
-  </data>
   <data name="ReadingQuery_RepeatRead" xml:space="preserve">
     <value>Do you want me to read it again?</value>
+  </data>
+  <data name="ReadingQuery_Reply" xml:space="preserve">
+    <value>Do you want to reply to this message?</value>
   </data>
   <data name="ReadingReponse_ReadEmail" xml:space="preserve">
     <value>Absolutely, the email reads as follows</value>

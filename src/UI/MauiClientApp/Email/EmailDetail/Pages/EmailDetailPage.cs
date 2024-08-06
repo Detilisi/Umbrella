@@ -16,7 +16,7 @@ internal class EmailDetailPage : EmailPage<EmailDetailViewModel>
                 FontFamily = "FontAwesomeSolid",
                 Glyph = FontAwesomeIcons.Reply
             },
-            Command = new Command(async () => await ViewModel.ReplyEmailCommand.ExecuteAsync(ViewModel.CurrentEmail))
+            Command = new Command(async () => await ViewModel.ReplyEmailCommand.ExecuteAsync(null))
         };
         ToolbarItems.Add(replyToolbarItem);
     }

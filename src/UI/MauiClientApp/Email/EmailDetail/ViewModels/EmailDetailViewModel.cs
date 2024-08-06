@@ -3,7 +3,7 @@
 internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator), IQueryAttributable
 {
     //Properties
-    public EmailModel CurrentEmail { get; set; } = null!;
+    private EmailModel CurrentEmail { get; set; } = null!;
 
     //View elements
     [ObservableProperty] private string sender = string.Empty;
@@ -22,10 +22,20 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
         Body = CurrentEmail.Body;
         SentAtDate = CurrentEmail.CreatedAt;
     }
-    
+
     //Commands
-    [RelayCommand] public static async Task ReplyEmail() => await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
-    
+    [RelayCommand]
+    public async Task ReplyEmail()
+    {
+        if(CurrentEmail == null) return;
+
+        var navigationParameter = new Dictionary<string, object>
+        {
+            [nameof(EmailModel)] = CurrentEmail
+        };
+
+        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>(navigationParameter);
+    }
     //Handler methods
     protected override async Task ExecuteBackgroundOperation()
     {
@@ -38,7 +48,6 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
         // Get user input
         await SpeechService.SpeakAsync(UiStrings.ReadingQuery_ReadEmail, ActivityToken.Token);
         var captureResult = await CaptureUserInputAndIntentAsync();
-
         if (captureResult.Item2 == UserIntent.Yes)
         {
             bool readAgain = true;
@@ -52,18 +61,16 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
                 readAgain = captureResult.Item2 == UserIntent.Yes;
             }
         }
+
+        await SpeechService.SpeakAsync(UiStrings.ReadingQuery_Reply, ActivityToken.Token);
+        captureResult = await CaptureUserInputAndIntentAsync();
+        if (captureResult.Item2 == UserIntent.ReplyEmail || captureResult.Item2 == UserIntent.Yes)
+        {
+            await ReplyEmailCommand.ExecuteAsync(null);
+        }
         else
         {
-            await SpeechService.SpeakAsync(UiStrings.ReadingQuery_RepeatDelete, ActivityToken.Token);
-            captureResult = await CaptureUserInputAndIntentAsync();
-            if (captureResult.Item2 == UserIntent.ReplyEmail)
-            {
-                await ReplyEmailCommand.ExecuteAsync(null);
-            }
-            else if (captureResult.Item2 == UserIntent.DeleteEmail)
-            {
-                //await DeleteEmailCommand.ExecuteAsync(null);
-            }
+            ViewDisappearingCommand.Execute(null);
         }
     }
 
