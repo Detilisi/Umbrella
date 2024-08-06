@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace MauiClientApp.Email.EmailEdit.ViewModels;
 
-internal partial class EmailEditViewModel(IMediator mediator, IUserSessionService userSessionService) : EmailViewModel(mediator)
+internal partial class EmailEditViewModel(IMediator mediator, IUserSessionService userSessionService) : EmailViewModel(mediator), IQueryAttributable
 {
     //Fields
     private readonly IUserSessionService _userSessionService = userSessionService;
@@ -24,8 +24,6 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
         var currentUserResult = _userSessionService.GetCurrentSession();
         if (currentUserResult.IsFailure) return; //Handle error
-
-        Sender = currentUserResult.Value.EmailAddress;
     }
 
     //Navigation
@@ -35,8 +33,9 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         if (currentUserResult.IsFailure) return; //Handle error
         Sender = currentUserResult.Value.EmailAddress;
 
+        if(!query.Any()) return; 
         var selectedEmail = (EmailModel)query[nameof(EmailModel)];
-        Recipient = selectedEmail.Recipient;
+        Recipient = selectedEmail.Sender;
         Subject = $"RE: {selectedEmail.Subject}";
     }
 
