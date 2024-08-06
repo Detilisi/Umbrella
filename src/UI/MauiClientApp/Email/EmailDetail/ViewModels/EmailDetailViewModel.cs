@@ -70,7 +70,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
         }
         else
         {
-            ViewDisappearingCommand.Execute(null);
+            await NavigationService.NavigateToPreviousViewModelAsync();
         }
     }
 
