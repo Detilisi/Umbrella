@@ -1,6 +1,8 @@
-﻿namespace Application.User.Features.Queries.LoginUser;
+﻿using Application.User.Dtos;
 
-public class LoginUserQuery(string emailAddress, string emailPassword) : IRequest<Result<UserModel>>
+namespace Application.User.Features.Queries.LoginUser;
+
+public class LoginUserQuery(string emailAddress, string emailPassword) : IRequest<Result<UserDto>>
 {
     public string EmailAddress { get; } = emailAddress;
     public string EmailPassword { get; } = emailPassword;

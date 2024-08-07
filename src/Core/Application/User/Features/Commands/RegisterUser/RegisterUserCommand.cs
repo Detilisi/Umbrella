@@ -1,5 +1,7 @@
-﻿namespace Application.User.Features.Commands.RegisterUser;
+﻿using Application.User.Dtos;
 
-public class RegisterUserCommand : UserModel, IRequest<Result<int>>
+namespace Application.User.Features.Commands.RegisterUser;
+
+public class RegisterUserCommand : UserDto, IRequest<Result<int>>
 {
 }

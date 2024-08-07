@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui.Core;
+﻿using Application.Email.Dtos;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Layouts;
 using MauiClientApp.Email.EmailList.Templates.Triggers;
 
@@ -22,7 +23,7 @@ public class EmailDataTemplate : DataTemplate
         DockLayout.SetDockPosition(separatorLine, DockPosition.Bottom);
 
         var timeStampLabel = new Label(){ Triggers = { EmailTemplateTriggers.TodayTrigger, EmailTemplateTriggers.NotTodayTrigger } }
-            .Bind(Label.TextProperty, static (EmailModel email) => email.CreatedAt, mode: BindingMode.OneWay);
+            .Bind(Label.TextProperty, static (EmailDto email) => email.CreatedAt, mode: BindingMode.OneWay);
 
         var addressLabel = new Label()
         {
@@ -31,7 +32,7 @@ public class EmailDataTemplate : DataTemplate
             FontAttributes = FontAttributes.Bold,
             LineBreakMode = LineBreakMode.TailTruncation,
         }
-        .Bind(Label.TextProperty, static (EmailModel email) => email.SenderName, mode: BindingMode.OneWay);
+        .Bind(Label.TextProperty, static (EmailDto email) => email.SenderName, mode: BindingMode.OneWay);
 
         var subjectLineLabel = new Label()
         {
@@ -39,7 +40,7 @@ public class EmailDataTemplate : DataTemplate
             FontSize = 12,
             LineBreakMode = LineBreakMode.WordWrap
         }
-        .Bind(Label.TextProperty, static (EmailModel email) => email.Subject, mode: BindingMode.OneWay);
+        .Bind(Label.TextProperty, static (EmailDto email) => email.Subject, mode: BindingMode.OneWay);
         
         
         return new()

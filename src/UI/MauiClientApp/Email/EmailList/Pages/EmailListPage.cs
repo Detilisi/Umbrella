@@ -1,4 +1,5 @@
-﻿using Umbrella.Maui.Email.EmailListing.Templates;
+﻿using Application.Email.Dtos;
+using Umbrella.Maui.Email.EmailListing.Templates;
 
 namespace MauiClientApp.Email.EmailList.Pages;
 
@@ -32,7 +33,7 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
     //Event handlers
     private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (e.CurrentSelection.FirstOrDefault() is not EmailModel selectedEmail) return;
+        if (e.CurrentSelection.FirstOrDefault() is not EmailDto selectedEmail) return;
 
         await ViewModel.OpenEmailCommand.ExecuteAsync(selectedEmail);
     }

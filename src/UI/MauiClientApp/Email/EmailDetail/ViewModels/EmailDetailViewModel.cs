@@ -1,9 +1,11 @@
-﻿namespace MauiClientApp.Email.EmailDetail.ViewModels;
+﻿using Application.Email.Dtos;
+
+namespace MauiClientApp.Email.EmailDetail.ViewModels;
 
 internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator), IQueryAttributable
 {
     //Properties
-    private EmailModel CurrentEmail { get; set; } = null!;
+    private EmailDto CurrentEmail { get; set; } = null!;
 
     //View elements
     [ObservableProperty] private string sender = string.Empty;
@@ -15,7 +17,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
     //Navigation
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        CurrentEmail = (EmailModel)query[nameof(EmailModel)];
+        CurrentEmail = (EmailDto)query[nameof(EmailDto)];
         Sender = CurrentEmail.SenderName ?? CurrentEmail.Sender;
         Recipient = CurrentEmail.Recipient;
         Subject = CurrentEmail.Subject;
@@ -31,7 +33,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
 
         var navigationParameter = new Dictionary<string, object>
         {
-            [nameof(EmailModel)] = CurrentEmail
+            [nameof(EmailDto)] = CurrentEmail
         };
 
         await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>(navigationParameter);

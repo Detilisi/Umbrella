@@ -1,4 +1,5 @@
-﻿using MailKit.Net.Smtp;
+﻿using Application.Email.Dtos;
+using MailKit.Net.Smtp;
 using MimeKit;
 
 namespace Infrastructure.Email.Services;
@@ -37,7 +38,7 @@ public class EmailSender : IEmailSender, IDisposable
         await _smtpClient.AuthenticateAsync(emailAddress, decryptedPassword, token);
         return Result.Success();
     }
-    public async Task<Result> SendEmailAsync(EmailModel message, CancellationToken token = default)
+    public async Task<Result> SendEmailAsync(EmailDto message, CancellationToken token = default)
     {
         await _smtpClient.SendAsync(ConvertToMime(message), token);
         
@@ -45,7 +46,7 @@ public class EmailSender : IEmailSender, IDisposable
     }
 
     //Helper methods
-    private MimeMessage ConvertToMime(EmailModel emailModel)
+    private MimeMessage ConvertToMime(EmailDto emailModel)
     {
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(emailModel.Sender, emailModel.Sender)); 

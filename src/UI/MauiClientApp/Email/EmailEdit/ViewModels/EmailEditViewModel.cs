@@ -34,7 +34,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         Sender = currentUserResult.Value.EmailAddress;
 
         if(!query.Any()) return; 
-        var selectedEmail = (EmailModel)query[nameof(EmailModel)];
+        var selectedEmail = (EmailDto)query[nameof(EmailDto)];
         Recipient = selectedEmail.Sender;
         Subject = $"RE: {selectedEmail.Subject}";
     }
@@ -43,7 +43,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     [RelayCommand]
     public async Task SendEmail()
     {
-        var emailDraft = new EmailModel(){
+        var emailDraft = new EmailDto(){
             Sender = Sender,
             SenderName = Sender,
             Recipient = Recipient,

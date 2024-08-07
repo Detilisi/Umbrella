@@ -1,4 +1,5 @@
-﻿using MauiClientApp.Email.EmailList.Templates.Converters;
+﻿using Application.Email.Dtos;
+using MauiClientApp.Email.EmailList.Templates.Converters;
 
 namespace MauiClientApp.Email.EmailList.Templates.Triggers;
 
@@ -7,7 +8,7 @@ internal static class EmailTemplateTriggers
     public static DataTrigger TodayTrigger = new(typeof(Label))
     {
         Value = true,
-        Binding = new Binding(nameof(EmailModel.CreatedAt))
+        Binding = new Binding(nameof(EmailDto.CreatedAt))
         {
             Converter = new DateTimeToTodayCheckerConverter()
         },
@@ -16,7 +17,7 @@ internal static class EmailTemplateTriggers
             new Setter
             {
                 Property = Label.TextProperty,
-                Value = new Binding(nameof(EmailModel.CreatedAt), stringFormat: "{0:h:mm tt}")
+                Value = new Binding(nameof(EmailDto.CreatedAt), stringFormat: "{0:h:mm tt}")
             }
         }
     };
@@ -24,7 +25,7 @@ internal static class EmailTemplateTriggers
     public static DataTrigger NotTodayTrigger = new(typeof(Label))
     {
         Value = false,
-        Binding = new Binding(nameof(EmailModel.CreatedAt))
+        Binding = new Binding(nameof(EmailDto.CreatedAt))
         {
             Converter = new DateTimeToTodayCheckerConverter()
         },
@@ -33,7 +34,7 @@ internal static class EmailTemplateTriggers
             new Setter
             {
                 Property = Label.TextProperty,
-                Value = new Binding(nameof(EmailModel.CreatedAt), stringFormat: "{0:dd MMM}")
+                Value = new Binding(nameof(EmailDto.CreatedAt), stringFormat: "{0:dd MMM}")
             }
         }
     };

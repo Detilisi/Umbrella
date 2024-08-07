@@ -1,3 +1,5 @@
-﻿namespace Application.Email.Features.Queries.GetEmailList;
+﻿using Application.Email.Dtos;
 
-public class GetEmailListQuery() : IRequest<Result<List<EmailModel>>> { }
+namespace Application.Email.Features.Queries.GetEmailList;
+
+public class GetEmailListQuery() : IRequest<Result<List<EmailDto>>> { }

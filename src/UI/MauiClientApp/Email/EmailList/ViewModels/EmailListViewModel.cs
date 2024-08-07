@@ -1,3 +1,4 @@
+using Application.Email.Dtos;
 using Application.Email.Features.Queries.GetEmailList;
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
@@ -6,7 +7,7 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
 {
     //Properties
     private bool ShouldKeepConversation { get; set; }
-    public ObservableCollection<EmailModel> EmailMessageList { get; set; } = [];
+    public ObservableCollection<EmailDto> EmailMessageList { get; set; } = [];
 
     //Life cycle 
     protected override async void ViewAppearing()
@@ -31,11 +32,11 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
 
     //Commands
     [RelayCommand]
-    public async Task OpenEmail(EmailModel selectedEmail)
+    public async Task OpenEmail(EmailDto selectedEmail)
     {
         var navigationParameter = new Dictionary<string, object>
         {
-            [nameof(EmailModel)] = selectedEmail
+            [nameof(EmailDto)] = selectedEmail
         };
 
         await NavigationService.NavigateToViewModelAsync<EmailDetailViewModel>(navigationParameter);

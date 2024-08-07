@@ -1,5 +1,7 @@
-﻿namespace Application.Email.Features.Commands.UpdateEmail;
+﻿using Application.Email.Dtos;
 
-public class UpdateEmailCommand : EmailModel, IRequest<Result<int>>
+namespace Application.Email.Features.Commands.UpdateEmail;
+
+public class UpdateEmailCommand : EmailDto, IRequest<Result<int>>
 {
 }

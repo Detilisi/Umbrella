@@ -1,13 +1,14 @@
-﻿using Application.User.Errors;
+﻿using Application.User.Dtos;
+using Application.User.Errors;
 
 namespace Application.User.Services;
 
 public class UserSessionService : IUserSessionService
 {
     private static bool _isAuthenticated;
-    private static UserModel? _currentUser;
+    private static UserDto? _currentUser;
 
-    public Result CreateSession(UserModel currentUser)
+    public Result CreateSession(UserDto currentUser)
     {
         if (_isAuthenticated) return Result.Success();
 
@@ -27,11 +28,11 @@ public class UserSessionService : IUserSessionService
         return Result.Success();
     }
 
-    public Result<UserModel> GetCurrentSession()
+    public Result<UserDto> GetCurrentSession()
     {
         if (!_isAuthenticated || _currentUser is null)
         {
-            return Result.Failure<UserModel>(AuthenticationErrors.SessionNotAuthenticated);
+            return Result.Failure<UserDto>(AuthenticationErrors.SessionNotAuthenticated);
         }
 
         return Result.Success(_currentUser);
