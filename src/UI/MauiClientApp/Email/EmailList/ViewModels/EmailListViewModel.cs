@@ -1,4 +1,3 @@
-using Application.Email.Dtos;
 using Application.Email.Features.Queries.GetEmailList;
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
@@ -6,8 +5,7 @@ namespace MauiClientApp.Email.EmailList.ViewModels;
 internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(mediator, isRootViewModel: true)
 {
     //Properties
-    private bool ShouldKeepConversation { get; set; }
-    public ObservableCollection<EmailDto> EmailMessageList { get; set; } = [];
+    public ObservableCollection<EmailDto> EmailList { get; set; } = [];
 
     //Life cycle 
     protected override async void ViewAppearing()
@@ -19,14 +17,14 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     //Load methods
     private async Task LoadEmailsAsync()
     {
-        if (EmailMessageList.Any()) return;
+        if (EmailList.Any()) return;
 
         var emailListResult = await Mediator.Send(new GetEmailListQuery());
         if (emailListResult.IsFailure) return;
 
         foreach (var emailModel in emailListResult.Value)
         {
-            EmailMessageList.Add(emailModel);
+            EmailList.Add(emailModel);
         }
     }
 
@@ -64,13 +62,13 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
                 await WriteEmailCommand.ExecuteAsync(null);
                 break;
             case UserIntent.ReadEmails:
-                await SpeechService.SpeakAsync(string.Format(UiStrings.InputReponse_ReadEmails, EmailMessageList.Count), token);
+                await SpeechService.SpeakAsync(string.Format(UiStrings.InputReponse_ReadEmails, EmailList.Count), token);
 
-                foreach (var message in EmailMessageList)
+                foreach (var message in EmailList)
                 {
                     if (token.IsCancellationRequested) break;
 
-                    await SpeechService.SpeakAsync(string.Format(UiStrings.InboxInfo_EmailSummary, EmailMessageList.IndexOf(message) + 1, message.SenderName, message.Subject), token);
+                    await SpeechService.SpeakAsync(string.Format(UiStrings.InboxInfo_EmailSummary, EmailList.IndexOf(message) + 1, message.SenderName, message.Subject), token);
                     await SpeechService.SpeakAsync(UiStrings.InboxQuery_OpenEmail, token);
 
                     captureResult = await CaptureUserInputAndIntentAsync();

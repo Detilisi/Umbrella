@@ -1,4 +1,5 @@
-﻿global using Application.Email.Base;
+﻿global using Application.Contatcs.Dtos;
+global using Application.Email.Base;
 global using Application.Email.Dtos;
 global using CommunityToolkit.Maui;
 global using CommunityToolkit.Maui.Markup;
@@ -10,6 +11,8 @@ global using MauiClientApp.Common.ChatHistory.Models;
 global using MauiClientApp.Common.Enums;
 global using MauiClientApp.Common.Services;
 global using MauiClientApp.Common.Views;
+global using MauiClientApp.Contacts.ContactsList.Pages;
+global using MauiClientApp.Contacts.ContactsList.ViewModels;
 global using MauiClientApp.Email.EmailDetail.Pages;
 global using MauiClientApp.Email.EmailDetail.ViewModels;
 global using MauiClientApp.Email.EmailEdit.Pages;
@@ -26,6 +29,3 @@ global using MediatR;
 global using Shared.Common.Results;
 global using System.Collections.ObjectModel;
 global using Umbrella.Maui.Email.Base.Pages;
-global using MauiClientApp.Contacts.ContactsList.Pages;
-global using MauiClientApp.Contacts.ContactsList.ViewModels;
-

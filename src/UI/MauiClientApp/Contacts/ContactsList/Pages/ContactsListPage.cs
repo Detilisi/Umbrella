@@ -1,9 +1,13 @@
-﻿namespace MauiClientApp.Contacts.ContactsList.Pages;
+﻿using MauiClientApp.Contacts.ContactsList.Templates;
+
+namespace MauiClientApp.Contacts.ContactsList.Pages;
 
 internal class ContactsListPage : Page<ContactsListViewModel>
 {
+    //Construction
     public ContactsListPage(ContactsListViewModel viewModel) : base(viewModel)
     {
+        Title = "Contacts";
         Content = new Grid()
         {
             Padding = 10,
@@ -11,23 +15,10 @@ internal class ContactsListPage : Page<ContactsListViewModel>
             {
                 new CollectionView()
                 {
-                    ItemsSource = new List<string>()
-                    {
-                        "Item", 
-                        "Item", 
-                        "Item", 
-                        "Item", 
-                        "Item", 
-                        "Item", 
-                        "Item", 
-                        "Item", 
-                        "Item", 
-                        "Item", 
-                        "Item", 
-                        "Item", 
-                        "Item", 
-                    }
-                },
+                    SelectionMode = SelectionMode.Single,
+                    ItemTemplate = new ContactDataTemplate(),
+                    ItemsSource = ViewModel.ContactList
+                }.Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged),
                 new Button()
                 {
                     Text = "Add",
@@ -38,5 +29,13 @@ internal class ContactsListPage : Page<ContactsListViewModel>
                 }
             }
         };
+    }
+
+    //Event handlers
+    private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.FirstOrDefault() is not EmailDto selectedEmail) return;
+
+        await ViewModel.ViewContactCommand.ExecuteAsync(selectedEmail);
     }
 }

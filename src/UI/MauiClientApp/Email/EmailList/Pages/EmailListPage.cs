@@ -38,7 +38,7 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
     {
         SelectionMode = SelectionMode.Single,
         ItemTemplate = new EmailDataTemplate(),
-        ItemsSource = ViewModel.EmailMessageList
+        ItemsSource = ViewModel.EmailList
     }.Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged);
 
     //Event handlers
