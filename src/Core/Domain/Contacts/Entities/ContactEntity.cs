@@ -4,7 +4,7 @@ public class ContactEntity : Entity
 {
     //Properties
     public string Name { get; }
-    public EmailAddress Email { get; }
+    public EmailAddress EmailAddress { get; }
 
 
     //Construction
@@ -12,7 +12,7 @@ public class ContactEntity : Entity
     private ContactEntity(string name, EmailAddress emailAddress)
     {
         Name = name;
-        Email = emailAddress;
+        EmailAddress = emailAddress;
     }
 
     public static ContactEntity Create(string name, EmailAddress emailAddress)

@@ -12,7 +12,7 @@ public class ContactDto : Dto
         return new ContactDto() 
         {
             Name = contactEntity.Name,
-            EmailAddress = contactEntity.Email.Value 
+            EmailAddress = contactEntity.EmailAddress.Value 
         };
     }
 }
