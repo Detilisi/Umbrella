@@ -26,7 +26,6 @@ internal class EmailDetailPage : EmailPage<EmailDetailViewModel>
         Padding = 10,
         Content = new VerticalStackLayout()
         {
-            //Padding = 10,
             Children =
             {
                 new Label()
