@@ -1,5 +1,4 @@
-﻿using Application.Email.Dtos;
-using CommunityToolkit.Maui.Core;
+﻿using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Layouts;
 using MauiClientApp.Email.EmailList.Templates.Triggers;
 

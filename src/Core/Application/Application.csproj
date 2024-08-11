@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contatcs\Features\Commands\CreateContact\" />
+  </ItemGroup>
+
 </Project>

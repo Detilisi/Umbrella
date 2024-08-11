@@ -1,5 +1,4 @@
-﻿using Application.Email.Dtos;
-using Application.Email.Errors;
+﻿using Application.Email.Errors;
 
 namespace Application.Email.Features.Queries.GetEmailList;
 

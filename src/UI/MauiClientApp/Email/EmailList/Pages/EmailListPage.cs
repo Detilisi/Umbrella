@@ -1,5 +1,4 @@
-﻿using Application.Email.Dtos;
-using Umbrella.Maui.Email.EmailListing.Templates;
+﻿using Umbrella.Maui.Email.EmailListing.Templates;
 
 namespace MauiClientApp.Email.EmailList.Pages;
 
@@ -20,6 +19,18 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
             Command = new Command(async () => await ViewModel.WriteEmailCommand.ExecuteAsync(null))
         });
 
+        ToolbarItems.Add(new ToolbarItem
+        {
+            Text = "Contacts",
+            Order = ToolbarItemOrder.Secondary,
+            Command = new Command(async () => await ViewModel.ViewContactsCommand.ExecuteAsync(null))
+        });
+        ToolbarItems.Add(new ToolbarItem
+        {
+            Text = "Settings",
+            Order = ToolbarItemOrder.Secondary,
+        });
+
         Shell.SetBackButtonBehavior(this, new BackButtonBehavior(){ IsVisible = false, IsEnabled = false });
     }
     
@@ -27,7 +38,7 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
     {
         SelectionMode = SelectionMode.Single,
         ItemTemplate = new EmailDataTemplate(),
-        ItemsSource = ViewModel.EmailMessageList
+        ItemsSource = ViewModel.EmailList
     }.Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged);
 
     //Event handlers
