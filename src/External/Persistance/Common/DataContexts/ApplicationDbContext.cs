@@ -12,6 +12,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     //Data sets
     public DbSet<UserEntity> Users => Set<UserEntity>();
     public DbSet<EmailEntity> Emails => Set<EmailEntity>();
+    public DbSet<ContactEntity> Conctacts => Set<ContactEntity>();
 
     //Construction
     public ApplicationDbContext()
