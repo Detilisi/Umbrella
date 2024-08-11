@@ -1,6 +1,4 @@
-﻿using Domain.Contacts.Entities;
-
-namespace Application.Contatcs.Dtos;
+﻿namespace Application.Contatcs.Dtos;
 
 public class ContactDto : Dto
 {
