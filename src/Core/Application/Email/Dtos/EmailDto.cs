@@ -1,11 +1,11 @@
-﻿namespace Application.Email.Models;
+﻿namespace Application.Email.Dtos;
 
-public class EmailModel : Model
+public class EmailDto : Dto
 {
     //Properties
     public EmailType EmailType { get; set; }
     public EmailStatus EmailStatus { get; set; }
-    
+
     public required string Body { get; set; }
     public required string Subject { get; set; }
 
@@ -14,9 +14,9 @@ public class EmailModel : Model
     public required string Recipient { get; set; }
 
     //Methods
-    internal static EmailModel CreateFromEntity(EmailEntity emailEntity)
+    internal static EmailDto CreateFromEntity(EmailEntity emailEntity)
     {
-        return new EmailModel
+        return new EmailDto
         {
             EntityId = emailEntity.Id,
             CreatedAt = emailEntity.CreatedAt,

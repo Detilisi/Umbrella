@@ -3,7 +3,7 @@ using EmailViewModel = MauiClientApp.Email.Base.ViewModels.EmailViewModel;
 
 namespace MauiClientApp.Email.EmailSync.ViewModels;
 
-internal class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator)
+internal class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator, isRootViewModel: true)
 {
     //Life cycle 
     protected override async void ViewAppearing()

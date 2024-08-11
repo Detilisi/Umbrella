@@ -7,7 +7,7 @@ using EmailViewModel = MauiClientApp.Email.Base.ViewModels.EmailViewModel;
 
 namespace MauiClientApp.Email.EmailEdit.ViewModels;
 
-internal partial class EmailEditViewModel(IMediator mediator, IUserSessionService userSessionService) : EmailViewModel(mediator)
+internal partial class EmailEditViewModel(IMediator mediator, IUserSessionService userSessionService) : EmailViewModel(mediator), IQueryAttributable
 {
     //Fields
     private readonly IUserSessionService _userSessionService = userSessionService;
@@ -25,8 +25,6 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
         var currentUserResult = _userSessionService.GetCurrentSession();
         if (currentUserResult.IsFailure) return; //Handle error
-
-        Sender = currentUserResult.Value.EmailAddress;
     }
 
     //Navigation
@@ -36,8 +34,9 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         if (currentUserResult.IsFailure) return; //Handle error
         Sender = currentUserResult.Value.EmailAddress;
 
-        var selectedEmail = (EmailModel)query[nameof(EmailModel)];
-        Recipient = selectedEmail.Recipient;
+        if(!query.Any()) return; 
+        var selectedEmail = (EmailDto)query[nameof(EmailDto)];
+        Recipient = selectedEmail.Sender;
         Subject = $"RE: {selectedEmail.Subject}";
     }
 
@@ -45,7 +44,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     [RelayCommand]
     public async Task SendEmail()
     {
-        var emailDraft = new EmailModel(){
+        var emailDraft = new EmailDto(){
             Sender = Sender,
             SenderName = Sender,
             Recipient = Recipient,
@@ -110,7 +109,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     protected async Task<string> ListenGetEmailAddress(CancellationToken token) // Move to an extension
     {
         bool capturedEmailAddress = false;
-        while (!capturedEmailAddress)
+        while (!capturedEmailAddress && !token.IsCancellationRequested)
         {
             try
             {

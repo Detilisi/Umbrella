@@ -1,4 +1,5 @@
-﻿using Domain.Email.Entities.Enums;
+﻿using Application.Email.Dtos;
+using Domain.Email.Entities.Enums;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
@@ -42,13 +43,13 @@ public class EmailFetcher : IEmailFetcher, IDisposable
         return Result.Success();
     }
 
-    public async Task<Result<List<EmailModel>>> LoadEmailsAsync(CancellationToken token = default)
+    public async Task<Result<List<EmailDto>>> LoadEmailsAsync(CancellationToken token = default)
     {
         //Verify connection
-        if (!IsConnected) return Result.Failure<List<EmailModel>>(Error.Cancelled); //No connection error
+        if (!IsConnected) return Result.Failure<List<EmailDto>>(Error.Cancelled); //No connection error
 
         //Retrieve messages
-        var allMessages = new List<EmailModel>();
+        var allMessages = new List<EmailDto>();
 
         // Select the Inbox folder
         await _imapClient.Inbox.OpenAsync(FolderAccess.ReadOnly, token);
@@ -67,11 +68,11 @@ public class EmailFetcher : IEmailFetcher, IDisposable
 
         return Result.Success(allMessages);
     }
-    public async Task<Result<List<EmailModel>>> LazyLoadEmailsAsync(int pageSize, int skip, CancellationToken token = default)
+    public async Task<Result<List<EmailDto>>> LazyLoadEmailsAsync(int pageSize, int skip, CancellationToken token = default)
     {
-        if (!IsConnected) return Result.Failure<List<EmailModel>>(Error.Cancelled); // No connection error
+        if (!IsConnected) return Result.Failure<List<EmailDto>>(Error.Cancelled); // No connection error
 
-        var allMessages = new List<EmailModel>();
+        var allMessages = new List<EmailDto>();
 
         await _imapClient.Inbox.OpenAsync(FolderAccess.ReadOnly, token);
 
@@ -88,13 +89,13 @@ public class EmailFetcher : IEmailFetcher, IDisposable
     }
 
     //Helper methods
-    private EmailModel ConvertToEmailModel(MimeMessage mimeMessage)
+    private EmailDto ConvertToEmailModel(MimeMessage mimeMessage)
     {
         var mailbox = mimeMessage.From.Mailboxes.FirstOrDefault();
         var senderAddress = mailbox?.Address ?? "no-reply@email.com";
         var senderName = string.IsNullOrWhiteSpace(mailbox?.Name) ? senderAddress : mailbox.Name;
 
-        return new EmailModel
+        return new EmailDto
         {
             EmailType = EmailType.Email,
             EmailStatus = EmailStatus.UnRead,

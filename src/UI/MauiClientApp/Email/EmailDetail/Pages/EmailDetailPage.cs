@@ -2,42 +2,10 @@
 
 namespace MauiClientApp.Email.EmailDetail.Pages;
 
-internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<EmailDetailViewModel>(viewModel)
+internal class EmailDetailPage : EmailPage<EmailDetailViewModel>
 {
-    //View components
-    private Label SubjectLabel = null!;
-    private Label BodyTextLabel = null!;
-    private BoxView SeparatorBoxView = null!;
-    private EmailSenderView EmailSenderView = null!;
-
     //Construction
-    protected override VerticalStackLayout PageContent => new()
-    {
-        Padding = 10,
-        Children =
-        {
-            SubjectLabel,
-            EmailSenderView,
-            SeparatorBoxView,
-            BodyTextLabel
-        }
-    };
-    
-    //Initialization
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        base.OnNavigatedTo(args);
-
-        var currentEmail = ViewModel.CurrentEmail;
-        EmailSenderView = new(currentEmail.SenderName??currentEmail.Sender, currentEmail.CreatedAt);
-
-        InitializeToolBar();
-        InitializeViewComponents();
-        InitializeEmailPage();
-    }
-
-    //View component Initialization
-    private void InitializeToolBar()
+    public EmailDetailPage(EmailDetailViewModel viewModel) : base(viewModel)
     {
         Title = "Email";
         var replyToolbarItem = new ToolbarItem
@@ -48,36 +16,34 @@ internal class EmailDetailPage(EmailDetailViewModel viewModel) : EmailPage<Email
                 FontFamily = "FontAwesomeSolid",
                 Glyph = FontAwesomeIcons.Reply
             },
-            Command = new Command(async () => await ViewModel.ReplyEmailCommand.ExecuteAsync(ViewModel.CurrentEmail))
+            Command = new Command(async () => await ViewModel.ReplyEmailCommand.ExecuteAsync(null))
         };
-        var deleteToolbarItem = new ToolbarItem
-        {
-            IconImageSource = new FontImageSource
-            {
-                Size = 30,
-                FontFamily = "FontAwesomeSolid",
-                Glyph = FontAwesomeIcons.TrashCan
-            },
-            Command = new Command(async () => await ViewModel.DeleteEmailCommand.ExecuteAsync(ViewModel.CurrentEmail))
-        };
-
-        ToolbarItems.Add(deleteToolbarItem);
         ToolbarItems.Add(replyToolbarItem);
     }
-    private void InitializeViewComponents()
+
+    protected override ScrollView PageContent => new()
     {
-        SeparatorBoxView = new();
-        SubjectLabel = new()
+        Padding = 10,
+        Content = new VerticalStackLayout()
         {
-            Text = ViewModel.CurrentEmail.Subject
-        };
-        BodyTextLabel = new()
-        {
-            Text = ViewModel.CurrentEmail.Body
-        };
-        
-        SubjectLabel.DynamicResource(View.StyleProperty, "EmailSubjectLabel");
-        BodyTextLabel.DynamicResource(View.StyleProperty, "EmailBodyTextLabel");
-        SeparatorBoxView.DynamicResource(View.StyleProperty, "SeparatorLine");
-    }
+            Children =
+            {
+                new Label()
+                    .DynamicResource(View.StyleProperty, "EmailSubjectLabel")
+                    .Bind(Label.TextProperty, static (EmailDetailViewModel vm) => vm.Subject, mode: BindingMode.OneWay),
+
+                new EmailSenderView()
+                    .Bind(EmailSenderView.EmailSenderProperty, static (EmailDetailViewModel vm) => vm.Sender, mode: BindingMode.OneWay)
+                    .Bind(EmailSenderView.EmailSentDateProperty, static (EmailDetailViewModel vm) => vm.SentAtDate, mode: BindingMode.OneWay),
+
+                new SeparatorLine(),
+                new ScrollView()
+                {
+                    Content = new Label()
+                        .DynamicResource(View.StyleProperty, "EmailBodyLabel")
+                        .Bind(Label.TextProperty, static (EmailDetailViewModel vm) => vm.Body, mode: BindingMode.OneWay)
+                }
+            }
+        }
+    };
 }

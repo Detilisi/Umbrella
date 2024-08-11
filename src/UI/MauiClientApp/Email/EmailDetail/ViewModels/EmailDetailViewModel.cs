@@ -1,32 +1,43 @@
-using EmailViewModel = MauiClientApp.Email.Base.ViewModels.EmailViewModel;
+﻿using Application.Email.Dtos;
 
 namespace MauiClientApp.Email.EmailDetail.ViewModels;
 
 internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator), IQueryAttributable
 {
     //Properties
-    public EmailModel CurrentEmail { get; set; } = null!;
+    private EmailDto CurrentEmail { get; set; } = null!;
+
+    //View elements
+    [ObservableProperty] private string sender = string.Empty;
+    [ObservableProperty] private string recipient = string.Empty;
+    [ObservableProperty] private string subject = string.Empty;
+    [ObservableProperty] private string body = string.Empty;
+    [ObservableProperty] private DateTime sentAtDate = DateTime.MinValue;
 
     //Navigation
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        var selectedEmail = (EmailModel)query[nameof(EmailModel)];
-        CurrentEmail = selectedEmail;
+        CurrentEmail = (EmailDto)query[nameof(EmailDto)];
+        Sender = CurrentEmail.SenderName ?? CurrentEmail.Sender;
+        Recipient = CurrentEmail.Recipient;
+        Subject = CurrentEmail.Subject;
+        Body = CurrentEmail.Body;
+        SentAtDate = CurrentEmail.CreatedAt;
     }
 
     //Commands
     [RelayCommand]
-    public static async Task ReplyEmail()
+    public async Task ReplyEmail()
     {
-        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
-    }
+        if(CurrentEmail == null) return;
 
-    [RelayCommand]
-    public static async Task DeleteEmail()
-    {
-        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
-    }
+        var navigationParameter = new Dictionary<string, object>
+        {
+            [nameof(EmailDto)] = CurrentEmail
+        };
 
+        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>(navigationParameter);
+    }
     //Handler methods
     protected override async Task ExecuteBackgroundOperation()
     {
@@ -39,7 +50,6 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
         // Get user input
         await SpeechService.SpeakAsync(UiStrings.ReadingQuery_ReadEmail, ActivityToken.Token);
         var captureResult = await CaptureUserInputAndIntentAsync();
-
         if (captureResult.Item2 == UserIntent.Yes)
         {
             bool readAgain = true;
@@ -53,18 +63,16 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
                 readAgain = captureResult.Item2 == UserIntent.Yes;
             }
         }
+
+        await SpeechService.SpeakAsync(UiStrings.ReadingQuery_Reply, ActivityToken.Token);
+        captureResult = await CaptureUserInputAndIntentAsync();
+        if (captureResult.Item2 == UserIntent.ReplyEmail || captureResult.Item2 == UserIntent.Yes)
+        {
+            await ReplyEmailCommand.ExecuteAsync(null);
+        }
         else
         {
-            await SpeechService.SpeakAsync(UiStrings.ReadingQuery_RepeatDelete, ActivityToken.Token);
-            captureResult = await CaptureUserInputAndIntentAsync();
-            if (captureResult.Item2 == UserIntent.ReplyEmail)
-            {
-                await ReplyEmailCommand.ExecuteAsync(null);
-            }
-            else if (captureResult.Item2 == UserIntent.DeleteEmail)
-            {
-                await DeleteEmailCommand.ExecuteAsync(null);
-            }
+            await NavigationService.NavigateToPreviousViewModelAsync();
         }
     }
 

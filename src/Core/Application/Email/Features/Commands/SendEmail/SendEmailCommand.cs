@@ -1,6 +1,8 @@
-﻿namespace Application.Email.Features.Commands.SendEmail;
+﻿using Application.Email.Dtos;
 
-public class SendEmailCommand(EmailModel emailModel) : IRequest<Result<int>>
+namespace Application.Email.Features.Commands.SendEmail;
+
+public class SendEmailCommand(EmailDto emailModel) : IRequest<Result<int>>
 {
-    internal EmailModel EmailMessage { get; } = emailModel;
+    internal EmailDto EmailMessage { get; } = emailModel;
 }

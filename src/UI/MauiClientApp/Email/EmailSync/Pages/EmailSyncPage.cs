@@ -4,40 +4,20 @@ namespace MauiClientApp.Email.EmailSync.Pages;
 
 internal class EmailSyncPage: EmailPage<EmailSyncViewModel>
 {
-    //View components
-    private Label PageTitleLabel = null!;
-    
     //Construction
     public EmailSyncPage(EmailSyncViewModel viewModel) : base(viewModel)
     {
-        InitializeViewComponents();
-    }
-
-    protected override EmailSyncIndicatorView PageContent => new();
-
-    //View component Initialization
-    private void InitializeViewComponents()
-    {
-        Shell.SetBackButtonBehavior(this, new BackButtonBehavior()
+        Shell.SetTitleView(this, new Label
         {
-            IsVisible = false,
-            IsEnabled = false
-        });
-
-        PageTitleLabel = new Label
-        {
-            Text = "Umbrella",
             FontSize = 26,
+            Text = "Umbrella",
             TextColor = Colors.White,
             FontAttributes = FontAttributes.Bold,
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center
-        };
+        });
+        Shell.SetBackButtonBehavior(this, new BackButtonBehavior() { IsVisible = false, IsEnabled = false });
+    }
 
-        Shell.SetTitleView(this, PageTitleLabel);
-    }
-    protected override bool OnBackButtonPressed()
-    {
-        return true;
-    }
+    protected override EmailSyncIndicatorView PageContent => new();
 }

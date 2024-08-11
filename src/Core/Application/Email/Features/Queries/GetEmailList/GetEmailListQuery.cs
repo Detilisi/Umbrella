@@ -1,6 +1,5 @@
-﻿namespace Application.Email.Features.Queries.GetEmailList;
+﻿using Application.Email.Dtos;
 
-public class GetEmailListQuery(int userId) : IRequest<Result<List<EmailModel>>>
-{
-    public int UserId { get; } = userId;
-}
+namespace Application.Email.Features.Queries.GetEmailList;
+
+public class GetEmailListQuery() : IRequest<Result<List<EmailDto>>> { }

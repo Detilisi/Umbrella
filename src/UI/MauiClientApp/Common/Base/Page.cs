@@ -44,7 +44,7 @@ internal abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel)
 
     protected override bool OnBackButtonPressed()
     {
-        if(ViewModel.IsRootViewModel) return false;
+        if(ViewModel.IsRootViewModel) return true;
 
         var result = base.OnBackButtonPressed();
         LogOperation(nameof(this.OnNavigatedTo));

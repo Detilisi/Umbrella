@@ -1,4 +1,6 @@
-﻿namespace Application.User.Features.Queries.AutoLoginUser;
+﻿using Application.User.Dtos;
+
+namespace Application.User.Features.Queries.AutoLoginUser;
 
 public class AutoLoginUserQueryHandler(IApplicationDbContext dbContext, IUserSessionService userSessionService) : IRequestHandler<AutoLoginUserQuery, Result>
 {
@@ -11,7 +13,7 @@ public class AutoLoginUserQueryHandler(IApplicationDbContext dbContext, IUserSes
         var userEntity = await _dbContext.Users.FirstOrDefaultAsync(cancellationToken);
         if (userEntity == null) return Result.Failure(new Error("No registered user", ""));
 
-        var userModel = UserModel.CreateFromEntity(userEntity);
+        var userModel = UserDto.CreateFromEntity(userEntity);
         _userSessionService.CreateSession(userModel);
 
         return Result.Success();

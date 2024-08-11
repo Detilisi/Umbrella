@@ -1,18 +1,18 @@
+using Application.Email.Dtos;
 using Application.Email.Features.Queries.GetEmailList;
 using EmailViewModel = MauiClientApp.Email.Base.ViewModels.EmailViewModel;
 
 namespace MauiClientApp.Email.EmailList.ViewModels;
 
-internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(mediator)
+internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(mediator, isRootViewModel: true)
 {
     //Properties
     private bool ShouldKeepConversation { get; set; }
-    public ObservableCollection<EmailModel> EmailMessageList { get; set; } = [];
+    public ObservableCollection<EmailDto> EmailMessageList { get; set; } = [];
 
     //Life cycle 
     protected override async void ViewAppearing()
     {
-
         base.ViewAppearing();
         await LoadEmailsAsync();
     }
@@ -20,12 +20,12 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
     //Load methods
     private async Task LoadEmailsAsync()
     {
-        var loadEmailQuery = new GetEmailListQuery(1);
-        var emailList = await Mediator.Send(loadEmailQuery);
-        if (emailList.IsFailure) return;
+        if (EmailMessageList.Any()) return;
 
-        EmailMessageList.Clear();
-        foreach (var emailModel in emailList.Value)
+        var emailListResult = await Mediator.Send(new GetEmailListQuery());
+        if (emailListResult.IsFailure) return;
+
+        foreach (var emailModel in emailListResult.Value)
         {
             EmailMessageList.Add(emailModel);
         }
@@ -33,21 +33,18 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
 
     //Commands
     [RelayCommand]
-    public async Task OpenEmail(EmailModel selectedEmail)
+    public async Task OpenEmail(EmailDto selectedEmail)
     {
         var navigationParameter = new Dictionary<string, object>
         {
-            [nameof(EmailModel)] = selectedEmail
+            [nameof(EmailDto)] = selectedEmail
         };
 
         await NavigationService.NavigateToViewModelAsync<EmailDetailViewModel>(navigationParameter);
     }
 
     [RelayCommand]
-    public async Task WriteEmail()
-    {
-        await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
-    }
+    public static async Task WriteEmail() => await NavigationService.NavigateToViewModelAsync<EmailEditViewModel>();
 
     //Handler methods
     protected override async Task ExecuteBackgroundOperation()
@@ -79,6 +76,12 @@ internal partial class EmailListViewModel(IMediator mediator) : EmailViewModel(m
                     {
                         await SpeechService.SpeakAsync(UiStrings.InputResponse_OpenEmail);
                         await OpenEmailCommand.ExecuteAsync(message);
+                        break;
+                    }
+                    else if (captureResult.Item2 == UserIntent.WriteEmail)
+                    {
+                        await SpeechService.SpeakAsync(UiStrings.InputReponse_WriteEmail, token);
+                        await WriteEmailCommand.ExecuteAsync(null);
                         break;
                     }
                 }

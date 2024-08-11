@@ -4,10 +4,9 @@ using Application.User.Features.Queries.AutoLoginUser;
 
 namespace MauiClientApp.User.SignUp.ViewModels;
 
-internal partial class SignUpViewModel(IMediator mediator, IEncryptionService encryptionService) : ViewModel
+internal partial class SignUpViewModel(IMediator mediator, IEncryptionService encryptionService) : ViewModel(mediator, isRootViewModel: true)
 {
     //Fields
-    protected readonly IMediator _mediator = mediator;
     private readonly IEncryptionService _encryptionService = encryptionService;
 
     //Properties
@@ -21,7 +20,7 @@ internal partial class SignUpViewModel(IMediator mediator, IEncryptionService en
 
         SpeechService.RequestPermissions();
         var autoLoginUserQuery = new AutoLoginUserQuery();
-        var autoLoginUserResult = await _mediator.Send(autoLoginUserQuery);
+        var autoLoginUserResult = await Mediator.Send(autoLoginUserQuery);
         if (autoLoginUserResult.IsSuccess)
         {
             await NavigationService.NavigateToViewModelAsync<EmailSyncViewModel>();
@@ -41,7 +40,7 @@ internal partial class SignUpViewModel(IMediator mediator, IEncryptionService en
             EncrytedPassword = encryptedPasssword,
             UserName = UserEmail
         };
-        var registerUserResult = await _mediator.Send(registerUsercommand);
+        var registerUserResult = await Mediator.Send(registerUsercommand);
         FireViewModelNotBusy();
         if (registerUserResult.IsFailure) return; // handle error
 

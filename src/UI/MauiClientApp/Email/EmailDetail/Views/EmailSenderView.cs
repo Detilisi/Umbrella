@@ -2,106 +2,44 @@
 
 public class EmailSenderView : ContentView
 {
-    //Fields
-    private readonly string _emailSender;
-    private readonly DateTime _emailSentDate;
+    // Enum for column indices
     private enum Column { Left = 0, Center = 1, Right = 2 }
 
-    //View components
-    private static Grid ContentGrid = null!;
-    private static Label SentAtLabel = null!;
-    private static Label SenderNameLabel = null!;
+    // Bindable properties
+    public static readonly BindableProperty EmailSenderProperty =
+        BindableProperty.Create(nameof(EmailSender), typeof(string), typeof(EmailSenderView), default(string));
 
-    private static IconLabel SenderIcon = null!;
-    private static IconLabel ListenIcon = null!;
-    private static IconLabel RepeatIcon = null!;
+    public static readonly BindableProperty EmailSentDateProperty =
+        BindableProperty.Create(nameof(EmailSentDate), typeof(DateTime), typeof(EmailSenderView), default(DateTime));
 
-    private static VerticalStackLayout? EmailDetailsLayout;
-    private static HorizontalStackLayout? EmailControlsLayout;
-
-    //Construction
-    public EmailSenderView(string emailSender, DateTime emailSentDate)
+    // Properties
+    public string EmailSender
     {
-        _emailSender = emailSender;
-        _emailSentDate = emailSentDate;
-
-        InitializeView();
+        get => (string)GetValue(EmailSenderProperty);
+        set => SetValue(EmailSenderProperty, value);
     }
 
-    //Initialization
-    protected virtual void InitializeView()
+    public DateTime EmailSentDate
     {
-        InitializeLabels();
-        InitializeEmailIcons();
-        InitializeLayouts();
-        InitializeContentGrid();
+        get => (DateTime)GetValue(EmailSentDateProperty);
+        set => SetValue(EmailSentDateProperty, value);
+    }
+
+    // Constructor
+    public EmailSenderView()
+    {
+        const int fontSize = 30;
+        const double leftColumn = 0.2;
+        const double rightColumn = 0.25;
+        const double centerColumn = 0.55;
+
+        var sentDateLabel = new Label() { MaxLines = 1, FontSize = 14, FontAttributes = FontAttributes.Bold };
+        var senderLabel = new Label() { MaxLines = 1, FontSize = 16, FontAttributes = FontAttributes.Bold, LineBreakMode = LineBreakMode.TailTruncation };
         
-        Content = ContentGrid;
-    }
+        senderLabel.SetBinding(Label.TextProperty, new Binding(nameof(EmailSender), source: this));
+        sentDateLabel.SetBinding(Label.TextProperty, new Binding(nameof(EmailSentDate), source: this, stringFormat: "{0:M}"));
 
-    //View component Initialization
-    private static void InitializeEmailIcons()
-    {
-        SenderIcon = new(FontAwesomeIcons.CircleUser);
-
-        ListenIcon = new(FontAwesomeIcons.Headphones)
-        {
-            FontSize = 30
-        };
-        
-        RepeatIcon = new(FontAwesomeIcons.Repeat)
-        {
-            FontSize = 30
-        };
-    }
-    private void InitializeLabels()
-    {
-        SentAtLabel = new()
-        {
-            MaxLines = 1,
-            FontSize = 14,
-            Text = _emailSentDate.ToString("M"),
-            FontAttributes = FontAttributes.Bold
-        };
-
-        SenderNameLabel = new()
-        {
-            MaxLines = 1,
-            FontSize = 16,
-            Text = _emailSender,
-            FontAttributes = FontAttributes.Bold,
-            LineBreakMode = LineBreakMode.TailTruncation,
-        };
-    }
-    private static void InitializeLayouts()
-    {
-        EmailDetailsLayout = new()
-        {
-            Spacing = 5,
-            Children =
-            {
-                SenderNameLabel,
-                SentAtLabel
-            }
-        };
-        EmailControlsLayout = new()
-        {
-            Spacing = 10,
-            Children =
-            {
-                ListenIcon,
-                RepeatIcon
-            }
-        };
-    }
-
-    private static void InitializeContentGrid()
-    {
-        var leftColumn = 0.2;
-        var rightColumn = 0.25;
-        var centerColumn = 0.55;
-
-        ContentGrid = new()
+        Content = new Grid()
         {
             ColumnSpacing = 5,
             ColumnDefinitions =
@@ -112,9 +50,20 @@ public class EmailSenderView : ContentView
             ],
             Children =
             {
-                SenderIcon?.Column(Column.Left),
-                EmailDetailsLayout?.Column(Column.Center),
-                EmailControlsLayout?.Column(Column.Right),
+                new IconLabel(FontAwesomeIcons.CircleUser).Column((int)Column.Left),
+
+                new HorizontalStackLayout()
+                {
+                    Spacing = 10,
+                    Children =
+                    {
+                        new IconLabel(FontAwesomeIcons.Repeat) { FontSize = fontSize },
+                        new IconLabel(FontAwesomeIcons.Headphones) { FontSize = fontSize }
+                    }
+                }.Column((int)Column.Right),
+
+                new VerticalStackLayout() { Spacing = 5, Children = { senderLabel, sentDateLabel }}
+                .Column((int)Column.Center)
             }
         };
     }

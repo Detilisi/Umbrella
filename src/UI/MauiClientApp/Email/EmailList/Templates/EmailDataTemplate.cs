@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui.Core;
+﻿using Application.Email.Dtos;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Layouts;
 using MauiClientApp.Email.EmailList.Templates.Triggers;
 
@@ -21,10 +22,8 @@ public class EmailDataTemplate : DataTemplate
         var separatorLine = new SeparatorLine();
         DockLayout.SetDockPosition(separatorLine, DockPosition.Bottom);
 
-        var timeStampLabel = new Label();
-        timeStampLabel.Triggers.Add(EmailTemplateTriggers.TodayTrigger);
-        timeStampLabel.Triggers.Add(EmailTemplateTriggers.NotTodayTrigger);
-        timeStampLabel.Bind(Label.TextProperty, static (EmailModel email) => email.Subject, mode: BindingMode.OneWay);
+        var timeStampLabel = new Label(){ Triggers = { EmailTemplateTriggers.TodayTrigger, EmailTemplateTriggers.NotTodayTrigger } }
+            .Bind(Label.TextProperty, static (EmailDto email) => email.CreatedAt, mode: BindingMode.OneWay);
 
         var addressLabel = new Label()
         {
@@ -32,16 +31,16 @@ public class EmailDataTemplate : DataTemplate
             FontSize = 16,
             FontAttributes = FontAttributes.Bold,
             LineBreakMode = LineBreakMode.TailTruncation,
-        };
-        addressLabel.Bind(Label.TextProperty, static (EmailModel email) => email.SenderName, mode: BindingMode.OneWay);
+        }
+        .Bind(Label.TextProperty, static (EmailDto email) => email.SenderName, mode: BindingMode.OneWay);
 
         var subjectLineLabel = new Label()
         {
             MaxLines = 1,
             FontSize = 12,
             LineBreakMode = LineBreakMode.WordWrap
-        };
-        subjectLineLabel.Bind(Label.TextProperty, static (EmailModel email) => email.Subject, mode: BindingMode.OneWay);
+        }
+        .Bind(Label.TextProperty, static (EmailDto email) => email.Subject, mode: BindingMode.OneWay);
         
         
         return new()

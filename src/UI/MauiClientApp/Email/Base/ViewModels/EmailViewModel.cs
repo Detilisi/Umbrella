@@ -1,10 +1,7 @@
 ﻿namespace MauiClientApp.Email.Base.ViewModels;
 
-internal partial class EmailViewModel(IMediator mediator) : ViewModel
+internal partial class EmailViewModel(IMediator mediator, bool isRootViewModel = false) : ViewModel(mediator, isRootViewModel)
 {
-    //Fields
-    protected readonly IMediator Mediator = mediator;
-
     //Properties
     [ObservableProperty] internal static bool isListening;
     internal static ObservableCollection<ChatHistoryModel> ChatHistory { get; private set; } = [];
@@ -13,6 +10,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     protected override void ViewAppearing()
     {
         IsListening = false;
+        ChatHistory.Clear();
         base.ViewAppearing();
 
         if (SpeechService.OnSpeechAnounced != null && SpeechService.OnSpeechRecognized != null) return;
@@ -31,8 +29,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
     protected override async void ViewNavigatedTo()
     {
         base.ViewNavigatedTo();
-        //await ExecuteBackgroundOperation();
-
+        await ExecuteBackgroundOperation();
     }
 
     //Virtual method
@@ -76,7 +73,7 @@ internal partial class EmailViewModel(IMediator mediator) : ViewModel
                         await SpeechService.SpeakAsync(UiStrings.AppResponse_Cancel, ActivityToken.Token);
                         
                         ViewDisappearing();
-                        return Tuple.Create(userText, userIntent); // Early return
+                        return Tuple.Create(userText, userIntent);
 
                     default:
                         return Tuple.Create(userText, userIntent);

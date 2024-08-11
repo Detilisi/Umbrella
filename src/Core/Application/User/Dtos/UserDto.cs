@@ -1,18 +1,18 @@
 ﻿using Domain.User.Entities;
 
-namespace Application.User.Models;
+namespace Application.User.Dtos;
 
-public class UserModel : Model
+public class UserDto : Dto
 {
     //Properties
     public string EncrytedPassword { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
     public required string EmailAddress { get; set; } = string.Empty;
-    
+
     //Methods
-    internal static UserModel CreateFromEntity(UserEntity userEntity)
+    internal static UserDto CreateFromEntity(UserEntity userEntity)
     {
-        return new UserModel()
+        return new UserDto()
         {
             EntityId = userEntity.Id,
             CreatedAt = userEntity.CreatedAt,
