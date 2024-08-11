@@ -36,6 +36,7 @@ internal static class NavigationService
         new KeyValuePair<Type, Type>(typeof(EmailListViewModel), typeof(EmailListPage)),
         new KeyValuePair<Type, Type>(typeof(EmailDetailViewModel), typeof(EmailDetailPage)),
         new KeyValuePair<Type, Type>(typeof(EmailEditViewModel), typeof(EmailEditPage)),
+        new KeyValuePair<Type, Type>(typeof(ContactsListViewModel), typeof(ContactsListPage)),
     ]);
 
     private static Result<string> GetPageRoute<TViewModel>() where TViewModel : ViewModel //ViewModel to page routes

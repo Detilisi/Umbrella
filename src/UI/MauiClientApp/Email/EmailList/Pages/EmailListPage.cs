@@ -1,5 +1,4 @@
-﻿using Application.Email.Dtos;
-using Umbrella.Maui.Email.EmailListing.Templates;
+﻿using Umbrella.Maui.Email.EmailListing.Templates;
 
 namespace MauiClientApp.Email.EmailList.Pages;
 
@@ -18,6 +17,18 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
                 Glyph = FontAwesomeIcons.PenClip
             },
             Command = new Command(async () => await ViewModel.WriteEmailCommand.ExecuteAsync(null))
+        });
+
+        ToolbarItems.Add(new ToolbarItem
+        {
+            Text = "Contacts",
+            Order = ToolbarItemOrder.Secondary,
+            Command = new Command(async () => await ViewModel.ViewContactsCommand.ExecuteAsync(null))
+        });
+        ToolbarItems.Add(new ToolbarItem
+        {
+            Text = "Settings",
+            Order = ToolbarItemOrder.Secondary,
         });
 
         Shell.SetBackButtonBehavior(this, new BackButtonBehavior(){ IsVisible = false, IsEnabled = false });
