@@ -25,7 +25,7 @@ internal class ContactDataTemplate : DataTemplate
             ],
             Children =
             {
-                new IconLabel(FontAwesomeIcons.User)
+                new IconLabel(FontAwesomeIcons.AddressCard)
                 {
                     FontSize = 28
                 }.Column(Column.Left),
