@@ -1,6 +1,4 @@
-﻿using Domain.Common.ValueObjects;
-using Domain.Email.ValueObjects;
-using System.Text.Json;
+﻿using Domain.Email.ValueObjects;
 
 namespace Persistence.Email.EntityConfigs;
 
