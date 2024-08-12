@@ -6,7 +6,7 @@ namespace MauiClientApp.Contacts.ContactsList.ViewModels;
 internal partial class ContactsListViewModel(IMediator mediator) : ViewModel(mediator, false)
 {
     //Properties
-    public ObservableCollection<ContactDto> ContactList { get; set; } = [new() { EmailAddress = "user", Name = "user"}];
+    public ObservableCollection<ContactDto> ContactList { get; set; } = [];
 
     //Life cycle 
     protected override async void ViewAppearing()

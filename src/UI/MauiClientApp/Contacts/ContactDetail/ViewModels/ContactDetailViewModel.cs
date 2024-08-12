@@ -1,4 +1,6 @@
-﻿namespace MauiClientApp.Contacts.ContactDetail.ViewModels;
+﻿using Application.Contatcs.Features.Commands.SaveContact;
+
+namespace MauiClientApp.Contacts.ContactDetail.ViewModels;
 
 internal partial class ContactDetailViewModel(IMediator mediator) : ViewModel(mediator, false)
 {
@@ -22,6 +24,19 @@ internal partial class ContactDetailViewModel(IMediator mediator) : ViewModel(me
     [RelayCommand]
     public async Task SaveContact()
     {
-        //var command = CreateCont
+        if (string.IsNullOrEmpty(ContactName) || string.IsNullOrEmpty(ContactEmail)) return;
+        FireViewModelBusy();
+
+        var saveContactCommand = new SaveContactCommand()
+        {
+            Name = ContactName,
+            EmailAddress = ContactEmail
+        };
+
+        var saveContactResult = await Mediator.Send(saveContactCommand);
+        FireViewModelNotBusy();
+        if (saveContactResult.IsFailure) return; // handle error
+
+        await NavigateBackAsync();
     }
 }
