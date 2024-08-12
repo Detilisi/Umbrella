@@ -1,6 +1,4 @@
-﻿using Application.Email.Dtos;
-
-namespace MauiClientApp.Email.EmailDetail.ViewModels;
+﻿namespace MauiClientApp.Email.EmailDetail.ViewModels;
 
 internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel(mediator), IQueryAttributable
 {

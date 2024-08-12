@@ -1,5 +1,4 @@
 ﻿using Application.Contatcs.Features.Queries.GetContactList;
-using MauiClientApp.Contacts.ContactDetail.ViewModels;
 
 namespace MauiClientApp.Contacts.ContactsList.ViewModels;
 

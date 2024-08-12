@@ -2,7 +2,7 @@
 
 namespace MauiClientApp.Contacts.ContactDetail.ViewModels;
 
-internal partial class ContactDetailViewModel(IMediator mediator) : ViewModel(mediator, false)
+internal partial class ContactDetailViewModel(IMediator mediator) : ViewModel(mediator, false), IQueryAttributable
 {
     //Properties
     private ContactDto SelectedContact { get; set; } = null!;
