@@ -7,35 +7,32 @@ internal class ContactsListPage : Page<ContactsListViewModel>
     //Construction
     public ContactsListPage(ContactsListViewModel viewModel) : base(viewModel)
     {
-        Title = "Contacts";
-        Content = new Grid()
+        Title = "Contacts"; ToolbarItems.Add(new ToolbarItem
         {
-            Padding = 10,
-            Children =
+            IconImageSource = new FontImageSource
             {
-                new CollectionView()
-                {
-                    SelectionMode = SelectionMode.Single,
-                    ItemTemplate = new ContactDataTemplate(),
-                    ItemsSource = ViewModel.ContactList
-                }.Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged),
-                new Button()
-                {
-                    Text = "Add",
-                    HeightRequest = 50,
-                    WidthRequest = 50,
-                    HorizontalOptions = LayoutOptions.End,
-                    VerticalOptions = LayoutOptions.End,
-                }
-            }
-        };
+                Size = 30,
+                FontFamily = "FontAwesomeSolid",
+                Glyph = FontAwesomeIcons.CirclePlus
+            },
+            Command = new Command(async () => await ViewModel.CreateContactCommand.ExecuteAsync(null))
+        });
+
+
+        Content = new CollectionView()
+        {
+            Margin = new Thickness(10),
+            SelectionMode = SelectionMode.Single,
+            ItemTemplate = new ContactDataTemplate(),
+            ItemsSource = ViewModel.ContactList
+        }.Invoke(collectionView => collectionView.SelectionChanged += HandleSelectionChanged);
     }
 
     //Event handlers
     private async void HandleSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (e.CurrentSelection.FirstOrDefault() is not EmailDto selectedEmail) return;
+        if (e.CurrentSelection.FirstOrDefault() is not ContactDto selectedContact) return;
 
-        await ViewModel.ViewContactCommand.ExecuteAsync(selectedEmail);
+        await ViewModel.SelectContactCommand.ExecuteAsync(selectedContact);
     }
 }
