@@ -29,3 +29,5 @@ global using MediatR;
 global using Shared.Common.Results;
 global using System.Collections.ObjectModel;
 global using Umbrella.Maui.Email.Base.Pages;
+global using MauiClientApp.Contacts.ContactDetail.ViewModels;
+global using MauiClientApp.Contacts.ContactDetail.Pages;
