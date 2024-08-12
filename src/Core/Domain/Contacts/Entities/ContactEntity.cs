@@ -8,8 +8,8 @@ public class ContactEntity : Entity
 
 
     //Construction
-    public ContactEntity(){ }
-    private ContactEntity(string name, EmailAddress emailAddress)
+    public ContactEntity(){ }//Required for Entity framework
+    private ContactEntity(int id, string name, EmailAddress emailAddress) : base(id)
     {
         Name = name;
         EmailAddress = emailAddress;
@@ -17,7 +17,7 @@ public class ContactEntity : Entity
 
     public static ContactEntity Create(string name, EmailAddress emailAddress)
     {
-        return new ContactEntity(name, emailAddress); 
+        return new ContactEntity(0, name, emailAddress); 
     }
 
 }
