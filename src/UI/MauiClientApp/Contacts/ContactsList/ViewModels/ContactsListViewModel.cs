@@ -1,11 +1,12 @@
 ﻿using Application.Contatcs.Features.Queries.GetContactList;
+using MauiClientApp.Contacts.ContactDetail.ViewModels;
 
 namespace MauiClientApp.Contacts.ContactsList.ViewModels;
 
 internal partial class ContactsListViewModel(IMediator mediator) : ViewModel(mediator, false)
 {
     //Properties
-    public ObservableCollection<ContactDto> ContactList { get; set; } = [];
+    public ObservableCollection<ContactDto> ContactList { get; set; } = [new() { EmailAddress = "user", Name = "user"}];
 
     //Life cycle 
     protected override async void ViewAppearing()
@@ -28,7 +29,7 @@ internal partial class ContactsListViewModel(IMediator mediator) : ViewModel(med
 
     //Commands
     [RelayCommand]
-    public async Task ViewContact(ContactDto selectedContact)
+    public async Task SelectContact(ContactDto selectedContact)
     {
         var navigationParameter = new Dictionary<string, object>
         {
@@ -36,6 +37,13 @@ internal partial class ContactsListViewModel(IMediator mediator) : ViewModel(med
         };
 
         //Open modal
-        //await NavigationService.NavigateToViewModelAsync<EmailDetailViewModel>(navigationParameter);
+        await NavigationService.NavigateToViewModelAsync<ContactDetailViewModel>(navigationParameter);
+    }
+
+    [RelayCommand]
+    public async Task CreateContact()
+    {
+        //Open modal
+        await NavigationService.NavigateToViewModelAsync<ContactDetailViewModel>();
     }
 }
