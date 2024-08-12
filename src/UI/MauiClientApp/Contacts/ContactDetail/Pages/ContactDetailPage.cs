@@ -4,13 +4,28 @@ internal class ContactDetailPage : Page<ContactDetailViewModel>
 {
     public ContactDetailPage(ContactDetailViewModel viewModel): base(viewModel)
     {
-        var nameEntry = new Entry { Placeholder = "Name:" }
-            .DynamicResource(StyleProperty, "SignUpEntry");
+        Title = "Contact";
 
-        var emailEntry = new Entry { Placeholder = "Email:" }
-            .DynamicResource(StyleProperty, "SignUpEntry");
+        var nameEntry = new Entry { Placeholder = "Name:" }.DynamicResource(StyleProperty, "SignUpEntry");
+        nameEntry.Bind(Entry.TextProperty, static (ContactDetailViewModel vm) =>
+            vm.ContactName, static (ContactDetailViewModel vm, string text) => vm.ContactName = text);
 
-        //Size = new Size();
+        var emailEntry = new Entry { Placeholder = "Email:" }.DynamicResource(StyleProperty, "SignUpEntry");
+        emailEntry.Bind(Entry.TextProperty, static (ContactDetailViewModel vm) => 
+            vm.ContactEmail, static (ContactDetailViewModel vm, string text) => vm.ContactEmail = text);
+
+        var saveButton = new Button()
+        {
+            Text = "Save",
+            FontSize = 24,
+            WidthRequest = 300,
+            Command = ViewModel.SaveContactCommand
+        };
+
+        nameEntry.SetBinding(Entry.IsEnabledProperty, new Binding(nameof(ViewModel.IsBusy), converter: new InverseBooleanConverter()));
+        emailEntry.SetBinding(Entry.IsEnabledProperty, new Binding(nameof(ViewModel.IsBusy), converter: new InverseBooleanConverter()));
+        saveButton.SetBinding(Button.IsEnabledProperty, new Binding(nameof(ViewModel.IsBusy), converter: new InverseBooleanConverter()));
+
         Content = new VerticalStackLayout()
         {
             Spacing = 25,
@@ -18,7 +33,8 @@ internal class ContactDetailPage : Page<ContactDetailViewModel>
             Children =
             {
                 nameEntry,
-                emailEntry
+                emailEntry,
+                saveButton
             }
         };
     }
