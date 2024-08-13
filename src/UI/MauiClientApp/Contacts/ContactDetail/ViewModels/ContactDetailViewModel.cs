@@ -1,4 +1,5 @@
-﻿using Application.Contatcs.Features.Commands.SaveContact;
+﻿using Application.Contatcs.Features.Commands.DeleteContact;
+using Application.Contatcs.Features.Commands.SaveContact;
 
 namespace MauiClientApp.Contacts.ContactDetail.ViewModels;
 
@@ -36,6 +37,25 @@ internal partial class ContactDetailViewModel(IMediator mediator) : ViewModel(me
         var saveContactResult = await Mediator.Send(saveContactCommand);
         FireViewModelNotBusy();
         if (saveContactResult.IsFailure) return; // handle error
+
+        await NavigateBackAsync();
+    }
+
+    [RelayCommand]
+    public async Task DeleteContact()
+    {
+        if (string.IsNullOrEmpty(ContactName) || string.IsNullOrEmpty(ContactEmail)) return;
+        FireViewModelBusy();
+
+        var deleteContactCommand = new DeleteContactCommand()
+        {
+            Name = ContactName,
+            EmailAddress = ContactEmail
+        };
+
+        var deleteContactResult = await Mediator.Send(deleteContactCommand);
+        FireViewModelNotBusy();
+        if (deleteContactResult.IsFailure) return; // handle error
 
         await NavigateBackAsync();
     }

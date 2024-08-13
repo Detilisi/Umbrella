@@ -20,6 +20,7 @@ internal partial class ContactsListViewModel(IMediator mediator) : ViewModel(med
         var contactListResult = await Mediator.Send(new GetContactListQuery());
         if (contactListResult.IsFailure) return;
 
+        ContactList.Clear();
         foreach (var contactDto in contactListResult.Value)
         {
             ContactList.Add(contactDto);

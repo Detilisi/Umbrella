@@ -14,7 +14,7 @@ internal class ContactDetailPage : Page<ContactDetailViewModel>
                 FontFamily = "FontAwesomeSolid",
                 Glyph = FontAwesomeIcons.TrashCan,
             },
-            //Command = new Command(async () => await ViewModel.ReplyEmailCommand.ExecuteAsync(null))
+            Command = new Command(async () => await ViewModel.DeleteContactCommand.ExecuteAsync(null))
         });
 
 
