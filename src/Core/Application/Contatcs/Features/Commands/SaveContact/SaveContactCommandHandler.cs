@@ -10,16 +10,10 @@ public class SaveContactCommandHandler(IApplicationDbContext dbContext) : IReque
     {
         try
         {
-            var contactEntity = ContactEntity.Create
-            (
-                request.Name,
-                EmailAddress.Create(request.EmailAddress)
-            );
-
-            _dbContext.Conctacts.Add(contactEntity);
+            _dbContext.Conctacts.Add(request.ToContactEntity());
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return Result.Success(contactEntity.Id);
+            return Result.Success(request.EntityId);
         }
         catch (Exception ex) 
         {

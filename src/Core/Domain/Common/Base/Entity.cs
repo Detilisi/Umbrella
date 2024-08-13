@@ -9,7 +9,7 @@ public abstract class Entity
     [NotMapped] public IReadOnlyCollection<Event> DomainEvents => _domainEvents.AsReadOnly();
 
     //Properties
-    public int Id { get; protected set; }
+    public int Id { get; set; }
     public DateTime ModifiedAt { get; set; }
     public DateTime CreatedAt { get; set; }
 

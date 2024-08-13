@@ -6,16 +6,10 @@ public class DeleteContactCommandHandler(IApplicationDbContext dbContext) : IReq
     {
         try
         {
-            var contactEntity = ContactEntity.Create
-            (
-                request.Name,
-                EmailAddress.Create(request.EmailAddress)
-            );
-
-            dbContext.Conctacts.Remove(contactEntity);
+            dbContext.Conctacts.Remove(request.ToContactEntity());
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return Result.Success(contactEntity.Id);
+            return Result.Success(request.EntityId);
         }
         catch (Exception ex)
         {

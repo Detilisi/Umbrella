@@ -18,7 +18,7 @@ internal partial class ContactDetailViewModel(IMediator mediator) : ViewModel(me
         SelectedContact = (ContactDto)query[nameof(ContactDto)];
         
         ContactName = SelectedContact.Name;
-        ContactEmail = SelectedContact.EmailAddress;
+        ContactEmail = SelectedContact.Email;
     }
 
     //Commands
@@ -31,7 +31,7 @@ internal partial class ContactDetailViewModel(IMediator mediator) : ViewModel(me
         var saveContactCommand = new SaveContactCommand()
         {
             Name = ContactName,
-            EmailAddress = ContactEmail
+            Email = ContactEmail
         };
 
         var saveContactResult = await Mediator.Send(saveContactCommand);
@@ -50,7 +50,7 @@ internal partial class ContactDetailViewModel(IMediator mediator) : ViewModel(me
         var deleteContactCommand = new DeleteContactCommand()
         {
             Name = ContactName,
-            EmailAddress = ContactEmail
+            Email = ContactEmail
         };
 
         var deleteContactResult = await Mediator.Send(deleteContactCommand);
