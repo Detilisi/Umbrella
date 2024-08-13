@@ -6,7 +6,10 @@ public class DeleteContactCommandHandler(IApplicationDbContext dbContext) : IReq
     {
         try
         {
-            dbContext.Conctacts.Remove(request.ToContactEntity());
+            var entity = dbContext.Conctacts.Find(request.EntityId);
+            if (entity == null) return Result.Failure<int>(Error.NotFoundError);
+
+            dbContext.Conctacts.Remove(entity);
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return Result.Success(request.EntityId);
