@@ -50,7 +50,8 @@ internal partial class ContactDetailViewModel(IMediator mediator) : ViewModel(me
         var deleteContactCommand = new DeleteContactCommand()
         {
             Name = ContactName,
-            Email = ContactEmail
+            Email = ContactEmail,
+            EntityId = SelectedContact.EntityId
         };
 
         var deleteContactResult = await Mediator.Send(deleteContactCommand);
