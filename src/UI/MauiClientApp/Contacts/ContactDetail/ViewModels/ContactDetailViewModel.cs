@@ -15,6 +15,8 @@ internal partial class ContactDetailViewModel(IMediator mediator) : ViewModel(me
     //Navigation
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
+        if(!query.Any()) return;
+
         SelectedContact = (ContactDto)query[nameof(ContactDto)];
         
         ContactName = SelectedContact.Name;
