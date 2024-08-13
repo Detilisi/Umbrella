@@ -15,4 +15,5 @@ public class Error(string code, string message)
     public static readonly Error PermissionDenied = new(nameof(PermissionDenied), "The user does not have permission");
     public static readonly Error None = new(nameof(None), "No error has occured");
     public static readonly Error GenericError = new(nameof(GenericError), "An error has occured");
+    public static readonly Error NotFoundError = new(nameof(NotFoundError), "Entity Not found");
 }
