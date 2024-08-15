@@ -95,4 +95,6 @@
 	  </EmbeddedResource>
 	</ItemGroup>
 
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionMauiClientAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>
