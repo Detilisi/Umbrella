@@ -1,4 +1,4 @@
-﻿namespace Shared.Common.Results;
+﻿namespace Shared.Common.Results; 
 
 public class Error(string code, string message)
 {
