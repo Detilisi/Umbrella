@@ -1,4 +1,5 @@
-﻿using Application.Email.Features.Commands.SendEmail;
+﻿using Application.Contatcs.Features.Queries.GetContactList;
+using Application.Email.Features.Commands.SendEmail;
 using Application.User.Abstractions.Services;
 using Domain.Common.ValueObjects;
 using System.Globalization;
@@ -9,8 +10,9 @@ namespace MauiClientApp.Email.EmailEdit.ViewModels;
 internal partial class EmailEditViewModel(IMediator mediator, IUserSessionService userSessionService) : EmailViewModel(mediator), IQueryAttributable
 {
     //Fields
+    private List<ContactDto> _contactList = [];
     private readonly IUserSessionService _userSessionService = userSessionService;
-
+    
     //View elements
     [ObservableProperty] private string sender = string.Empty;
     [ObservableProperty] private string recipient = string.Empty;
@@ -18,12 +20,27 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     [ObservableProperty] private string body = string.Empty;
 
     //Life cycle 
-    protected override void ViewAppearing()
+    protected override async void ViewAppearing()
     {
         base.ViewAppearing();
+        
+        await LoadContactsAsync();
 
         var currentUserResult = _userSessionService.GetCurrentSession();
         if (currentUserResult.IsFailure) return; //Handle error
+    }
+
+    //Load methods
+    private async Task LoadContactsAsync()
+    {
+        var contactListResult = await Mediator.Send(new GetContactListQuery());
+        if (contactListResult.IsFailure) return;
+
+        _contactList.Clear();
+        foreach (var contactDto in contactListResult.Value)
+        {
+            _contactList.Add(contactDto);
+        }
     }
 
     //Navigation
@@ -124,6 +141,19 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     if (captureResult.Item2 == UserIntent.Yes || captureResult.Item2 == UserIntent.Ok)
                     {
                         capturedEmailAddress = true;
+                        return emailInput.ToLower();
+                    }
+                    await SpeechService.SpeakAsync(UiStrings.DraftResponse_EmailRecipient_Reject, token);
+                }
+                else if (_contactList != null && _contactList.Any(x=>x.Name.Equals(emailInput, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_Confirmation, emailInput), token);
+
+                    captureResult = await CaptureUserInputAndIntentAsync();
+                    if (captureResult.Item2 == UserIntent.Yes || captureResult.Item2 == UserIntent.Ok)
+                    {
+                        capturedEmailAddress = true;
+                        emailInput = _contactList.Find(x => x.Name.Equals(emailInput, StringComparison.CurrentCultureIgnoreCase)).Email;
                         return emailInput.ToLower();
                     }
                     await SpeechService.SpeakAsync(UiStrings.DraftResponse_EmailRecipient_Reject, token);
