@@ -89,17 +89,29 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
         //Introduction
         await SpeechService.SpeakAsync(UiStrings.DraftInfo_Introduction, token);
-        await SpeechService.SpeakAsync(UiStrings.DraftInfo_Instructions, token);
+        
 
-        //Get reciepient email 
-        await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailRecipient, token);
-        var recipientEmailAddress = await ListenGetEmailAddress(token);
-        Recipient = recipientEmailAddress;
+        if(string.IsNullOrEmpty(Recipient) && string.IsNullOrEmpty(Subject))
+        {
+            await SpeechService.SpeakAsync(UiStrings.DraftInfo_Instructions, token);
 
-        //Get email subject line
-        await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailSubject, token);
-        var emailSubjectLine = await DictateEmailSubjectOrBody(isForEmailBody: false, token);
-        Subject = emailSubjectLine;
+            //Get reciepient email 
+            await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailRecipient, token);
+            var recipientEmailAddress = await ListenGetEmailAddress(token);
+            Recipient = recipientEmailAddress;
+
+            //Get email subject line
+            await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailSubject, token);
+            var emailSubjectLine = await DictateEmailSubjectOrBody(isForEmailBody: false, token);
+            Subject = emailSubjectLine;
+        }
+        else 
+        {
+
+            await SpeechService.SpeakAsync(string.Format("Reply email from, {0}", Recipient), token);
+            await SpeechService.SpeakAsync(string.Format("Subject line reads, {0}", Subject), token);
+        }
+        
 
         //Get email body text
         await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailBody, token);
