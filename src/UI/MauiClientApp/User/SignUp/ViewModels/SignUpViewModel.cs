@@ -18,7 +18,6 @@ internal partial class SignUpViewModel(IMediator mediator, IEncryptionService en
     {
         base.ViewAppearing();
 
-        SpeechService.RequestPermissions();
         var autoLoginUserQuery = new AutoLoginUserQuery();
         var autoLoginUserResult = await Mediator.Send(autoLoginUserQuery);
         if (autoLoginUserResult.IsSuccess)
