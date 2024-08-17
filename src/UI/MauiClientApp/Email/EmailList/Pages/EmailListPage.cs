@@ -25,11 +25,6 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
             Order = ToolbarItemOrder.Secondary,
             Command = new Command(async () => await ViewModel.ViewContactsCommand.ExecuteAsync(null))
         });
-        ToolbarItems.Add(new ToolbarItem
-        {
-            Text = "Settings",
-            Order = ToolbarItemOrder.Secondary,
-        });
 
         Shell.SetBackButtonBehavior(this, new BackButtonBehavior(){ IsVisible = false, IsEnabled = false });
     }
