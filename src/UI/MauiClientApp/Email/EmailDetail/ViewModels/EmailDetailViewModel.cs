@@ -48,7 +48,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
         // Get user input
         await SpeechService.SpeakAsync(UiStrings.ReadingQuery_ReadEmail, ActivityToken.Token);
         var captureResult = await CaptureUserInputAndIntentAsync();
-        if (captureResult.Item2 == UserIntent.Yes)
+        if (captureResult.Item2 == UserIntent.ReadEmails || captureResult.Item2 == UserIntent.OpenEmail || captureResult.Item2 == UserIntent.Yes)
         {
             bool readAgain = true;
             while (readAgain)
