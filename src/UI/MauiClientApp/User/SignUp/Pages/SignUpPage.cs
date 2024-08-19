@@ -39,7 +39,7 @@ internal class SignUpPage : Page<SignUpViewModel>
         PasswordEntry = new Entry 
         {
             IsPassword = true,
-            Placeholder = "Password:"
+            Placeholder = "App Password:"
         };
         PasswordEntry.DynamicResource(StyleProperty, "SignUpEntry");
         PasswordEntry.Bind(Entry.TextProperty, static (SignUpViewModel vm) => vm.UserPassword,
