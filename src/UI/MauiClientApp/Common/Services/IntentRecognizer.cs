@@ -57,6 +57,12 @@ internal class IntentRecognizer
                 "Step back", "Turn back", "Move back", "Head back"
             }
         },
+        { UserIntent.ReplyEmail, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "Reply", "Respond", "Answer", "Write back", "Get back", "Return", "Send a reply", "Give a reply",
+                "Shoot a reply", "Send response", "Answer back", "Retort", "Rejoin", "Reply to"
+            }
+        },
     };
 
 
