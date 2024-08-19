@@ -14,8 +14,7 @@ internal class IntentRecognizer
         { UserIntent.WriteEmail, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             {
                 "Compose", "Draft", "Write", "Send", "Type", "Create", "Prepare", "Pen down", "Construct",
-                "Craft", "Formulate", "Produce", "Develop", "Message", "Shoot off", "Scribble",
-                "Jot down", "Fire off"
+                "Craft", "Formulate", "Produce", "Develop", "Scribble", "Jot down",
             }
         },
         { UserIntent.OpenEmail, new HashSet<string>(StringComparer.OrdinalIgnoreCase)
