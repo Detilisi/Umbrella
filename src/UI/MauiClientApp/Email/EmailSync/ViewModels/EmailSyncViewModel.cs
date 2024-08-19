@@ -17,11 +17,9 @@ internal class EmailSyncViewModel(IMediator mediator) : EmailViewModel(mediator,
     //Sync methods
     private async Task SyncEmailInboxAsync()
     {
-        
-        var syncCommand = new SyncInboxCommand();
-
         await SpeechService.SpeakAsync("Sync in progress, please wait.");
-        var syncResult = await Mediator.Send(syncCommand);
+
+        var syncResult = await Mediator.Send(new SyncInboxCommand());
         if (syncResult.IsFailure) return; // handle error
     }
 }

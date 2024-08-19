@@ -17,11 +17,11 @@ internal static class SpeechService
     internal static Action<string> OnSpeechRecognized { get; set; } = null!;
 
     //Permision method
-    internal static void RequestPermissions(CancellationToken token = default)
+    internal static async Task RequestPermissions(CancellationToken token = default)
     {
-        var isGranted = SpeechToText.RequestPermissions(token);
-        CanListenExecute = isGranted.Result;
-        CanStartListenExecute = isGranted.Result;
+        var isGranted = await SpeechToText.RequestPermissions(token);
+        CanListenExecute = isGranted;
+        CanStartListenExecute = isGranted;
     }
 
     //Speak methods
@@ -65,7 +65,7 @@ internal static class SpeechService
             return Result.Failure<string>(new Error("SpeecToText.ListenAsync.Cancelled", ""));
         }
 
-        RequestPermissions(token);
+        await RequestPermissions(token);
         CanListenExecute = false;
         var recognitionText = string.Empty;
 
