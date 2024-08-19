@@ -160,7 +160,7 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Perfect. Now, let&apos;s compose the body of your email. Please dictate your message clearly..
+        ///   Looks up a localized string similar to Now, let&apos;s compose the body of your email. Please dictate your message clearly..
         /// </summary>
         internal static string DraftQuery_EmailBody {
             get {
@@ -169,7 +169,7 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to First, who would you like to send this email to? Please say the recipient&apos;s email address..
+        ///   Looks up a localized string similar to First, who would you like to send this email to? Please say the recipient&apos;s email address or contact name..
         /// </summary>
         internal static string DraftQuery_EmailRecipient {
             get {
@@ -205,7 +205,7 @@ namespace MauiClientApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is an invalid email address, please try again.
+        ///   Looks up a localized string similar to {0} is an invalid email address and is not included in your contacts, please try again.
         /// </summary>
         internal static string DraftResponse_EmailRecipient_Invalid {
             get {

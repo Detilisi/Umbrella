@@ -107,7 +107,6 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         }
         else 
         {
-
             await SpeechService.SpeakAsync(string.Format("Replying to email from, {0}", Recipient), token);
             await SpeechService.SpeakAsync(string.Format("Subject line reads, {0}", Subject), token);
         }
