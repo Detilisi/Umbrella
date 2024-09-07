@@ -11,7 +11,7 @@ public class EmailAddress : ValueObject<string>
     }
 
     [JsonConstructor]
-    private EmailAddress(string value) : base(value){}
+    private EmailAddress(string value) : base(value) { }
 
     public static EmailAddress Create(string emailAddress)
     {
@@ -36,6 +36,6 @@ public class EmailAddress : ValueObject<string>
     }
 
     //Override methods
-    public override string ToString()=> Value;
-    protected override IEnumerable<object> GetEqualityComponents(){ yield return Value;}
+    public override string ToString() => Value;
+    protected override IEnumerable<object> GetEqualityComponents() { yield return Value; }
 }

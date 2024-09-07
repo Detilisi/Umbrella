@@ -29,7 +29,7 @@ public abstract class Entity
     public void ClearDomainEvents() => _domainEvents.Clear();
     public void AddDomainEvent(Event domainEvent) => _domainEvents.Add(domainEvent);
     public void RemoveDomainEvent(Event domainEvent) => _domainEvents.Remove(domainEvent);
-    
+
     //Overide methods
     public override int GetHashCode() => Id.GetHashCode();
     public override bool Equals(object? obj) { return obj is Entity entity && Id.Equals(entity.Id); }

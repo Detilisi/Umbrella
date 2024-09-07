@@ -12,7 +12,7 @@ public class EmailPassword : ValueObject<string>
     {
         //Required EF
     }
-    private EmailPassword(string value): base(value)
+    private EmailPassword(string value) : base(value)
     {
         Value = value;
     }
@@ -34,5 +34,5 @@ public class EmailPassword : ValueObject<string>
 
     //Override methods
     public override string ToString() => Value;
-    protected override IEnumerable<object> GetEqualityComponents(){ yield return Value; }
+    protected override IEnumerable<object> GetEqualityComponents() { yield return Value; }
 }

@@ -11,15 +11,15 @@ public class UserEntity : Entity
     public string UserName { get; private set; } = string.Empty;
 
     //Construction
-    private UserEntity() 
+    private UserEntity()
     {
         //Required for Entity framework
     }
     private UserEntity
     (
-        int id, 
-        EmailAddress emailAddress, 
-        EmailPassword password, 
+        int id,
+        EmailAddress emailAddress,
+        EmailPassword password,
         string username
     ) : base(id)
     {
@@ -34,8 +34,8 @@ public class UserEntity : Entity
 
     public static UserEntity Create
     (
-        EmailAddress emailAddress, 
-        EmailPassword password, 
+        EmailAddress emailAddress,
+        EmailPassword password,
         string username
     )
     {

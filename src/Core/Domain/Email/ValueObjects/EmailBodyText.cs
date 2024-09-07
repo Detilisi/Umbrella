@@ -8,11 +8,11 @@ public class EmailBodyText : ValueObject<string>
     public const int MAXBODYLENGTH = 50000;
 
     //Contructions
-    private EmailBodyText() : base(string.Empty) 
+    private EmailBodyText() : base(string.Empty)
     {
         //Required EF
     }
-    private EmailBodyText(string value): base(value)
+    private EmailBodyText(string value) : base(value)
     {
         Value = value;
     }
@@ -34,5 +34,5 @@ public class EmailBodyText : ValueObject<string>
 
     //Override methods
     public override string ToString() => Value;
-    protected override IEnumerable<object> GetEqualityComponents(){ yield return Value; }
+    protected override IEnumerable<object> GetEqualityComponents() { yield return Value; }
 }

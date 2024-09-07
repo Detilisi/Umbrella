@@ -8,7 +8,7 @@ public class EmailEntity : Entity
 {
     //Properties
     public EmailType Type { get; }
-    public EmailStatus EmailStatus { get;}
+    public EmailStatus EmailStatus { get; }
     public EmailBodyText Body { get; }
     public EmailSubjectLine Subject { get; }
     public EmailAddress Sender { get; }
@@ -21,8 +21,8 @@ public class EmailEntity : Entity
     (
         int id,
         EmailAddress sender,
-        EmailAddress recipient, 
-        EmailSubjectLine subject, 
+        EmailAddress recipient,
+        EmailSubjectLine subject,
         EmailBodyText body
     ) : base(id)
     {
@@ -34,7 +34,7 @@ public class EmailEntity : Entity
         Recipient = recipient;
         Type = EmailType.Email;
         EmailStatus = EmailStatus.UnRead;
-        
+
         SenderName ??= sender.Value;
 
         AddDomainEvent(new EmailEntityCreatedEvent(this));
@@ -43,8 +43,8 @@ public class EmailEntity : Entity
     public static EmailEntity Create
     (
         EmailAddress sender,
-        EmailAddress recipient, 
-        EmailSubjectLine subject, 
+        EmailAddress recipient,
+        EmailSubjectLine subject,
         EmailBodyText body
     )
     {
