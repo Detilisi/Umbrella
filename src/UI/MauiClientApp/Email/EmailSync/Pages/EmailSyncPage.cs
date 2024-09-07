@@ -1,8 +1,9 @@
-﻿using MauiClientApp.Email.EmailSync.Views;
+﻿using MauiClientApp.Email.Base.Pages;
+using MauiClientApp.Email.EmailSync.Views;
 
 namespace MauiClientApp.Email.EmailSync.Pages;
 
-internal class EmailSyncPage: EmailPage<EmailSyncViewModel>
+internal class EmailSyncPage : EmailPage<EmailSyncViewModel>
 {
     //Construction
     public EmailSyncPage(EmailSyncViewModel viewModel) : base(viewModel)

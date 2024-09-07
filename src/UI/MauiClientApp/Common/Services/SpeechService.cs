@@ -40,7 +40,7 @@ internal static class SpeechService
                 Pitch = 1,
                 Volume = 1,
             }, token);
-            
+
             return Result.Success();
         }
         catch (Exception ex)
@@ -73,8 +73,8 @@ internal static class SpeechService
         {
             var recognitionResult = await SpeechToText.ListenAsync
             (
-                CultureInfo.GetCultureInfo(defaultLanguage), 
-                new Progress<string>(), 
+                CultureInfo.GetCultureInfo(defaultLanguage),
+                new Progress<string>(),
                 token
             );
 
@@ -88,7 +88,7 @@ internal static class SpeechService
                 return Result.Failure<string>(new Error("SpeecToText.ListenAsync.Failed", ""));
             }
 
-            return Result.Success(recognitionText); 
+            return Result.Success(recognitionText);
         }
         catch (Exception ex)
         {

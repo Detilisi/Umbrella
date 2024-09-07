@@ -1,4 +1,4 @@
-﻿using Domain.Email.Entities.Enums;
+﻿using Domain.Email.Enums;
 using Domain.Email.Events;
 using Domain.Email.ValueObjects;
 

@@ -1,4 +1,5 @@
-﻿using Umbrella.Maui.Email.EmailListing.Templates;
+﻿using MauiClientApp.Email.Base.Pages;
+using MauiClientApp.Email.EmailList.Templates;
 
 namespace MauiClientApp.Email.EmailList.Pages;
 
@@ -26,9 +27,9 @@ internal class EmailListPage : EmailPage<EmailListViewModel>
             Command = new Command(async () => await ViewModel.ViewContactsCommand.ExecuteAsync(null))
         });
 
-        Shell.SetBackButtonBehavior(this, new BackButtonBehavior(){ IsVisible = false, IsEnabled = false });
+        Shell.SetBackButtonBehavior(this, new BackButtonBehavior() { IsVisible = false, IsEnabled = false });
     }
-    
+
     protected override CollectionView PageContent => new CollectionView()
     {
         SelectionMode = SelectionMode.Single,

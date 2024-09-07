@@ -1,7 +1,4 @@
-﻿using MauiClientApp.Common.ChatHistory.Emums;
-using MauiClientApp.Common.ChatHistory.Models;
-
-namespace MauiClientApp.Common.ChatHistory.Triggers;
+﻿namespace MauiClientApp.Common.ChatHistory.Triggers;
 
 internal class ChatTemplateFrameTriggers
 {

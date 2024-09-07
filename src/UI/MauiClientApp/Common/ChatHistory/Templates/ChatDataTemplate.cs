@@ -13,7 +13,7 @@ internal class ChatDataTemplate : DataTemplate
 
     private static Grid CreateTemplateGrid()
     {
-        
+
         //Initialize user icon
         var userIcon = new IconLabel(string.Empty)
         {

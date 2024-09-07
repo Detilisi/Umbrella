@@ -63,7 +63,7 @@ internal partial class EmailViewModel(IMediator mediator, bool isRootViewModel =
                 {
                     case UserIntent.Undefined:
                         if (ignoreUndefinedIntent) return Tuple.Create(userText, userIntent);
-                        
+
                         await SpeechService.SpeakAsync(UiStrings.InputResponse_Undefined, ActivityToken.Token);
                         await SpeechService.SpeakAsync(UiStrings.AppInfo_Capabilities, ActivityToken.Token);
                         await SpeechService.SpeakAsync(UiStrings.AppCommand_Restart, ActivityToken.Token);
@@ -71,7 +71,7 @@ internal partial class EmailViewModel(IMediator mediator, bool isRootViewModel =
 
                     case UserIntent.GoBack or UserIntent.Cancel:
                         await SpeechService.SpeakAsync(UiStrings.AppResponse_Cancel, ActivityToken.Token);
-                        
+
                         ViewDisappearing();
                         return Tuple.Create(userText, userIntent);
 
@@ -79,7 +79,7 @@ internal partial class EmailViewModel(IMediator mediator, bool isRootViewModel =
                         return Tuple.Create(userText, userIntent);
                 }
             }
-            catch 
+            catch
             {
                 await SpeechService.SpeakAsync(UiStrings.AppInfo_GenericError, ActivityToken.Token);
                 continue;

@@ -11,14 +11,14 @@ internal partial class ContactDetailViewModel(IMediator mediator) : ViewModel(me
     //View elements
     [ObservableProperty] private string contactName = string.Empty;
     [ObservableProperty] private string contactEmail = string.Empty;
-    
+
     //Navigation
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if(!query.Any()) return;
+        if (!query.Any()) return;
 
         SelectedContact = (ContactDto)query[nameof(ContactDto)];
-        
+
         ContactName = SelectedContact.Name;
         ContactEmail = SelectedContact.Email;
     }

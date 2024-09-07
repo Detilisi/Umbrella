@@ -12,7 +12,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     //Fields
     private List<ContactDto> _contactList = [];
     private readonly IUserSessionService _userSessionService = userSessionService;
-    
+
     //View elements
     [ObservableProperty] private string sender = string.Empty;
     [ObservableProperty] private string recipient = string.Empty;
@@ -23,7 +23,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     protected override async void ViewAppearing()
     {
         base.ViewAppearing();
-        
+
         await LoadContactsAsync();
 
         var currentUserResult = _userSessionService.GetCurrentSession();
@@ -50,7 +50,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         if (currentUserResult.IsFailure) return; //Handle error
         Sender = currentUserResult.Value.EmailAddress;
 
-        if(!query.Any()) return; 
+        if (!query.Any()) return;
         var selectedEmail = (EmailDto)query[nameof(EmailDto)];
         Recipient = selectedEmail.Sender;
         Subject = $"RE: {selectedEmail.Subject}";
@@ -60,7 +60,8 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
     [RelayCommand]
     public async Task SendEmail()
     {
-        var emailDraft = new EmailDto(){
+        var emailDraft = new EmailDto()
+        {
             Sender = Sender,
             SenderName = Sender,
             Recipient = Recipient,
@@ -77,8 +78,8 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
         {
             await SpeechService.SpeakAsync(string.Format(UiStrings.DraftResponse_SendEmail, Recipient));
         }
-        
-        
+
+
         await NavigationService.NavigateToPreviousViewModelAsync();
     }
 
@@ -89,9 +90,9 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
 
         //Introduction
         await SpeechService.SpeakAsync(UiStrings.DraftInfo_Introduction, token);
-        
 
-        if(string.IsNullOrEmpty(Recipient) && string.IsNullOrEmpty(Subject))
+
+        if (string.IsNullOrEmpty(Recipient) && string.IsNullOrEmpty(Subject))
         {
             await SpeechService.SpeakAsync(UiStrings.DraftInfo_Instructions, token);
 
@@ -105,16 +106,16 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
             var emailSubjectLine = await DictateEmailSubjectOrBody(isForEmailBody: false, token);
             Subject = emailSubjectLine;
         }
-        else 
+        else
         {
             await SpeechService.SpeakAsync(string.Format("Replying to email from, {0}", Recipient), token);
             await SpeechService.SpeakAsync(string.Format("Subject line reads, {0}", Subject), token);
         }
-        
+
 
         //Get email body text
         await SpeechService.SpeakAsync(UiStrings.DraftQuery_EmailBody, token);
-        var emailBodyText = await DictateEmailSubjectOrBody(isForEmailBody: true, token); 
+        var emailBodyText = await DictateEmailSubjectOrBody(isForEmailBody: true, token);
         Body = emailBodyText;
 
         //Get email body text
@@ -156,7 +157,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                     }
                     await SpeechService.SpeakAsync(UiStrings.DraftResponse_EmailRecipient_Reject, token);
                 }
-                else if (_contactList != null && _contactList.Any(x=>x.Name.Equals(emailInput, StringComparison.CurrentCultureIgnoreCase)))
+                else if (_contactList != null && _contactList.Any(x => x.Name.Equals(emailInput, StringComparison.CurrentCultureIgnoreCase)))
                 {
                     await SpeechService.SpeakAsync(string.Format(UiStrings.DraftQuery_Confirmation, emailInput), token);
 
@@ -201,7 +202,7 @@ internal partial class EmailEditViewModel(IMediator mediator, IUserSessionServic
                 captureResult = await CaptureUserInputAndIntentAsync();
                 if (captureResult.Item2 == UserIntent.Yes || captureResult.Item2 == UserIntent.Ok) return dictatedText;
 
-                await SpeechService.SpeakAsync(isForEmailBody? UiStrings.DraftResponse_EmailBody_Reject : UiStrings.DraftResponse_EmailSubject_Reject, token);
+                await SpeechService.SpeakAsync(isForEmailBody ? UiStrings.DraftResponse_EmailBody_Reject : UiStrings.DraftResponse_EmailSubject_Reject, token);
             }
             catch (OperationCanceledException)
             {

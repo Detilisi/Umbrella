@@ -44,7 +44,7 @@ internal abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel)
 
     protected override bool OnBackButtonPressed()
     {
-        if(ViewModel.IsRootViewModel) return true;
+        if (ViewModel.IsRootViewModel) return true;
 
         var result = base.OnBackButtonPressed();
         LogOperation(nameof(this.OnNavigatedTo));
@@ -53,7 +53,7 @@ internal abstract class Page<TViewModel>(TViewModel viewModel) : Page(viewModel)
     }
 
     //Helper
-    private void LogOperation(string functionName) => 
+    private void LogOperation(string functionName) =>
         Debug.WriteLine($"APP-INFO: {GetType().Name}.{functionName} at {DateTime.Now}");
 }
 

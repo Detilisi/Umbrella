@@ -1,4 +1,4 @@
-﻿using Domain.Email.Entities.Enums;
+﻿using Domain.Email.Enums;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;

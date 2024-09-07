@@ -35,7 +35,7 @@ public class EmailSenderView : ContentView
 
         var sentDateLabel = new Label() { MaxLines = 1, FontSize = 14, FontAttributes = FontAttributes.Bold };
         var senderLabel = new Label() { MaxLines = 1, FontSize = 16, FontAttributes = FontAttributes.Bold, LineBreakMode = LineBreakMode.TailTruncation };
-        
+
         senderLabel.SetBinding(Label.TextProperty, new Binding(nameof(EmailSender), source: this));
         sentDateLabel.SetBinding(Label.TextProperty, new Binding(nameof(EmailSentDate), source: this, stringFormat: "{0:M}"));
 

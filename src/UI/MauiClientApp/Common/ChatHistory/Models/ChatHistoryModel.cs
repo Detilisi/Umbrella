@@ -1,6 +1,4 @@
-﻿using MauiClientApp.Common.ChatHistory.Emums;
-
-namespace MauiClientApp.Common.ChatHistory.Models;
+﻿namespace MauiClientApp.Common.ChatHistory.Models;
 
 internal class ChatHistoryModel
 {

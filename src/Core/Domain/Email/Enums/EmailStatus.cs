@@ -1,4 +1,4 @@
-﻿namespace Domain.Email.Entities.Enums;
+﻿namespace Domain.Email.Enums;
 
 public enum EmailStatus
 {

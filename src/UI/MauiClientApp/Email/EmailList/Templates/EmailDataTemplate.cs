@@ -2,7 +2,7 @@
 using CommunityToolkit.Maui.Layouts;
 using MauiClientApp.Email.EmailList.Templates.Triggers;
 
-namespace Umbrella.Maui.Email.EmailListing.Templates;
+namespace MauiClientApp.Email.EmailList.Templates;
 
 public class EmailDataTemplate : DataTemplate
 {
@@ -21,7 +21,7 @@ public class EmailDataTemplate : DataTemplate
         var separatorLine = new SeparatorLine();
         DockLayout.SetDockPosition(separatorLine, DockPosition.Bottom);
 
-        var timeStampLabel = new Label(){ Triggers = { EmailTemplateTriggers.TodayTrigger, EmailTemplateTriggers.NotTodayTrigger } }
+        var timeStampLabel = new Label() { Triggers = { EmailTemplateTriggers.TodayTrigger, EmailTemplateTriggers.NotTodayTrigger } }
             .Bind(Label.TextProperty, static (EmailDto email) => email.CreatedAt, mode: BindingMode.OneWay);
 
         var addressLabel = new Label()
@@ -40,8 +40,8 @@ public class EmailDataTemplate : DataTemplate
             LineBreakMode = LineBreakMode.WordWrap
         }
         .Bind(Label.TextProperty, static (EmailDto email) => email.Subject, mode: BindingMode.OneWay);
-        
-        
+
+
         return new()
         {
             Padding = new Thickness(10),

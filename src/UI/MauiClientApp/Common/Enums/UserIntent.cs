@@ -4,7 +4,7 @@ internal enum UserIntent
 {
     Undefined,
     GoBack,
-    
+
     ReadEmails,
     OpenEmail,
     WriteEmail,

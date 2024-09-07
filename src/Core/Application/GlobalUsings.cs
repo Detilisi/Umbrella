@@ -8,7 +8,6 @@ global using Application.User.Dtos;
 global using Domain.Common.ValueObjects;
 global using Domain.Contacts.Entities;
 global using Domain.Email.Entities;
-global using Domain.Email.Entities.Enums;
 global using Domain.Email.ValueObjects;
 global using Domain.User.Entities;
 global using MediatR;

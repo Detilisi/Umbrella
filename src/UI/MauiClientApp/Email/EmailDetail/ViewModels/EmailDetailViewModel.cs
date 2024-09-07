@@ -27,7 +27,7 @@ internal partial class EmailDetailViewModel(IMediator mediator) : EmailViewModel
     [RelayCommand]
     public async Task ReplyEmail()
     {
-        if(CurrentEmail == null) return;
+        if (CurrentEmail == null) return;
 
         var navigationParameter = new Dictionary<string, object>
         {

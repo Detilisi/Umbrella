@@ -24,14 +24,14 @@ namespace MauiClientApp
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             //Register Layers
             builder.Services.AddApplicationLayer();
             builder.Services.AddPersistenceLayer();
             builder.Services.AddInfrastructureLayer();
-            
+
             //Register ViewViewModels + Pages
             builder.Services.AddTransientWithShellRoute<EmailSyncPage, EmailSyncViewModel>(nameof(EmailSyncPage));
             builder.Services.AddTransientWithShellRoute<EmailListPage, EmailListViewModel>(nameof(EmailListPage));
@@ -45,5 +45,5 @@ namespace MauiClientApp
         }
     }
 
-    
+
 }

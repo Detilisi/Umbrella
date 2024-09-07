@@ -1,4 +1,6 @@
-﻿namespace MauiClientApp.Email.EmailEdit.Pages;
+﻿using MauiClientApp.Email.Base.Pages;
+
+namespace MauiClientApp.Email.EmailEdit.Pages;
 
 internal class EmailEditPage(EmailEditViewModel viewModel) : EmailPage<EmailEditViewModel>(viewModel)
 {
@@ -20,7 +22,7 @@ internal class EmailEditPage(EmailEditViewModel viewModel) : EmailPage<EmailEdit
         base.InitializeEmailPage();
     }
 
-    protected override VerticalStackLayout PageContent=> new()
+    protected override VerticalStackLayout PageContent => new()
     {
         Padding = 10,
         Children =

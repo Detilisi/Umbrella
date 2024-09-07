@@ -1,5 +1,4 @@
-﻿using Application.Email.Dtos;
-using MauiClientApp.Email.EmailList.Templates.Converters;
+﻿using MauiClientApp.Email.EmailList.Templates.Converters;
 
 namespace MauiClientApp.Email.EmailList.Templates.Triggers;
 

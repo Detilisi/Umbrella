@@ -36,7 +36,7 @@ internal class SignUpPage : Page<SignUpViewModel>
         EmailEntry.Bind(Entry.TextProperty, static (SignUpViewModel vm) => vm.UserEmail,
             static (SignUpViewModel vm, string text) => vm.UserEmail = text);
 
-        PasswordEntry = new Entry 
+        PasswordEntry = new Entry
         {
             IsPassword = true,
             Placeholder = "App Password:"

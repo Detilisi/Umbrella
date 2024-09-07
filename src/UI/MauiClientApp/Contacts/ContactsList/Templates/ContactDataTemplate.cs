@@ -38,7 +38,7 @@ internal class ContactDataTemplate : DataTemplate
                 .Column(Column.Right)
                 .Bind(Label.TextProperty, static (ContactDto contact) => contact.Name, mode: BindingMode.OneWay)
             }
-        }; 
+        };
     }
 
 }

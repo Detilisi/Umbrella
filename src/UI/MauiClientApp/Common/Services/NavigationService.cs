@@ -52,7 +52,7 @@ internal static class NavigationService
         {
             return Result.Failure<string>(new Error("NavigationFailed", $"ViewModelMapping for {viewModelType} not found"));
         }
-        
+
         return Result.Success(pageTypeMapping.Name);
     }
 }

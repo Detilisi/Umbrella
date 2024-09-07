@@ -11,7 +11,7 @@ internal abstract partial class ViewModel(IMediator mediator, bool isRootViewMod
     //Commands
     [RelayCommand] protected virtual void ViewAppearing() => ActivityToken = new();
     [RelayCommand] protected virtual void ViewDisappearing() => ActivityToken?.Cancel();
-    
+
     [RelayCommand] protected virtual void ViewNavigatedTo() { }
     [RelayCommand] protected virtual void ViewBackButtonPressed() { }
 

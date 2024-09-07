@@ -1,4 +1,6 @@
-﻿namespace Application.Email.Dtos;
+﻿using Domain.Email.Enums;
+
+namespace Application.Email.Dtos;
 
 public class EmailDto : Dto
 {

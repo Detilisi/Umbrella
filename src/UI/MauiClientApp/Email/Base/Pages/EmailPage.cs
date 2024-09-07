@@ -1,8 +1,8 @@
 ﻿using MauiClientApp.Common.ChatHistory.Views;
 
-namespace Umbrella.Maui.Email.Base.Pages;
+namespace MauiClientApp.Email.Base.Pages;
 
-internal abstract partial class EmailPage<TViewModel> : Page<TViewModel> where TViewModel : EmailViewModel 
+internal abstract partial class EmailPage<TViewModel> : Page<TViewModel> where TViewModel : EmailViewModel
 {
     //Fields
     private enum Row { Content = 0, ChatBox = 1 }
@@ -31,7 +31,7 @@ internal abstract partial class EmailPage<TViewModel> : Page<TViewModel> where T
 
             return new Grid
             {
-                RowDefinitions = [ contentRowDefinition, chatBoxRowDefinition ],
+                RowDefinitions = [contentRowDefinition, chatBoxRowDefinition],
                 Children = { PageContent.Row(Row.Content), new ChatHistorySubView().Row(Row.ChatBox) }
             };
         }

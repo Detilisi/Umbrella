@@ -30,7 +30,7 @@ internal partial class SignUpViewModel(IMediator mediator, IEncryptionService en
     [RelayCommand]
     public async Task RegisterUser()
     {
-        if(string.IsNullOrEmpty(UserEmail) || string.IsNullOrEmpty(UserPassword)) return;
+        if (string.IsNullOrEmpty(UserEmail) || string.IsNullOrEmpty(UserPassword)) return;
         FireViewModelBusy();
         var encryptedPasssword = _encryptionService.Encrypt(UserPassword);
         var registerUsercommand = new RegisterUserCommand()

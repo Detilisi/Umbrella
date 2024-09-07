@@ -2,7 +2,7 @@
 
 internal class ContactDetailPage : Page<ContactDetailViewModel>
 {
-    public ContactDetailPage(ContactDetailViewModel viewModel): base(viewModel)
+    public ContactDetailPage(ContactDetailViewModel viewModel) : base(viewModel)
     {
         Title = "Contact";
 
